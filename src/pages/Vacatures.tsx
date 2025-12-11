@@ -43,7 +43,7 @@ export default function Vacatures() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 600);
+    }, 150);
     return () => clearTimeout(timer);
   }, []);
 
@@ -80,7 +80,7 @@ export default function Vacatures() {
     setError(null);
     setTimeout(() => {
       setIsLoading(false);
-    }, 600);
+    }, 150);
   };
 
   if (isLoading) {
