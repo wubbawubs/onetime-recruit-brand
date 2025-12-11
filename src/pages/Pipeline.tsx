@@ -38,7 +38,7 @@ export default function Pipeline() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 700);
+    }, 150);
     return () => clearTimeout(timer);
   }, []);
 
@@ -47,7 +47,7 @@ export default function Pipeline() {
     setError(null);
     setTimeout(() => {
       setIsLoading(false);
-    }, 700);
+    }, 150);
   };
 
   // Filter candidates based on search, stage, and drawer filters

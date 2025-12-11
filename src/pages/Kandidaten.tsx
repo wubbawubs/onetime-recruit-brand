@@ -46,7 +46,7 @@ export default function Kandidaten() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 600);
+    }, 150);
     return () => clearTimeout(timer);
   }, []);
 
@@ -63,7 +63,7 @@ export default function Kandidaten() {
     setError(null);
     setTimeout(() => {
       setIsLoading(false);
-    }, 600);
+    }, 150);
   };
 
   // Filter candidates

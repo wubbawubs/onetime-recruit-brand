@@ -37,7 +37,7 @@ const Dashboard = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 800);
+    }, 150);
     return () => clearTimeout(timer);
   }, []);
 
@@ -46,7 +46,7 @@ const Dashboard = () => {
     setError(null);
     setTimeout(() => {
       setIsLoading(false);
-    }, 800);
+    }, 150);
   };
 
   if (isLoading) {
