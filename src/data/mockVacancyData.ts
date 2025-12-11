@@ -52,7 +52,7 @@ export interface VacancyListItem {
   id: string;
   title: string;
   candidateCount: number;
-  status: 'live' | 'draft' | 'paused' | 'closed';
+  status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
 }
 
 export interface HeroInsight {
@@ -68,7 +68,7 @@ export interface VacancyDetail {
   company: string;
   location: string;
   contractType: string;
-  status: 'live' | 'draft' | 'paused' | 'closed';
+  status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
   totalCandidates: number;
   weeksOpen: number;
   lastUpdated: string;

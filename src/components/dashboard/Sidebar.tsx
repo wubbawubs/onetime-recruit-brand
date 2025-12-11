@@ -168,7 +168,7 @@ export function Sidebar() {
           <div className={cn("py-5 border-t border-border/30", collapsed ? "px-2" : "px-6")}>
             {!collapsed && (
               <p className="text-[11px] text-muted-foreground/60">
-                © 2024 Onetime Recruit
+                © 2025 Onetime Rooted
               </p>
             )}
           </div>

@@ -9,7 +9,7 @@ interface VacancyPublicationTabProps {
   vacancy: {
     id: string;
     title: string;
-    status: 'live' | 'draft' | 'paused' | 'closed';
+    status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
   };
 }
 

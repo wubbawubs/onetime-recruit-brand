@@ -33,6 +33,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Candidate } from "@/data/mockVacancyData";
+import { SendEmailModal } from "./SendEmailModal";
+import { ScheduleMeetingModal } from "./ScheduleMeetingModal";
 
 interface CandidateDetailModalProps {
   candidate: Candidate | null;
@@ -131,15 +133,9 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
                 </span>
               </div>
             </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Mail className="h-4 w-4 mr-2" />
-                E-mail
-              </Button>
-              <Button size="sm">
-                <Calendar className="h-4 w-4 mr-2" />
-                Plan gesprek
-              </Button>
+            <div className="flex gap-2 pr-8">
+              <SendEmailModal candidate={candidate} />
+              <ScheduleMeetingModal candidate={candidate} />
             </div>
           </div>
         </DialogHeader>
