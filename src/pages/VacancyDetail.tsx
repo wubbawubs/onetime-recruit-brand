@@ -35,7 +35,7 @@ export default function VacancyDetail() {
 
   return (
     <DashboardLayout>
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col page-enter page-enter-active">
         {/* Fixed header section */}
         <div className="px-8 pt-6 pb-4 space-y-4 border-b border-border/50 bg-background">
           <VacancyHeader

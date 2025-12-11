@@ -10,7 +10,7 @@ import IntegrationsTab from "@/components/settings/IntegrationsTab";
 const Instellingen = () => {
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-8 page-enter page-enter-active">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Instellingen</h1>

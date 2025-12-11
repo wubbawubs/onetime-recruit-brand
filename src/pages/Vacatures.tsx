@@ -21,7 +21,7 @@ export default function Vacatures() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-8">
+      <div className="p-8 space-y-8 page-enter page-enter-active">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>

@@ -119,7 +119,7 @@ export default function Kandidaten() {
 
   return (
     <DashboardLayout>
-      <div className="p-6 md:p-8 space-y-6">
+      <div className="p-6 md:p-8 space-y-6 page-enter page-enter-active">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>

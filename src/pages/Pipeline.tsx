@@ -107,7 +107,7 @@ export default function Pipeline() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-8">
+      <div className="p-8 space-y-8 page-enter page-enter-active">
         {/* Header */}
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
