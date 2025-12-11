@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, TrendingUp, UserPlus, UserCheck, UserMinus } from "lucide-react";
+import { Calendar, TrendingUp, UserPlus, UserCheck, UserMinus, AlertTriangle } from "lucide-react";
 import type { Last7Days } from "@/data/mockDashboardData";
 
 interface Last7DaysCardProps {
@@ -8,11 +8,11 @@ interface Last7DaysCardProps {
 
 export function Last7DaysCard({ stats }: Last7DaysCardProps) {
   return (
-    <Card className="border-border/50 shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
+    <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+      <CardHeader className="pb-4">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center">
-            <Calendar className="h-4.5 w-4.5 text-muted-foreground" />
+            <Calendar className="h-4 w-4 text-muted-foreground" />
           </div>
           <div>
             <CardTitle className="text-base font-semibold">Afgelopen 7 dagen</CardTitle>
@@ -20,7 +20,7 @@ export function Last7DaysCard({ stats }: Last7DaysCardProps) {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className="pt-0 space-y-4">
         {/* Stats grid */}
         <div className="grid grid-cols-4 gap-2">
           <div className="text-center p-3 rounded-lg bg-primary/5">
@@ -46,6 +46,14 @@ export function Last7DaysCard({ stats }: Last7DaysCardProps) {
             <p className="text-xl font-bold text-muted-foreground">{stats.droppedOut}</p>
             <p className="text-[10px] text-muted-foreground">Uit</p>
           </div>
+        </div>
+
+        {/* Insight line */}
+        <div className="flex items-start gap-2 pt-2 border-t border-border/30">
+          <AlertTriangle className="h-3.5 w-3.5 text-warning mt-0.5 flex-shrink-0" />
+          <p className="text-xs text-muted-foreground">
+            Opvolging in <span className="font-medium text-foreground">Nieuw</span> blijft grootste verbeterpunt
+          </p>
         </div>
       </CardContent>
     </Card>

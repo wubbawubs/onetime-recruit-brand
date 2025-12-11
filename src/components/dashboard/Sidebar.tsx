@@ -42,7 +42,7 @@ export function Sidebar() {
       {/* Overlay */}
       {mobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/20 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
@@ -50,21 +50,21 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-screen w-60 bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-transform duration-200 lg:translate-x-0",
+          "fixed left-0 top-0 z-40 h-screen w-60 bg-card border-r border-border/40 transition-transform duration-200 lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="px-5 py-6">
-            <div className="flex items-center gap-2.5">
-              <img src={onetimeLogo} alt="Onetime Recruit" className="h-8 w-auto" />
-              <span className="font-medium text-base text-sidebar-foreground">Onetime</span>
+          <div className="px-6 py-8">
+            <div className="flex items-center gap-3">
+              <img src={onetimeLogo} alt="Onetime Recruit" className="h-9 w-auto" />
+              <span className="font-semibold text-lg text-foreground tracking-tight">Onetime</span>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-3 space-y-0.5">
+          <nav className="flex-1 px-4 space-y-1">
             {navItems.map((item) => {
               const isActive = location.pathname === item.href || 
                 (item.href === "/dashboard" && location.pathname === "/");
@@ -75,18 +75,23 @@ export function Sidebar() {
                   to={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-colors",
+                    "flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-200",
                     isActive
-                      ? "bg-sidebar-accent text-sidebar-primary font-medium"
-                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground"
+                      ? "bg-primary/10 text-primary font-medium shadow-sm"
+                      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                   )}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <item.icon className="h-4 w-4" />
+                  <div className="flex items-center gap-3">
+                    <item.icon className={cn("h-[18px] w-[18px]", isActive && "text-primary")} />
                     {item.label}
                   </div>
                   {item.badge && (
-                    <span className="text-xs font-medium text-sidebar-foreground/50 bg-sidebar-border px-1.5 py-0.5 rounded">
+                    <span className={cn(
+                      "text-[10px] font-medium px-2 py-0.5 rounded-full",
+                      isActive 
+                        ? "bg-primary/20 text-primary" 
+                        : "bg-muted text-muted-foreground"
+                    )}>
                       {item.badge}
                     </span>
                   )}
@@ -96,8 +101,8 @@ export function Sidebar() {
           </nav>
 
           {/* Footer */}
-          <div className="px-5 py-4 border-t border-sidebar-border">
-            <p className="text-xs text-sidebar-foreground/40">
+          <div className="px-6 py-6 border-t border-border/40">
+            <p className="text-[11px] text-muted-foreground/60">
               © 2024 Onetime Recruit
             </p>
           </div>
