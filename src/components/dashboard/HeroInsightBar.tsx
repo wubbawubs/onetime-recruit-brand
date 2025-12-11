@@ -1,5 +1,4 @@
-import { CheckCircle, AlertTriangle, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle, AlertTriangle } from "lucide-react";
 import type { HeroInsight } from "@/data/mockDashboardData";
 
 interface HeroInsightBarProps {
@@ -8,26 +7,21 @@ interface HeroInsightBarProps {
 
 export function HeroInsightBar({ insight }: HeroInsightBarProps) {
   return (
-    <div className="w-full bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border-l-4 border-accent p-5 rounded-lg">
-      <div className="flex items-start gap-4">
+    <div className="w-full bg-muted/60 border border-border/50 px-6 py-5 rounded-xl">
+      <div className="flex items-center gap-3">
         {insight.hasBottleneck ? (
-          <AlertTriangle className="h-6 w-6 text-accent flex-shrink-0 mt-0.5" />
+          <AlertTriangle className="h-4 w-4 text-warning flex-shrink-0" />
         ) : (
-          <CheckCircle className="h-6 w-6 text-success flex-shrink-0 mt-0.5" />
+          <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
         )}
-        <p className="flex-1 text-lg font-medium text-foreground leading-relaxed">
+        <p className="text-sm text-foreground leading-relaxed">
           {insight.text}
+          {insight.hasBottleneck && (
+            <button className="ml-2 text-primary hover:text-primary/80 font-medium transition-colors">
+              Bekijk details →
+            </button>
+          )}
         </p>
-        {insight.hasBottleneck && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex-shrink-0 text-accent hover:text-accent hover:bg-accent/10"
-          >
-            Bekijk bottleneck
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        )}
       </div>
     </div>
   );

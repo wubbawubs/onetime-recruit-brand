@@ -4,8 +4,8 @@
 
 /* 
   Onetime Recruit Design System
-  Modern & Clean Dashboard Theme
-  Colors based on onetimerecruit.nl - GREEN theme
+  Premium SaaS Dashboard Theme
+  V3 Ultra Clean Redesign
 */
 
 @layer base {
@@ -36,7 +36,7 @@
 
     /* Subtle background */
     --muted: 140 20% 97%;
-    --muted-foreground: 145 10% 40%;
+    --muted-foreground: 145 10% 45%;
 
     /* Popover */
     --popover: 0 0% 100%;
@@ -47,25 +47,25 @@
     --secondary-foreground: 145 35% 28%;
 
     /* Destructive */
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     /* Border & Input */
-    --border: 140 10% 88%;
-    --input: 140 10% 88%;
+    --border: 140 8% 90%;
+    --input: 140 8% 90%;
     --ring: 145 55% 42%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Sidebar - Dark Green */
-    --sidebar-background: 145 35% 22%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 145 55% 50%;
+    /* Sidebar - Light Premium (Notion/Linear inspired) */
+    --sidebar-background: 140 12% 97%;
+    --sidebar-foreground: 145 20% 25%;
+    --sidebar-primary: 145 45% 35%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 145 35% 18%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 145 30% 28%;
-    --sidebar-ring: 145 55% 50%;
+    --sidebar-accent: 140 15% 93%;
+    --sidebar-accent-foreground: 145 25% 20%;
+    --sidebar-border: 140 8% 92%;
+    --sidebar-ring: 145 45% 35%;
   }
 
   .dark {
@@ -115,13 +115,13 @@
     --ring: 145 55% 50%;
 
     /* Sidebar - dark variant */
-    --sidebar-background: 145 20% 6%;
-    --sidebar-foreground: 0 0% 98%;
+    --sidebar-background: 145 18% 8%;
+    --sidebar-foreground: 0 0% 92%;
     --sidebar-primary: 145 55% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 145 15% 12%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 145 15% 18%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 145 15% 15%;
     --sidebar-ring: 145 55% 50%;
   }
 }
@@ -137,5 +137,9 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
+  }
+
+  p {
+    @apply leading-relaxed;
   }
 }
