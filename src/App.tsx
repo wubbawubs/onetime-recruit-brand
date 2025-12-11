@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import BrandGuide from "./pages/BrandGuide";
+import VacancyDetail from "./pages/VacancyDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/brand" element={<BrandGuide />} />
           {/* Placeholder routes for sidebar navigation */}
           <Route path="/vacatures" element={<Dashboard />} />
+          <Route path="/vacatures/:vacatureId" element={<VacancyDetail />} />
           <Route path="/kandidaten" element={<Dashboard />} />
           <Route path="/pipeline" element={<Dashboard />} />
           <Route path="/rapportages" element={<Dashboard />} />
