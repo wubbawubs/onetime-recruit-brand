@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Briefcase, Users, ChevronRight, Plus, MapPin, Search, Calendar, Target } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
@@ -16,13 +16,15 @@ import { cn } from "@/lib/utils";
 import { mockVacancyList } from "@/data/mockVacancyData";
 import { NewVacancyModal } from "@/components/vacancy/NewVacancyModal";
 import { EmptyState } from "@/components/ui/empty-state";
+import { VacaturesListSkeleton } from "@/components/ui/loading-skeletons";
+import { ErrorBanner } from "@/components/ui/error-banner";
 
 const statusConfig = {
-  live: { label: "Live", color: "bg-emerald-500", textColor: "text-emerald-700", bgColor: "bg-emerald-50" },
-  draft: { label: "Concept", color: "bg-slate-400", textColor: "text-slate-600", bgColor: "bg-slate-50" },
-  paused: { label: "Gepauzeerd", color: "bg-amber-500", textColor: "text-amber-700", bgColor: "bg-amber-50" },
-  closed: { label: "Gesloten", color: "bg-slate-500", textColor: "text-slate-600", bgColor: "bg-slate-50" },
-  filled: { label: "Ingevuld", color: "bg-blue-500", textColor: "text-blue-700", bgColor: "bg-blue-50" },
+  live: { label: "Live", color: "bg-emerald-500", textColor: "text-emerald-700 dark:text-emerald-400", bgColor: "bg-emerald-50 dark:bg-emerald-500/10" },
+  draft: { label: "Concept", color: "bg-slate-400", textColor: "text-slate-600 dark:text-slate-400", bgColor: "bg-slate-50 dark:bg-slate-500/10" },
+  paused: { label: "Gepauzeerd", color: "bg-amber-500", textColor: "text-amber-700 dark:text-amber-400", bgColor: "bg-amber-50 dark:bg-amber-500/10" },
+  closed: { label: "Gesloten", color: "bg-slate-500", textColor: "text-slate-600 dark:text-slate-400", bgColor: "bg-slate-50 dark:bg-slate-500/10" },
+  filled: { label: "Ingevuld", color: "bg-blue-500", textColor: "text-blue-700 dark:text-blue-400", bgColor: "bg-blue-50 dark:bg-blue-500/10" },
 };
 
 function formatDate(dateString: string) {
@@ -34,6 +36,32 @@ export default function Vacatures() {
   const [newVacancyOpen, setNewVacancyOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Simulate initial data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    setError(null);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+  };
+
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <VacaturesListSkeleton />
+      </DashboardLayout>
+    );
+  }
 
   const filteredVacancies = useMemo(() => {
     let result = [...mockVacancyList];
@@ -66,6 +94,15 @@ export default function Vacatures() {
   return (
     <DashboardLayout>
       <div className="p-8 space-y-8 page-enter page-enter-active">
+        {/* Error Banner */}
+        {error && (
+          <ErrorBanner
+            message={error}
+            onRetry={handleRetry}
+            onDismiss={() => setError(null)}
+          />
+        )}
+
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>

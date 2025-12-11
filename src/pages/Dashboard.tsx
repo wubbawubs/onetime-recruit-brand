@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { HeroInsightBar } from "@/components/dashboard/HeroInsightBar";
 import { StatusSummaryCard } from "@/components/dashboard/StatusSummaryCard";
@@ -6,6 +7,8 @@ import { PipelineSummaryCard } from "@/components/dashboard/PipelineSummaryCard"
 import { Last7DaysCard } from "@/components/dashboard/Last7DaysCard";
 import { ProcessQualityCard } from "@/components/dashboard/ProcessQualityCard";
 import { RiskMatrixCard } from "@/components/dashboard/RiskMatrixCard";
+import { DashboardSkeleton } from "@/components/ui/loading-skeletons";
+import { ErrorBanner } from "@/components/ui/error-banner";
 import { dashboardSummary } from "@/data/mockDashboardData";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -24,12 +27,48 @@ const getFirstName = (fullName: string) => {
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
   const greeting = getGreeting();
   const firstName = user ? getFirstName(user.name) : "";
+
+  // Simulate initial data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    setError(null);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+  };
+
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <DashboardSkeleton />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
       <div className="space-y-10 page-enter page-enter-active">
+        {/* Error Banner */}
+        {error && (
+          <ErrorBanner
+            message={error}
+            onRetry={handleRetry}
+            onDismiss={() => setError(null)}
+          />
+        )}
+
         {/* Page header with personalized greeting */}
         <div>
           <h1 className="text-2xl font-bold text-foreground">
