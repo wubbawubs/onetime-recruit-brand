@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, Download, UserPlus } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Input } from "@/components/ui/input";
@@ -19,14 +20,31 @@ const defaultFilters: FilterState = {
 };
 
 export default function Kandidaten() {
+  const [searchParams] = useSearchParams();
+  const vacancyParam = searchParams.get("vacancy");
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStage, setActiveStage] = useState("all");
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
-  const [filters, setFilters] = useState<FilterState>(defaultFilters);
-  const [appliedFilters, setAppliedFilters] = useState<FilterState>(defaultFilters);
+  const [filters, setFilters] = useState<FilterState>({
+    ...defaultFilters,
+    vacancy: vacancyParam || "all",
+  });
+  const [appliedFilters, setAppliedFilters] = useState<FilterState>({
+    ...defaultFilters,
+    vacancy: vacancyParam || "all",
+  });
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateListItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [addCandidateOpen, setAddCandidateOpen] = useState(false);
+
+  // Update filters when URL changes
+  useEffect(() => {
+    if (vacancyParam) {
+      setFilters(prev => ({ ...prev, vacancy: vacancyParam }));
+      setAppliedFilters(prev => ({ ...prev, vacancy: vacancyParam }));
+    }
+  }, [vacancyParam]);
 
   // Filter candidates
   const filteredCandidates = useMemo(() => {

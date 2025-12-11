@@ -45,6 +45,7 @@ export default function VacancyDetail() {
             location={vacancy.location}
             contractType={vacancy.contractType}
             status={vacancy.status}
+            onEditClick={() => setActiveTab('edit')}
           />
           <VacancyStatsStrip
             totalCandidates={vacancy.totalCandidates}
