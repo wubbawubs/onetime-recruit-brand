@@ -8,6 +8,7 @@ import BrandGuide from "./pages/BrandGuide";
 import VacancyDetail from "./pages/VacancyDetail";
 import Kandidaten from "./pages/Kandidaten";
 import Pipeline from "./pages/Pipeline";
+import Vacatures from "./pages/Vacatures";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,8 +23,8 @@ const App = () => (
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/brand" element={<BrandGuide />} />
-          {/* Placeholder routes for sidebar navigation */}
-          <Route path="/vacatures" element={<Dashboard />} />
+          {/* Vacancy routes */}
+          <Route path="/vacatures" element={<Vacatures />} />
           <Route path="/vacatures/:vacatureId" element={<VacancyDetail />} />
           <Route path="/kandidaten" element={<Kandidaten />} />
           <Route path="/pipeline" element={<Pipeline />} />
