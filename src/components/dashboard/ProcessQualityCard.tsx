@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Gauge, Clock, Zap, AlertCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import type { ProcessQuality } from "@/data/mockDashboardData";
 
@@ -6,78 +7,55 @@ interface ProcessQualityCardProps {
   quality: ProcessQuality;
 }
 
-function getStatusLabel(metric: string, value: number): { label: string; color: string } {
-  if (metric === "responseTime") {
-    if (value <= 2) return { label: "goed", color: "text-success" };
-    if (value <= 3) return { label: "kan beter", color: "text-warning" };
-    return { label: "te traag", color: "text-destructive" };
-  }
-  if (metric === "within48h") {
-    if (value >= 80) return { label: "goed", color: "text-success" };
-    if (value >= 60) return { label: "kan beter", color: "text-warning" };
-    return { label: "te laag", color: "text-destructive" };
-  }
-  if (metric === "stale") {
-    if (value === 0) return { label: "perfect", color: "text-success" };
-    if (value <= 3) return { label: "aandacht", color: "text-warning" };
-    return { label: "actie nodig", color: "text-destructive" };
-  }
-  return { label: "", color: "text-muted-foreground" };
-}
-
 export function ProcessQualityCard({ quality }: ProcessQualityCardProps) {
-  const responseStatus = getStatusLabel("responseTime", quality.avgResponseTimeDays);
-  const within48hStatus = getStatusLabel("within48h", quality.pctWithin48h);
-  const staleStatus = getStatusLabel("stale", quality.staleCandidatesCount);
+  const scoreColor = quality.score >= 80 ? "text-success" : quality.score >= 60 ? "text-warning" : "text-destructive";
+  const scoreLabel = quality.score >= 80 ? "Goed" : quality.score >= 60 ? "Matig" : "Actie nodig";
 
   return (
-    <Card className="border-border/50 shadow-sm">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-base font-semibold">Opvolgkwaliteit</CardTitle>
+    <Card className="border-border/50 shadow-sm hover:shadow-md transition-shadow">
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-lg bg-accent/50 flex items-center justify-center">
+              <Gauge className="h-4.5 w-4.5 text-foreground" />
+            </div>
+            <div>
+              <CardTitle className="text-base font-semibold">Proceskwaliteit</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Opvolgsnelheid</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className={`text-2xl font-bold ${scoreColor}`}>{quality.score}</span>
+            <p className="text-xs text-muted-foreground">{scoreLabel}</p>
+          </div>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-5 pt-0">
-        {/* Score */}
-        <div className="space-y-2">
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-semibold text-foreground">{quality.score}</span>
-            <span className="text-sm text-muted-foreground">/100</span>
-          </div>
-          <Progress value={quality.score} className="h-1.5" />
-        </div>
+      <CardContent className="pt-0 space-y-4">
+        {/* Progress bar */}
+        <Progress value={quality.score} className="h-1.5" />
 
-        {/* Metrics */}
-        <div className="space-y-2.5 text-sm">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Reactiesnelheid</span>
-            <span className="text-foreground">
-              {quality.avgResponseTimeDays} dagen{" "}
-              <span className={`text-xs ${responseStatus.color}`}>({responseStatus.label})</span>
-            </span>
+        {/* Metrics grid */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="text-center p-3 rounded-lg bg-muted/30">
+            <Clock className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+            <p className="text-lg font-semibold text-foreground">{quality.avgResponseTimeDays}d</p>
+            <p className="text-[10px] text-muted-foreground">Gem. reactie</p>
           </div>
-
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">48u-respons</span>
-            <span className="text-foreground">
-              {quality.pctWithin48h}%{" "}
-              <span className={`text-xs ${within48hStatus.color}`}>({within48hStatus.label})</span>
-            </span>
+          
+          <div className="text-center p-3 rounded-lg bg-muted/30">
+            <Zap className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+            <p className="text-lg font-semibold text-foreground">{quality.pctWithin48h}%</p>
+            <p className="text-[10px] text-muted-foreground">&lt;48u reactie</p>
           </div>
-
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Vastlopers</span>
-            <span className="text-foreground">
-              {quality.staleCandidatesCount}{" "}
-              <span className={`text-xs ${staleStatus.color}`}>({staleStatus.label})</span>
-            </span>
+          
+          <div className={`text-center p-3 rounded-lg ${quality.staleCandidatesCount > 0 ? "bg-destructive/5" : "bg-muted/30"}`}>
+            <AlertCircle className={`h-4 w-4 mx-auto mb-1 ${quality.staleCandidatesCount > 0 ? "text-destructive" : "text-muted-foreground"}`} />
+            <p className={`text-lg font-semibold ${quality.staleCandidatesCount > 0 ? "text-destructive" : "text-foreground"}`}>
+              {quality.staleCandidatesCount}
+            </p>
+            <p className="text-[10px] text-muted-foreground">Vastgelopen</p>
           </div>
         </div>
-
-        {/* CTA */}
-        {quality.staleCandidatesCount > 0 && (
-          <button className="text-sm text-primary hover:text-primary/80 font-medium transition-colors">
-            Vastlopers bekijken →
-          </button>
-        )}
       </CardContent>
     </Card>
   );
