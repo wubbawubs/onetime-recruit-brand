@@ -1,0 +1,238 @@
+export interface CandidateListItem {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  source: string;
+  currentStage: string;
+  currentVacancy: string;
+  vacancyId: string;
+  score?: number;
+  tags: string[];
+  addedDate: string;
+  lastActivityDate: string;
+  daysInStage: number;
+}
+
+export const allCandidates: CandidateListItem[] = [
+  {
+    id: "c1",
+    name: "Jan Jansen",
+    email: "jan.jansen@email.nl",
+    phone: "+31 6 12345678",
+    source: "LinkedIn",
+    currentStage: "Nieuw",
+    currentVacancy: "Senior Developer",
+    vacancyId: "v1",
+    tags: ["Ervaren", "Tech"],
+    addedDate: "2024-01-10",
+    lastActivityDate: "2024-01-10",
+    daysInStage: 1,
+  },
+  {
+    id: "c2",
+    name: "Maria de Vries",
+    email: "maria.devries@email.nl",
+    phone: "+31 6 23456789",
+    source: "Website",
+    currentStage: "Nieuw",
+    currentVacancy: "Senior Developer",
+    vacancyId: "v1",
+    tags: ["Junior"],
+    addedDate: "2024-01-09",
+    lastActivityDate: "2024-01-09",
+    daysInStage: 2,
+  },
+  {
+    id: "c3",
+    name: "Peter van den Berg",
+    email: "peter.vdberg@email.nl",
+    phone: "+31 6 34567890",
+    source: "LinkedIn",
+    currentStage: "Nieuw",
+    currentVacancy: "Accountmanager",
+    vacancyId: "v2",
+    tags: ["Sales", "Ervaren"],
+    addedDate: "2024-01-08",
+    lastActivityDate: "2024-01-10",
+    daysInStage: 3,
+  },
+  {
+    id: "c4",
+    name: "Sophie Bakker",
+    email: "sophie.bakker@email.nl",
+    phone: "+31 6 45678901",
+    source: "Referral",
+    currentStage: "Nieuw",
+    currentVacancy: "Office Manager",
+    vacancyId: "v3",
+    tags: ["Admin"],
+    addedDate: "2024-01-07",
+    lastActivityDate: "2024-01-08",
+    daysInStage: 4,
+  },
+  {
+    id: "c5",
+    name: "Thomas Visser",
+    email: "thomas.visser@email.nl",
+    phone: "+31 6 56789012",
+    source: "Indeed",
+    currentStage: "Nieuw",
+    currentVacancy: "Senior Developer",
+    vacancyId: "v1",
+    tags: ["Tech"],
+    addedDate: "2024-01-06",
+    lastActivityDate: "2024-01-06",
+    daysInStage: 5,
+  },
+  {
+    id: "c6",
+    name: "Emma Mulder",
+    email: "emma.mulder@email.nl",
+    phone: "+31 6 67890123",
+    source: "Website",
+    currentStage: "Eerste gesprek",
+    currentVacancy: "Senior Developer",
+    vacancyId: "v1",
+    score: 7.2,
+    tags: ["Tech", "Ervaren"],
+    addedDate: "2024-01-05",
+    lastActivityDate: "2024-01-09",
+    daysInStage: 3,
+  },
+  {
+    id: "c7",
+    name: "Lucas Bos",
+    email: "lucas.bos@email.nl",
+    phone: "+31 6 78901234",
+    source: "LinkedIn",
+    currentStage: "Eerste gesprek",
+    currentVacancy: "Accountmanager",
+    vacancyId: "v2",
+    score: 8.1,
+    tags: ["Sales"],
+    addedDate: "2024-01-04",
+    lastActivityDate: "2024-01-08",
+    daysInStage: 6,
+  },
+  {
+    id: "c8",
+    name: "Anna de Groot",
+    email: "anna.degroot@email.nl",
+    phone: "+31 6 89012345",
+    source: "Website",
+    currentStage: "Eerste gesprek",
+    currentVacancy: "Office Manager",
+    vacancyId: "v3",
+    score: 6.8,
+    tags: ["Admin", "Junior"],
+    addedDate: "2024-01-03",
+    lastActivityDate: "2024-01-07",
+    daysInStage: 4,
+  },
+  {
+    id: "c9",
+    name: "David van Dijk",
+    email: "david.vandijk@email.nl",
+    phone: "+31 6 90123456",
+    source: "LinkedIn",
+    currentStage: "Tweede gesprek",
+    currentVacancy: "Senior Developer",
+    vacancyId: "v1",
+    score: 8.5,
+    tags: ["Tech", "Ervaren"],
+    addedDate: "2024-01-02",
+    lastActivityDate: "2024-01-10",
+    daysInStage: 4,
+  },
+  {
+    id: "c10",
+    name: "Lisa Vermeer",
+    email: "lisa.vermeer@email.nl",
+    phone: "+31 6 01234567",
+    source: "Website",
+    currentStage: "Tweede gesprek",
+    currentVacancy: "Accountmanager",
+    vacancyId: "v2",
+    score: 7.8,
+    tags: ["Sales", "Ervaren"],
+    addedDate: "2024-01-01",
+    lastActivityDate: "2024-01-09",
+    daysInStage: 3,
+  },
+  {
+    id: "c11",
+    name: "Mark de Jong",
+    email: "mark.dejong@email.nl",
+    phone: "+31 6 11223344",
+    source: "Referral",
+    currentStage: "Aanbod",
+    currentVacancy: "Senior Developer",
+    vacancyId: "v1",
+    score: 9.1,
+    tags: ["Tech", "Ervaren"],
+    addedDate: "2023-12-28",
+    lastActivityDate: "2024-01-10",
+    daysInStage: 4,
+  },
+  {
+    id: "c12",
+    name: "Eva Hendriks",
+    email: "eva.hendriks@email.nl",
+    phone: "+31 6 22334455",
+    source: "LinkedIn",
+    currentStage: "In dienst",
+    currentVacancy: "Office Manager",
+    vacancyId: "v3",
+    score: 8.7,
+    tags: ["Admin", "Ervaren"],
+    addedDate: "2023-12-20",
+    lastActivityDate: "2024-01-05",
+    daysInStage: 10,
+  },
+  {
+    id: "c13",
+    name: "Daan Smit",
+    email: "daan.smit@email.nl",
+    phone: "+31 6 33445566",
+    source: "Indeed",
+    currentStage: "In dienst",
+    currentVacancy: "Accountmanager",
+    vacancyId: "v2",
+    score: 8.2,
+    tags: ["Sales"],
+    addedDate: "2023-12-15",
+    lastActivityDate: "2024-01-03",
+    daysInStage: 15,
+  },
+];
+
+export const stages = [
+  { id: "all", label: "Alle" },
+  { id: "nieuw", label: "Nieuw" },
+  { id: "eerste-gesprek", label: "Eerste gesprek" },
+  { id: "tweede-gesprek", label: "Tweede gesprek" },
+  { id: "aanbod", label: "Aanbod" },
+  { id: "in-dienst", label: "In dienst" },
+];
+
+export const sources = ["LinkedIn", "Website", "Referral", "Indeed"];
+
+export const availableTags = ["Ervaren", "Junior", "Tech", "Sales", "Admin"];
+
+export const vacancies = [
+  { id: "v1", title: "Senior Developer" },
+  { id: "v2", title: "Accountmanager" },
+  { id: "v3", title: "Office Manager" },
+];
+
+export function getStageCounts(candidates: CandidateListItem[]) {
+  const counts: Record<string, number> = { all: candidates.length };
+  
+  candidates.forEach((c) => {
+    const stageKey = c.currentStage.toLowerCase().replace(" ", "-");
+    counts[stageKey] = (counts[stageKey] || 0) + 1;
+  });
+  
+  return counts;
+}
