@@ -47,22 +47,6 @@ export default function Vacatures() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleRetry = () => {
-    setIsLoading(true);
-    setError(null);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 600);
-  };
-
-  if (isLoading) {
-    return (
-      <DashboardLayout>
-        <VacaturesListSkeleton />
-      </DashboardLayout>
-    );
-  }
-
   const filteredVacancies = useMemo(() => {
     let result = [...mockVacancyList];
 
@@ -90,6 +74,22 @@ export default function Vacatures() {
     totalCandidates: mockVacancyList.reduce((sum, v) => sum + v.candidateCount, 0),
     drafts: mockVacancyList.filter((v) => v.status === "draft").length,
   }), []);
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    setError(null);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+  };
+
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <VacaturesListSkeleton />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
