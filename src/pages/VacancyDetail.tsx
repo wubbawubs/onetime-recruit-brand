@@ -8,6 +8,7 @@ import { VacancyActivityTimeline } from "@/components/vacancy/VacancyActivityTim
 import { VacancyHealthCard } from "@/components/vacancy/VacancyHealthCard";
 import { VacancyInflowCard } from "@/components/vacancy/VacancyInflowCard";
 import { VacancyActionsCard } from "@/components/vacancy/VacancyActionsCard";
+import { HeroInsightBar } from "@/components/vacancy/HeroInsightBar";
 import { mockVacancyDetail } from "@/data/mockVacancyData";
 import { Button } from "@/components/ui/button";
 import { PanelRightClose, PanelRightOpen } from "lucide-react";
@@ -18,6 +19,14 @@ export default function VacancyDetail() {
   const [activeTab, setActiveTab] = useState('overview');
   const [insightsOpen, setInsightsOpen] = useState(true);
   const vacancy = mockVacancyDetail;
+
+  const scrollToActions = () => {
+    setInsightsOpen(true);
+    // Small delay to ensure panel is open before scrolling
+    setTimeout(() => {
+      document.getElementById('actions-card')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
 
   return (
     <DashboardLayout>
@@ -39,6 +48,15 @@ export default function VacancyDetail() {
             hires={vacancy.hires}
             hireGoal={vacancy.hireGoal}
           />
+          
+          {/* Hero Insight Bar - coaching advice */}
+          {activeTab === 'overview' && vacancy.heroInsight && (
+            <HeroInsightBar 
+              insight={vacancy.heroInsight} 
+              onActionClick={scrollToActions}
+            />
+          )}
+          
           <div className="flex items-center justify-between">
             <VacancyTabs activeTab={activeTab} onTabChange={setActiveTab} />
             
@@ -89,7 +107,9 @@ export default function VacancyDetail() {
                     last14Days={vacancy.inflow.last14Days} 
                     sources={vacancy.inflow.sources} 
                   />
-                  <VacancyActionsCard actions={vacancy.weekActions} />
+                  <div id="actions-card">
+                    <VacancyActionsCard actions={vacancy.weekActions} />
+                  </div>
                 </div>
               )}
             </div>

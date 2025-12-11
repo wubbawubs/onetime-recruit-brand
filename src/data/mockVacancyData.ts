@@ -55,6 +55,13 @@ export interface VacancyListItem {
   status: 'live' | 'draft' | 'paused' | 'closed';
 }
 
+export interface HeroInsight {
+  bottleneckStage: string;
+  avgDelay: number;
+  impactDays: string;
+  recommendation: string;
+}
+
 export interface VacancyDetail {
   id: string;
   title: string;
@@ -75,6 +82,7 @@ export interface VacancyDetail {
     sources: SourceData[];
   };
   weekActions: VacancyAction[];
+  heroInsight?: HeroInsight;
 }
 
 // List of all vacancies for the switcher dropdown
@@ -175,4 +183,10 @@ export const mockVacancyDetail: VacancyDetail = {
     { id: 'wa2', urgency: 'high', description: '1 scorecard ontbreekt bij kandidaten in Tweede gesprek', cta: 'Scorecards bekijken' },
     { id: 'wa3', urgency: 'medium', description: 'Instroom via jobsite daalde 40%', cta: 'Vacaturetekst checken' },
   ],
+  heroInsight: {
+    bottleneckStage: 'Nieuw',
+    avgDelay: 5,
+    impactDays: '4-7 dagen',
+    recommendation: 'Snellere opvolging in de Nieuw fase verkort de doorlooptijd significant.',
+  },
 };

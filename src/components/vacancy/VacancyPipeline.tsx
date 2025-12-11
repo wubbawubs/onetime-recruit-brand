@@ -98,41 +98,47 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
           <div
             key={stage.id}
             className={cn(
-              "flex-1 min-w-[180px] flex flex-col rounded-lg transition-all",
-              draggedCandidate && draggedCandidate.fromStage !== stage.id && "ring-2 ring-primary/20 bg-primary/5"
+              "flex-1 min-w-[180px] flex flex-col rounded-lg",
+              "transition-all duration-200",
+              "hover:bg-muted/30", // Column hover effect
+              draggedCandidate && draggedCandidate.fromStage !== stage.id && 
+                "ring-2 ring-primary/30 bg-primary/5"
             )}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, stage.id)}
           >
-            {/* Column header */}
+            {/* Column header with colored accent bar */}
             <div className={cn(
-              "flex items-center justify-between px-3 py-2.5 rounded-t-lg border-b-2",
-              index === 0 && "border-b-blue-400/60",
-              index === 1 && "border-b-amber-400/60",
-              index === 2 && "border-b-purple-400/60",
-              index === 3 && "border-b-emerald-400/60",
-              index === 4 && "border-b-success"
+              "px-3 py-2.5 rounded-t-lg border-b-[3px]",
+              "transition-colors duration-200",
+              index === 0 && "border-b-blue-400",
+              index === 1 && "border-b-amber-400",
+              index === 2 && "border-b-purple-400",
+              index === 3 && "border-b-emerald-400",
+              index === 4 && "border-b-green-500"
             )}>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{stage.name}</span>
-                <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                  {stage.candidates.length}
-                </span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold">{stage.name}</span>
+                  <span className="text-[11px] text-muted-foreground bg-muted/80 px-1.5 py-0.5 rounded-md font-medium">
+                    {stage.candidates.length}
+                  </span>
+                </div>
+                {stage.avgDays > 0 && (
+                  <Tooltip delayDuration={0}>
+                    <TooltipTrigger>
+                      <span className="text-[10px] text-muted-foreground/70 hover:text-muted-foreground transition-colors">
+                        ~{stage.avgDays}d
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>Gemiddeld {stage.avgDays} dagen in deze fase</TooltipContent>
+                  </Tooltip>
+                )}
               </div>
-              {stage.avgDays > 0 && (
-                <Tooltip delayDuration={0}>
-                  <TooltipTrigger>
-                    <span className="text-[10px] text-muted-foreground">
-                      ~{stage.avgDays}d
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>Gemiddeld {stage.avgDays} dagen in deze fase</TooltipContent>
-                </Tooltip>
-              )}
             </div>
 
             {/* Candidate cards */}
-            <div className="flex-1 p-2 space-y-2 min-h-[200px]">
+            <div className="flex-1 p-2 space-y-2.5 min-h-[200px]">
               {stage.candidates.map((candidate) => (
                 <CandidateCard
                   key={candidate.id}
@@ -142,7 +148,7 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
                 />
               ))}
               {stage.candidates.length === 0 && (
-                <div className="h-full min-h-[120px] flex items-center justify-center text-xs text-muted-foreground border border-dashed border-border/50 rounded-lg">
+                <div className="h-full min-h-[120px] flex items-center justify-center text-xs text-muted-foreground border border-dashed border-border/40 rounded-lg bg-muted/20">
                   Geen kandidaten
                 </div>
               )}
