@@ -5,7 +5,7 @@ import { TodayImportantCard } from "@/components/dashboard/TodayImportantCard";
 import { PipelineSummaryCard } from "@/components/dashboard/PipelineSummaryCard";
 import { Last7DaysCard } from "@/components/dashboard/Last7DaysCard";
 import { ProcessQualityCard } from "@/components/dashboard/ProcessQualityCard";
-import { JobsStatusLane } from "@/components/dashboard/JobsStatusLane";
+import { RiskMatrixCard } from "@/components/dashboard/RiskMatrixCard";
 import { dashboardSummary } from "@/data/mockDashboardData";
 
 const Dashboard = () => {
@@ -18,7 +18,7 @@ const Dashboard = () => {
           <p className="text-sm text-muted-foreground mt-1">Overzicht van je recruitment activiteiten</p>
         </div>
 
-        {/* Hero insight */}
+        {/* Hero insight with Today Focus */}
         <HeroInsightBar insight={dashboardSummary.heroInsight} />
 
         {/* Main grid - 3 columns */}
@@ -45,8 +45,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Jobs status lane - full width */}
-        <JobsStatusLane jobs={dashboardSummary.jobsStatus} />
+        {/* Risk matrix - full width */}
+        <RiskMatrixCard />
       </div>
     </DashboardLayout>
   );
