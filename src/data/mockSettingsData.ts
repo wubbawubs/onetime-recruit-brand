@@ -59,9 +59,9 @@ export interface IntegrationSettings {
 
 // Mock data
 export const mockAccountSettings: AccountSettings = {
-  name: 'Jan de Vries',
-  role: 'Account Manager',
-  email: 'jan@onetimerecruit.nl',
+  name: 'Juliëtte Welten',
+  role: 'Recruitment Manager',
+  email: 'juliette@onetimerooted.nl',
   avatar: undefined,
   language: 'nl',
   timezone: 'Europe/Amsterdam',
