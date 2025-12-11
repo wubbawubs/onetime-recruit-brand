@@ -1,7 +1,14 @@
+export interface HeroInsight {
+  text: string;
+  hasBottleneck: boolean;
+}
+
 export interface AttentionItem {
   id: string;
+  urgency: "high" | "medium" | "low";
   label: string;
-  type: "stale_stage" | "pending_offer" | "no_new_candidates" | "urgent";
+  impact: string;
+  ctaLabel: string;
 }
 
 export interface JobStatus {
@@ -10,6 +17,7 @@ export interface JobStatus {
   statusLabel: string;
   etaLabel: string;
   riskLevel: "low" | "medium" | "high";
+  nextAction: string;
 }
 
 export interface PipelineStage {
@@ -17,7 +25,24 @@ export interface PipelineStage {
   count: number;
 }
 
+export interface ProcessQuality {
+  score: number;
+  avgResponseTimeDays: number;
+  pctWithin48h: number;
+  staleCandidatesCount: number;
+  text: string;
+}
+
+export interface Last7Days {
+  newApplications: number;
+  movedForward: number;
+  hires: number;
+  droppedOut: number;
+  text: string;
+}
+
 export interface DashboardSummary {
+  heroInsight: HeroInsight;
   summaryText: string;
   todayAttention: AttentionItem[];
   jobsStatus: JobStatus[];
@@ -26,73 +51,84 @@ export interface DashboardSummary {
     perStage: PipelineStage[];
     bottleneckDescription: string;
   };
-  processQuality: {
-    avgResponseTimeDays: number;
-    pctWithin48h: number;
-    staleCandidatesCount: number;
-    text: string;
-  };
-  last7Days: {
-    newApplications: number;
-    movedForward: number;
-    hires: number;
-    droppedOut: number;
-    text: string;
-  };
+  processQuality: ProcessQuality;
+  last7Days: Last7Days;
 }
 
 export const dashboardSummary: DashboardSummary = {
-  summaryText: `Je hebt op dit moment **4 openstaande vacatures**. Voor **Accountmanager Binnendienst** loopt alles op schema: er zitten **9 kandidaten in proces** en op basis van eerdere trajecten verwachten we een vervulling **binnen ongeveer 3 weken**. Voor **Senior Developer** loopt het risico op vertraging op, omdat er **al 18 dagen niemand naar een volgende stap is gezet**.`,
+  heroInsight: {
+    text: "Je loopt op koers voor 3 van de 4 vacatures. Senior Developer vormt de bottleneck: dit traject staat al 18 dagen stil en vraagt directe opvolging.",
+    hasBottleneck: true,
+  },
+  summaryText: `Je hebt momenteel **4 openstaande vacatures**.
+
+**Accountmanager Binnendienst** beweegt goed door de pipeline: **9 actieve kandidaten** en een verwachte invulling rond **week 3**.
+
+**Sales Support** loopt iets trager, maar ligt nog binnen bereik.
+
+**Senior Developer** vertraagt; er is de afgelopen **18 dagen** geen voortgang geboekt. Dit vraagt deze week aandacht om een groter tijdverlies te voorkomen.`,
   todayAttention: [
     {
-      id: "1",
+      id: "stale_first_interview",
+      urgency: "high",
       label: '3 kandidaten wachten al langer dan 5 dagen op reactie in "Eerste gesprek".',
-      type: "stale_stage",
+      impact: "Opvolgen voorkomt afhakers.",
+      ctaLabel: "Kandidaten bekijken",
     },
     {
-      id: "2",
+      id: "pending_offer",
+      urgency: "high",
       label: "1 aanbod ligt al 4 dagen open zonder terugkoppeling.",
-      type: "pending_offer",
+      impact: "Dit verhoogt de kans op afwijzing.",
+      ctaLabel: "Aanbod bekijken",
     },
     {
-      id: "3",
+      id: "no_inflow",
+      urgency: "medium",
       label: "2 vacatures hebben afgelopen week geen nieuwe kandidaten gekregen.",
-      type: "no_new_candidates",
+      impact: "Check de zichtbaarheid en overweeg extra promotie.",
+      ctaLabel: "Vacatures openen",
     },
     {
-      id: "4",
-      label: "Vandaag staat er 1 tweede gesprek gepland om 14:00.",
-      type: "urgent",
+      id: "interview_today",
+      urgency: "low",
+      label: "Vandaag staat 1 tweede gesprek gepland om 14:00.",
+      impact: "Zorg dat de interviewer voorbereid is.",
+      ctaLabel: "Planning openen",
     },
   ],
   jobsStatus: [
     {
-      jobId: "job_1",
+      jobId: "job_accountmanager",
       title: "Accountmanager Binnendienst",
-      statusLabel: "Voldoende instroom, goede doorloop",
+      statusLabel: "Goede instroom, sterke doorloop. Traject ligt op koers.",
       etaLabel: "± 3 weken",
       riskLevel: "low",
+      nextAction: "Blijf ritme houden in de gesprekken.",
     },
     {
-      jobId: "job_2",
+      jobId: "job_sales_support",
+      title: "Sales Support",
+      statusLabel: "Instroom is iets trager, maar nog binnen bereik.",
+      etaLabel: "± 4–5 weken",
+      riskLevel: "medium",
+      nextAction: "Extra zichtbaarheid of kanaal toevoegen kan helpen.",
+    },
+    {
+      jobId: "job_senior_dev",
       title: "Senior Developer",
-      statusLabel: "Weinig instroom, doorloop stagneert",
+      statusLabel: "Zeer beperkte instroom; geen updates in 18 dagen.",
       etaLabel: "Onzeker",
       riskLevel: "high",
+      nextAction: "Actie nodig: nieuwe kanalen of aangescherpte vacaturetekst.",
     },
     {
-      jobId: "job_3",
-      title: "Marketing Manager",
-      statusLabel: "Goede instroom, afwachten gesprekken",
-      etaLabel: "± 4-5 weken",
-      riskLevel: "medium",
-    },
-    {
-      jobId: "job_4",
+      jobId: "job_office_manager",
       title: "Office Manager",
-      statusLabel: "Net gestart, nog weinig data",
-      etaLabel: "Nog niet te bepalen",
+      statusLabel: "Net gestart, eerste kandidaten in review.",
+      etaLabel: "± 5–6 weken",
       riskLevel: "medium",
+      nextAction: "Monitor de instroom de komende dagen.",
     },
   ],
   pipelineSummary: {
@@ -104,19 +140,24 @@ export const dashboardSummary: DashboardSummary = {
       { stageName: "Aanbod", count: 4 },
       { stageName: "In dienst", count: 3 },
     ],
-    bottleneckDescription: "De meeste vertraging zit nu in de stap Nieuw → Eerste gesprek.",
+    bottleneckDescription: "De vertraging zit vooral in de stap Nieuw → Eerste gesprek. Een snellere eerste reactie verbetert de doorloop direct.",
   },
   processQuality: {
+    score: 84,
     avgResponseTimeDays: 2.1,
     pctWithin48h: 78,
     staleCandidatesCount: 5,
-    text: "Je reageert gemiddeld binnen **2,1 dagen** op nieuwe kandidaten. 78% krijgt binnen 48 uur een eerste actie. Wel aandachtspunt: **5 kandidaten** zitten al langer dan een week in dezelfde fase zonder update.",
+    text: `Je gemiddelde reactietijd is **2,1 dagen**. Dat is acceptabel, maar nog niet optimaal.
+
+**78%** ontvangt binnen **48 uur** een eerste actie — prima, maar er is ruimte voor verbetering.
+
+**5 kandidaten** zitten langer dan een week in dezelfde fase; dit verhoogt de drop-off kans aanzienlijk.`,
   },
   last7Days: {
     newApplications: 21,
     movedForward: 13,
     hires: 2,
     droppedOut: 3,
-    text: "In de afgelopen 7 dagen heb je **21 nieuwe sollicitaties** ontvangen, **13 kandidaten** doorgeschoven en **2 hires** afgerond.",
+    text: "Instroom is stabiel; opvolging in *Nieuw* is het belangrijkste verbeterpunt.",
   },
 };

@@ -13,14 +13,15 @@ import { cn } from "@/lib/utils";
 import onetimeLogo from "@/assets/onetime-logo.webp";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Vacatures", href: "/vacatures", icon: Briefcase },
-  { label: "Kandidaten", href: "/kandidaten", icon: Users },
-  { label: "Pipeline", href: "/pipeline", icon: GitBranch },
-  { label: "Rapportages", href: "/rapportages", icon: BarChart3 },
-  { label: "Instellingen", href: "/instellingen", icon: Settings },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, badge: null },
+  { label: "Vacatures", href: "/vacatures", icon: Briefcase, badge: 4 },
+  { label: "Kandidaten", href: "/kandidaten", icon: Users, badge: 3 },
+  { label: "Pipeline", href: "/pipeline", icon: GitBranch, badge: null },
+  { label: "Rapportages", href: "/rapportages", icon: BarChart3, badge: null },
+  { label: "Instellingen", href: "/instellingen", icon: Settings, badge: null },
 ];
 
 export function Sidebar() {
@@ -75,14 +76,24 @@ export function Sidebar() {
                   to={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center justify-between px-4 py-4 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-sidebar-accent text-sidebar-primary"
-                      : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      ? "bg-sidebar-accent text-sidebar-primary border-l-2 border-sidebar-primary"
+                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
                   )}
                 >
-                  <item.icon className="h-5 w-5" />
-                  {item.label}
+                  <div className="flex items-center gap-3">
+                    <item.icon className="h-5 w-5" />
+                    {item.label}
+                  </div>
+                  {item.badge && (
+                    <Badge 
+                      variant="secondary" 
+                      className="bg-sidebar-primary/20 text-sidebar-primary text-xs px-2 py-0.5"
+                    >
+                      {item.badge}
+                    </Badge>
+                  )}
                 </Link>
               );
             })}
@@ -90,7 +101,7 @@ export function Sidebar() {
 
           {/* Footer */}
           <div className="p-4 border-t border-sidebar-border">
-            <p className="text-xs text-sidebar-foreground/60">
+            <p className="text-xs text-sidebar-foreground/50">
               © 2024 Onetime Recruit
             </p>
           </div>

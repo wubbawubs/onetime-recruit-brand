@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertTriangle } from "lucide-react";
 import type { PipelineStage } from "@/data/mockDashboardData";
 
 interface PipelineSummaryCardProps {
@@ -19,26 +20,27 @@ export function PipelineSummaryCard({
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-muted-foreground">
-          In totaal heb je <strong className="text-foreground">{totalActive} actieve kandidaten</strong>.
+          In totaal heb je <span className="text-2xl font-bold text-foreground">{totalActive}</span> actieve kandidaten.
         </p>
         
-        {/* Stage breakdown */}
-        <div className="flex flex-wrap gap-2">
-          {perStage.map((stage) => (
-            <div 
-              key={stage.stageName}
-              className="flex items-center gap-2 px-3 py-2 bg-muted rounded-lg"
-            >
-              <span className="text-sm text-muted-foreground">{stage.stageName}</span>
-              <span className="text-sm font-semibold text-foreground">{stage.count}</span>
-            </div>
+        {/* Inline pipeline stages */}
+        <p className="text-sm text-muted-foreground">
+          {perStage.map((stage, index) => (
+            <span key={stage.stageName}>
+              <span className="font-medium text-foreground">{stage.count}</span>
+              {" "}{stage.stageName}
+              {index < perStage.length - 1 && <span className="mx-2 text-border">•</span>}
+            </span>
           ))}
-        </div>
+        </p>
 
         {/* Bottleneck */}
-        <p className="text-sm text-muted-foreground border-l-2 border-warning pl-3">
-          {bottleneckDescription}
-        </p>
+        <div className="flex items-start gap-3 p-3 bg-warning/5 border border-warning/20 rounded-lg">
+          <AlertTriangle className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-muted-foreground">
+            {bottleneckDescription}
+          </p>
+        </div>
       </CardContent>
     </Card>
   );
