@@ -143,3 +143,63 @@
     @apply leading-relaxed;
   }
 }
+
+/* Animation utilities */
+@layer utilities {
+  .animate-stagger > * {
+    @apply opacity-0;
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  .animate-stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .animate-stagger > *:nth-child(2) { animation-delay: 75ms; }
+  .animate-stagger > *:nth-child(3) { animation-delay: 150ms; }
+  .animate-stagger > *:nth-child(4) { animation-delay: 225ms; }
+  .animate-stagger > *:nth-child(5) { animation-delay: 300ms; }
+  .animate-stagger > *:nth-child(6) { animation-delay: 375ms; }
+  .animate-stagger > *:nth-child(7) { animation-delay: 450ms; }
+  .animate-stagger > *:nth-child(8) { animation-delay: 525ms; }
+
+  /* Button hover effects */
+  .btn-glow {
+    @apply transition-all duration-300;
+  }
+
+  .btn-glow:hover {
+    box-shadow: 0 0 20px 2px hsl(var(--primary) / 0.4);
+    transform: scale(1.02);
+  }
+
+  .btn-glow:active {
+    transform: scale(0.98);
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px hsl(var(--primary) / 0.1);
+  }
+
+  /* Input focus glow */
+  .input-glow:focus {
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15);
+  }
+}
+
+/* Dark mode transition */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme toggle animation */
+.theme-toggle-icon {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .theme-toggle-icon {
+  transform: rotate(360deg);
+}
