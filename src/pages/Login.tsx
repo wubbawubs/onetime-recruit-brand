@@ -112,7 +112,7 @@ export default function Login() {
           <div className="mt-6 p-3 bg-muted/50 rounded-lg">
             <p className="text-xs text-muted-foreground text-center">
               <strong>Demo account:</strong><br />
-              demo@onetimerecruit.nl / demo
+              juliette@onetimerecruit.nl / demo
             </p>
           </div>
         </CardContent>
