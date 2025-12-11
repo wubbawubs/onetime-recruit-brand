@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, ArrowRight } from "lucide-react";
+import { Download } from "lucide-react";
 import type { SourceData } from "@/data/mockVacancyData";
 
 interface VacancyInflowCardProps {
@@ -9,40 +9,26 @@ interface VacancyInflowCardProps {
 
 export function VacancyInflowCard({ last14Days, sources }: VacancyInflowCardProps) {
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <div className="flex items-center gap-2">
-          <Download className="h-4 w-4 text-muted-foreground" />
-          <CardTitle className="text-base">Instroom & bronnen</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Big number */}
-        <div>
-          <p className="text-3xl font-bold">{last14Days}</p>
-          <p className="text-sm text-muted-foreground">Nieuwe kandidaten · laatste 14 dagen</p>
-        </div>
-
-        {/* Sources list */}
-        <div className="space-y-2 pt-2 border-t border-border">
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Topbronnen</p>
-          <div className="space-y-2">
-            {sources.map((source) => (
-              <div key={source.name} className="flex items-center justify-between text-sm">
-                <span className="font-medium">{source.name}</span>
-                <span className="text-muted-foreground">
-                  {source.candidates} kand. · {source.hires} hires · {source.conversion}%
-                </span>
-              </div>
-            ))}
+    <Card className="border-border/60">
+      <CardHeader className="pb-2 px-4 pt-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Download className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Instroom</CardTitle>
           </div>
+          <span className="text-lg font-semibold">{last14Days}</span>
         </div>
-
-        {/* CTA */}
-        <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group">
-          Alle bronnen bekijken
-          <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
-        </button>
+        <p className="text-[11px] text-muted-foreground">Laatste 14 dagen</p>
+      </CardHeader>
+      <CardContent className="px-4 pb-4">
+        <div className="space-y-1.5">
+          {sources.slice(0, 3).map((source) => (
+            <div key={source.name} className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">{source.name}</span>
+              <span className="font-medium">{source.candidates} · {source.conversion}%</span>
+            </div>
+          ))}
+        </div>
       </CardContent>
     </Card>
   );

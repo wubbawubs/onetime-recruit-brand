@@ -9,26 +9,26 @@ interface VacancyActionsCardProps {
 
 export function VacancyActionsCard({ actions }: VacancyActionsCardProps) {
   return (
-    <Card>
-      <CardHeader className="pb-3">
+    <Card className="border-border/60">
+      <CardHeader className="pb-2 px-4 pt-4">
         <div className="flex items-center gap-2">
           <Zap className="h-4 w-4 text-warning" />
-          <CardTitle className="text-base">Deze week oppakken</CardTitle>
+          <CardTitle className="text-sm font-medium">Deze week</CardTitle>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {actions.map((action) => (
-            <div key={action.id} className="flex items-start gap-3 group">
+      <CardContent className="px-4 pb-4">
+        <div className="space-y-2.5">
+          {actions.slice(0, 3).map((action) => (
+            <div key={action.id} className="flex items-start gap-2 group">
               <div className={cn(
-                "h-2 w-2 rounded-full mt-1.5 shrink-0",
+                "h-1.5 w-1.5 rounded-full mt-1.5 shrink-0",
                 action.urgency === 'high' ? 'bg-destructive' : 'bg-warning'
               )} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm leading-relaxed">{action.description}</p>
-                <button className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors mt-1">
+                <p className="text-xs leading-relaxed text-muted-foreground">{action.description}</p>
+                <button className="flex items-center gap-0.5 text-[11px] text-primary hover:text-primary/80 transition-colors mt-0.5">
                   {action.cta}
-                  <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="h-2.5 w-2.5" />
                 </button>
               </div>
             </div>
