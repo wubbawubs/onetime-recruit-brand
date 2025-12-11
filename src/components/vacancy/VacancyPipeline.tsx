@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid, List } from "lucide-react";
 import { CandidateCard } from "./CandidateCard";
 import { CandidateDetailModal } from "./CandidateDetailModal";
 import { cn } from "@/lib/utils";
 import type { PipelineStage, Candidate } from "@/data/mockVacancyData";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface VacancyPipelineProps {
   stages: PipelineStage[];
-  fullWidth?: boolean;
   onStageChange?: (candidateId: string, fromStage: string, toStage: string) => void;
 }
 
-export function VacancyPipeline({ stages: initialStages, fullWidth = false, onStageChange }: VacancyPipelineProps) {
+export function VacancyPipeline({ stages: initialStages, onStageChange }: VacancyPipelineProps) {
   const [viewMode, setViewMode] = useState<'pipeline' | 'list'>('pipeline');
   const [stages, setStages] = useState(initialStages);
   const [draggedCandidate, setDraggedCandidate] = useState<{ id: string; fromStage: string } | null>(null);
@@ -70,10 +69,7 @@ export function VacancyPipeline({ stages: initialStages, fullWidth = false, onSt
     <div className="space-y-4">
       {/* Section header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold">Pipeline</h2>
-          <p className="text-sm text-muted-foreground">Kandidaten per fase</p>
-        </div>
+        <h2 className="text-lg font-semibold">Pipeline</h2>
         <div className="flex items-center gap-1 p-1 bg-muted rounded-lg">
           <Button
             variant={viewMode === 'pipeline' ? 'secondary' : 'ghost'}
@@ -96,40 +92,47 @@ export function VacancyPipeline({ stages: initialStages, fullWidth = false, onSt
         </div>
       </div>
 
-      {/* Kanban board */}
-      <div className={cn(
-        "flex gap-4 overflow-x-auto pb-4",
-        fullWidth && "justify-start"
-      )}>
-        {stages.map((stage) => (
+      {/* Kanban board - fluid columns */}
+      <div className="flex gap-3">
+        {stages.map((stage, index) => (
           <div
             key={stage.id}
             className={cn(
-              "flex-shrink-0 bg-muted/50 rounded-xl p-3 transition-colors",
-              fullWidth ? "w-[calc((100%-64px)/5)] min-w-[220px]" : "w-64",
-              draggedCandidate && draggedCandidate.fromStage !== stage.id && "ring-2 ring-primary/20"
+              "flex-1 min-w-[180px] flex flex-col rounded-lg transition-all",
+              draggedCandidate && draggedCandidate.fromStage !== stage.id && "ring-2 ring-primary/20 bg-primary/5"
             )}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, stage.id)}
           >
             {/* Column header */}
-            <div className="flex items-center justify-between mb-3">
+            <div className={cn(
+              "flex items-center justify-between px-3 py-2.5 rounded-t-lg border-b-2",
+              index === 0 && "border-b-blue-400/60",
+              index === 1 && "border-b-amber-400/60",
+              index === 2 && "border-b-purple-400/60",
+              index === 3 && "border-b-emerald-400/60",
+              index === 4 && "border-b-success"
+            )}>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-medium">{stage.name}</h3>
-                <Badge variant="secondary" className="h-5 px-1.5 text-xs">
+                <span className="text-sm font-medium">{stage.name}</span>
+                <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
                   {stage.candidates.length}
-                </Badge>
+                </span>
               </div>
+              {stage.avgDays > 0 && (
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger>
+                    <span className="text-[10px] text-muted-foreground">
+                      ~{stage.avgDays}d
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>Gemiddeld {stage.avgDays} dagen in deze fase</TooltipContent>
+                </Tooltip>
+              )}
             </div>
-            
-            {stage.avgDays > 0 && (
-              <p className="text-xs text-muted-foreground mb-3">
-                Gem: {stage.avgDays} dagen
-              </p>
-            )}
 
             {/* Candidate cards */}
-            <div className="space-y-2">
+            <div className="flex-1 p-2 space-y-2 min-h-[200px]">
               {stage.candidates.map((candidate) => (
                 <CandidateCard
                   key={candidate.id}
@@ -139,7 +142,7 @@ export function VacancyPipeline({ stages: initialStages, fullWidth = false, onSt
                 />
               ))}
               {stage.candidates.length === 0 && (
-                <div className="py-8 text-center text-sm text-muted-foreground border-2 border-dashed border-border rounded-lg">
+                <div className="h-full min-h-[120px] flex items-center justify-center text-xs text-muted-foreground border border-dashed border-border/50 rounded-lg">
                   Geen kandidaten
                 </div>
               )}

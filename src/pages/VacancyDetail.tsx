@@ -21,103 +21,93 @@ export default function VacancyDetail() {
 
   return (
     <DashboardLayout>
-      <div className={cn(
-        "mx-auto px-10 py-8 space-y-6 transition-all duration-300",
-        insightsOpen ? "max-w-7xl" : "max-w-none"
-      )}>
-        {/* Page header */}
-        <VacancyHeader
-          id={vacancy.id}
-          title={vacancy.title}
-          company={vacancy.company}
-          location={vacancy.location}
-          contractType={vacancy.contractType}
-          status={vacancy.status}
-        />
-
-        {/* Stats strip */}
-        <VacancyStatsStrip
-          totalCandidates={vacancy.totalCandidates}
-          weeksOpen={vacancy.weeksOpen}
-          lastUpdated={vacancy.lastUpdated}
-          hires={vacancy.hires}
-          hireGoal={vacancy.hireGoal}
-        />
-
-        {/* Tab navigation with insights toggle */}
-        <div className="flex items-center justify-between">
-          <VacancyTabs activeTab={activeTab} onTabChange={setActiveTab} />
-          
-          {activeTab === 'overview' && (
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setInsightsOpen(!insightsOpen)}
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  {insightsOpen ? (
-                    <PanelRightClose className="h-4 w-4" />
-                  ) : (
-                    <PanelRightOpen className="h-4 w-4" />
-                  )}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                {insightsOpen ? "Verberg insights" : "Toon insights"}
-              </TooltipContent>
-            </Tooltip>
-          )}
+      <div className="h-full flex flex-col">
+        {/* Fixed header section */}
+        <div className="px-8 pt-6 pb-4 space-y-4 border-b border-border/50 bg-background">
+          <VacancyHeader
+            id={vacancy.id}
+            title={vacancy.title}
+            company={vacancy.company}
+            location={vacancy.location}
+            contractType={vacancy.contractType}
+            status={vacancy.status}
+          />
+          <VacancyStatsStrip
+            totalCandidates={vacancy.totalCandidates}
+            weeksOpen={vacancy.weeksOpen}
+            lastUpdated={vacancy.lastUpdated}
+            hires={vacancy.hires}
+            hireGoal={vacancy.hireGoal}
+          />
+          <div className="flex items-center justify-between">
+            <VacancyTabs activeTab={activeTab} onTabChange={setActiveTab} />
+            
+            {activeTab === 'overview' && (
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setInsightsOpen(!insightsOpen)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    {insightsOpen ? (
+                      <PanelRightClose className="h-4 w-4" />
+                    ) : (
+                      <PanelRightOpen className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {insightsOpen ? "Verberg insights" : "Toon insights"}
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
         </div>
 
-        {/* Main content grid */}
+        {/* Main content - flexible layout */}
         {activeTab === 'overview' && (
-          <div className={cn(
-            "grid gap-6 transition-all duration-300",
-            insightsOpen ? "grid-cols-1 lg:grid-cols-10" : "grid-cols-1"
-          )}>
-            {/* Left column - full width when insights collapsed */}
-            <div className={cn(
-              "space-y-6 transition-all duration-300",
-              insightsOpen ? "lg:col-span-7" : "col-span-full"
-            )}>
-              {/* Pipeline */}
-              <VacancyPipeline stages={vacancy.pipeline} fullWidth={!insightsOpen} />
-              
-              {/* Activity timeline */}
-              <VacancyActivityTimeline activities={vacancy.activity} />
+          <div className="flex-1 flex min-h-0">
+            {/* Pipeline section - takes all available space */}
+            <div className="flex-1 p-6 overflow-auto">
+              <div className="space-y-6">
+                <VacancyPipeline stages={vacancy.pipeline} />
+                <VacancyActivityTimeline activities={vacancy.activity} />
+              </div>
             </div>
 
-            {/* Right column - collapsible */}
-            {insightsOpen && (
-              <div className="lg:col-span-3 space-y-6">
-              {/* Vacancy health */}
-              <VacancyHealthCard health={vacancy.health} />
-              
-              {/* Inflow & sources */}
-              <VacancyInflowCard 
-                last14Days={vacancy.inflow.last14Days} 
-                sources={vacancy.inflow.sources} 
-              />
-              
-              {/* This week actions */}
-              <VacancyActionsCard actions={vacancy.weekActions} />
+            {/* Insights sidebar - fixed width */}
+            <div className={cn(
+              "border-l border-border/50 bg-muted/30 overflow-y-auto transition-all duration-300",
+              insightsOpen ? "w-80 p-5" : "w-0 p-0 opacity-0"
+            )}>
+              {insightsOpen && (
+                <div className="space-y-5">
+                  <VacancyHealthCard health={vacancy.health} />
+                  <VacancyInflowCard 
+                    last14Days={vacancy.inflow.last14Days} 
+                    sources={vacancy.inflow.sources} 
+                  />
+                  <VacancyActionsCard actions={vacancy.weekActions} />
+                </div>
+              )}
             </div>
-            )}
           </div>
         )}
 
         {/* Placeholder for other tabs */}
         {activeTab !== 'overview' && (
-          <div className="flex items-center justify-center h-64 bg-muted/50 rounded-xl border border-dashed border-border">
-            <p className="text-muted-foreground">
-              {activeTab === 'edit' && 'Bewerken — Komt binnenkort'}
-              {activeTab === 'publication' && 'Publicatie & jobsite — Komt binnenkort'}
-              {activeTab === 'form' && 'Formulier & vragen — Komt binnenkort'}
-              {activeTab === 'team' && 'Team & rechten — Komt binnenkort'}
-              {activeTab === 'automation' && 'Automatisering — Komt binnenkort'}
-            </p>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-muted-foreground">
+                {activeTab === 'edit' && 'Bewerken — Komt binnenkort'}
+                {activeTab === 'publication' && 'Publicatie & jobsite — Komt binnenkort'}
+                {activeTab === 'form' && 'Formulier & vragen — Komt binnenkort'}
+                {activeTab === 'team' && 'Team & rechten — Komt binnenkort'}
+                {activeTab === 'automation' && 'Automatisering — Komt binnenkort'}
+              </p>
+            </div>
           </div>
         )}
       </div>
