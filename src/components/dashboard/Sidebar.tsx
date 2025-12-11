@@ -8,11 +8,11 @@ import {
   Settings,
   Menu,
   X,
-  Sparkles,
   PanelLeftClose,
   PanelLeftOpen,
   LogOut,
-  User
+  Sun,
+  Moon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import onetimeLogo from "@/assets/onetime-logo.webp";
@@ -22,6 +22,7 @@ import { useSidebarContext } from "@/contexts/SidebarContext";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useTheme } from "next-themes";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, badge: null },
@@ -38,10 +39,15 @@ export function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { collapsed, toggleCollapsed } = useSidebarContext();
   const { user, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
     navigate("/login");
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const getInitials = (name: string) => {
@@ -139,7 +145,7 @@ export function Sidebar() {
                     <span className={cn(
                       "text-[10px] font-medium min-w-[20px] text-center px-1.5 py-0.5 rounded-full transition-colors duration-200",
                       isActive 
-                        ? "bg-primary/15 text-primary" 
+                        ? "bg-primary/15 text-primary animate-pulse-subtle" 
                         : "bg-muted/80 text-muted-foreground group-hover:bg-muted"
                     )}>
                       {item.badge}
@@ -166,8 +172,51 @@ export function Sidebar() {
             })}
           </nav>
 
-          {/* User profile section */}
+          {/* Theme toggle & User profile section */}
           <div className={cn("border-t border-border/30", collapsed ? "px-2 py-3" : "px-3 py-4")}>
+            {/* Theme toggle */}
+            {collapsed ? (
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="w-full h-9 mb-2"
+                    onClick={toggleTheme}
+                  >
+                    {theme === "dark" ? (
+                      <Sun className="h-4 w-4 theme-toggle-icon" />
+                    ) : (
+                      <Moon className="h-4 w-4 theme-toggle-icon" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  {theme === "dark" ? "Light mode" : "Dark mode"}
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start mb-2 text-muted-foreground hover:text-foreground"
+                onClick={toggleTheme}
+              >
+                {theme === "dark" ? (
+                  <>
+                    <Sun className="h-4 w-4 mr-2 theme-toggle-icon" />
+                    Light mode
+                  </>
+                ) : (
+                  <>
+                    <Moon className="h-4 w-4 mr-2 theme-toggle-icon" />
+                    Dark mode
+                  </>
+                )}
+              </Button>
+            )}
+
+            {/* User profile */}
             {user && (
               <div className={cn("flex items-center", collapsed ? "justify-center" : "gap-3")}>
                 <Avatar className="h-8 w-8 flex-shrink-0">
