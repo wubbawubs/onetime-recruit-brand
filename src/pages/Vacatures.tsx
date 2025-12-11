@@ -1,19 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Briefcase, Users, ChevronRight, Plus, Pause, CheckCircle2 } from "lucide-react";
+import { Briefcase, Users, ChevronRight, Plus } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { mockVacancyList } from "@/data/mockVacancyData";
+import { NewVacancyModal } from "@/components/vacancy/NewVacancyModal";
 
 const statusConfig = {
   live: { label: "Live", color: "bg-emerald-500", textColor: "text-emerald-700", bgColor: "bg-emerald-50" },
   draft: { label: "Concept", color: "bg-slate-400", textColor: "text-slate-600", bgColor: "bg-slate-50" },
   paused: { label: "Gepauzeerd", color: "bg-amber-500", textColor: "text-amber-700", bgColor: "bg-amber-50" },
   closed: { label: "Gesloten", color: "bg-slate-500", textColor: "text-slate-600", bgColor: "bg-slate-50" },
+  filled: { label: "Ingevuld", color: "bg-blue-500", textColor: "text-blue-700", bgColor: "bg-blue-50" },
 };
 
 export default function Vacatures() {
+  const [newVacancyOpen, setNewVacancyOpen] = useState(false);
+
   return (
     <DashboardLayout>
       <div className="p-8 space-y-8">
@@ -25,7 +30,7 @@ export default function Vacatures() {
               Beheer je openstaande vacatures en bekijk de voortgang.
             </p>
           </div>
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={() => setNewVacancyOpen(true)}>
             <Plus className="h-4 w-4" />
             Nieuwe vacature
           </Button>
@@ -111,6 +116,8 @@ export default function Vacatures() {
           </div>
         </div>
       </div>
+
+      <NewVacancyModal open={newVacancyOpen} onOpenChange={setNewVacancyOpen} />
     </DashboardLayout>
   );
 }

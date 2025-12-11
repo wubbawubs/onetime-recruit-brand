@@ -17,7 +17,7 @@ interface VacancyHeaderProps {
   company: string;
   location: string;
   contractType: string;
-  status: 'live' | 'draft' | 'paused' | 'closed';
+  status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
 }
 
 const statusConfig = {
@@ -25,6 +25,7 @@ const statusConfig = {
   draft: { label: 'Concept', className: 'bg-muted text-muted-foreground border-border' },
   paused: { label: 'Gepauzeerd', className: 'bg-warning/10 text-warning border-warning/20' },
   closed: { label: 'Gesloten', className: 'bg-destructive/10 text-destructive border-destructive/20' },
+  filled: { label: 'Ingevuld', className: 'bg-primary/10 text-primary border-primary/20' },
 };
 
 export function VacancyHeader({ id, title, company, location, contractType, status }: VacancyHeaderProps) {
