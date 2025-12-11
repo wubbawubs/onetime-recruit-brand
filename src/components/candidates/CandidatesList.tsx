@@ -59,27 +59,29 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
   }
 
   return (
-    <div className="space-y-1">
-      {candidates.map((candidate) => (
+    <div className="divide-y divide-border/50">
+      {candidates.map((candidate, index) => (
         <button
           key={candidate.id}
           onClick={() => onCandidateClick(candidate)}
           className={cn(
-            "w-full flex items-center gap-4 p-4 rounded-lg",
+            "w-full flex items-center gap-4 px-5 py-4",
             "text-left",
             "transition-all duration-200",
-            "hover:bg-muted/50",
-            "group"
+            "hover:bg-muted/40",
+            "group",
+            index === 0 && "rounded-t-xl",
+            index === candidates.length - 1 && "rounded-b-xl"
           )}
         >
           {/* Avatar */}
-          <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-medium shrink-0">
+          <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-medium shrink-0 transition-transform duration-200 group-hover:scale-105">
             {getInitials(candidate.name)}
           </div>
 
           {/* Name & Source */}
           <div className="flex-1 min-w-0">
-            <div className="font-medium text-foreground truncate">
+            <div className="font-medium text-foreground truncate group-hover:text-primary transition-colors">
               {candidate.name}
             </div>
             <div className="text-sm text-muted-foreground">
@@ -88,7 +90,7 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
           </div>
 
           {/* Vacancy (hidden on mobile) */}
-          <div className="hidden md:block text-sm text-muted-foreground w-32 truncate">
+          <div className="hidden md:block text-sm text-muted-foreground w-36 truncate">
             {candidate.currentVacancy}
           </div>
 
@@ -96,7 +98,7 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
           <Badge
             variant="outline"
             className={cn(
-              "shrink-0 font-normal",
+              "shrink-0 font-normal text-xs px-2.5 py-0.5",
               getStageBadgeVariant(candidate.currentStage)
             )}
           >
@@ -106,16 +108,16 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
           {/* Score */}
           <div className="w-12 text-right shrink-0">
             {candidate.score ? (
-              <span className="text-sm font-medium text-foreground">
+              <span className="text-sm font-semibold text-foreground tabular-nums">
                 {candidate.score.toFixed(1)}
               </span>
             ) : (
-              <span className="text-sm text-muted-foreground">—</span>
+              <span className="text-sm text-muted-foreground/50">—</span>
             )}
           </div>
 
           {/* Chevron */}
-          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
+          <ChevronRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
         </button>
       ))}
     </div>
