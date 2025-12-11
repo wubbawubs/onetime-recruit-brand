@@ -5,11 +5,9 @@ interface StatusSummaryCardProps {
 }
 
 function parseMarkdown(text: string) {
-  // Split by double newlines for paragraphs
   const paragraphs = text.split(/\n\n+/).filter(p => p.trim());
   
   return paragraphs.map((paragraph, pIndex) => {
-    // Parse bold text within each paragraph
     const parts = paragraph.split(/\*\*(.*?)\*\*/g);
     const content = parts.map((part, index) => {
       if (index % 2 === 1) {
@@ -23,7 +21,7 @@ function parseMarkdown(text: string) {
     });
 
     return (
-      <p key={pIndex} className="text-muted-foreground leading-relaxed">
+      <p key={pIndex} className="text-sm text-muted-foreground leading-relaxed">
         {content}
       </p>
     );
@@ -32,11 +30,11 @@ function parseMarkdown(text: string) {
 
 export function StatusSummaryCard({ summaryText }: StatusSummaryCardProps) {
   return (
-    <Card className="shadow-card">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg">Dit is de stand van zaken</CardTitle>
+    <Card className="border-border/50 shadow-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-base font-semibold">Dit is de stand van zaken</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3 pt-0">
         {parseMarkdown(summaryText)}
       </CardContent>
     </Card>

@@ -11,23 +11,22 @@ import { dashboardSummary } from "@/data/mockDashboardData";
 const Dashboard = () => {
   return (
     <DashboardLayout>
-      {/* Page header - minimal */}
-      <div className="mb-6 pt-12 lg:pt-0">
-        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+      {/* Page header */}
+      <div className="mb-8 pt-12 lg:pt-0">
+        <h1 className="text-xl font-semibold text-foreground">Dashboard</h1>
       </div>
 
       {/* Dashboard sections */}
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* Hero Insight Bar */}
         <HeroInsightBar insight={dashboardSummary.heroInsight} />
 
         {/* Two column layout */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-2 gap-8">
           {/* Left column */}
           <div className="space-y-6">
             <StatusSummaryCard summaryText={dashboardSummary.summaryText} />
             <TodayImportantCard items={dashboardSummary.todayAttention} />
-            <ProcessQualityCard quality={dashboardSummary.processQuality} />
           </div>
 
           {/* Right column */}
@@ -38,6 +37,7 @@ const Dashboard = () => {
               bottleneckDescription={dashboardSummary.pipelineSummary.bottleneckDescription}
             />
             <Last7DaysCard stats={dashboardSummary.last7Days} />
+            <ProcessQualityCard quality={dashboardSummary.processQuality} />
           </div>
         </div>
 

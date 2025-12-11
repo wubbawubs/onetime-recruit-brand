@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 import onetimeLogo from "@/assets/onetime-logo.webp";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, badge: null },
@@ -43,7 +42,7 @@ export function Sidebar() {
       {/* Overlay */}
       {mobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/20 z-40 lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
@@ -51,21 +50,21 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-screen w-64 bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-transform duration-200 lg:translate-x-0",
+          "fixed left-0 top-0 z-40 h-screen w-60 bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-transform duration-200 lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="p-6 border-b border-sidebar-border">
-            <div className="flex items-center gap-3">
-              <img src={onetimeLogo} alt="Onetime Recruit" className="h-10 w-auto" />
-              <span className="font-semibold text-lg">Onetime</span>
+          <div className="px-5 py-6">
+            <div className="flex items-center gap-2.5">
+              <img src={onetimeLogo} alt="Onetime Recruit" className="h-8 w-auto" />
+              <span className="font-medium text-base text-sidebar-foreground">Onetime</span>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1">
+          <nav className="flex-1 px-3 space-y-0.5">
             {navItems.map((item) => {
               const isActive = location.pathname === item.href || 
                 (item.href === "/dashboard" && location.pathname === "/");
@@ -76,23 +75,20 @@ export function Sidebar() {
                   to={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "flex items-center justify-between px-4 py-4 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-colors",
                     isActive
-                      ? "bg-sidebar-accent text-sidebar-primary border-l-2 border-sidebar-primary"
-                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                      ? "bg-sidebar-accent text-sidebar-primary font-medium"
+                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground"
                   )}
                 >
-                  <div className="flex items-center gap-3">
-                    <item.icon className="h-5 w-5" />
+                  <div className="flex items-center gap-2.5">
+                    <item.icon className="h-4 w-4" />
                     {item.label}
                   </div>
                   {item.badge && (
-                    <Badge 
-                      variant="secondary" 
-                      className="bg-sidebar-primary/20 text-sidebar-primary text-xs px-2 py-0.5"
-                    >
+                    <span className="text-xs font-medium text-sidebar-foreground/50 bg-sidebar-border px-1.5 py-0.5 rounded">
                       {item.badge}
-                    </Badge>
+                    </span>
                   )}
                 </Link>
               );
@@ -100,8 +96,8 @@ export function Sidebar() {
           </nav>
 
           {/* Footer */}
-          <div className="p-4 border-t border-sidebar-border">
-            <p className="text-xs text-sidebar-foreground/50">
+          <div className="px-5 py-4 border-t border-sidebar-border">
+            <p className="text-xs text-sidebar-foreground/40">
               © 2024 Onetime Recruit
             </p>
           </div>
