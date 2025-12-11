@@ -101,69 +101,71 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
         </div>
       </div>
 
-      {/* Kanban board - fluid columns */}
-      <div className="flex gap-3">
-        {stages.map((stage, index) => (
-          <div
-            key={stage.id}
-            className={cn(
-              "flex-1 min-w-[180px] flex flex-col rounded-lg",
-              "transition-all duration-200",
-              "hover:bg-muted/30", // Column hover effect
-              draggedCandidate && draggedCandidate.fromStage !== stage.id && 
-                "ring-2 ring-primary/30 bg-primary/5"
-            )}
-            onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e, stage.id)}
-          >
-            {/* Column header with colored accent bar */}
-            <div className={cn(
-              "px-3 py-2.5 rounded-t-lg border-b-[3px]",
-              "transition-colors duration-200",
-              index === 0 && "border-b-blue-400",
-              index === 1 && "border-b-amber-400",
-              index === 2 && "border-b-purple-400",
-              index === 3 && "border-b-emerald-400",
-              index === 4 && "border-b-green-500"
-            )}>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold">{stage.name}</span>
-                  <span className="text-[11px] text-muted-foreground bg-muted/80 px-1.5 py-0.5 rounded-md font-medium">
-                    {stage.candidates.length}
-                  </span>
+      {/* Kanban board - fluid columns with horizontal scroll on mobile */}
+      <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 pb-2">
+        <div className="flex gap-3 snap-x snap-mandatory sm:snap-none">
+          {stages.map((stage, index) => (
+            <div
+              key={stage.id}
+              className={cn(
+                "w-[260px] sm:w-auto sm:flex-1 sm:min-w-[180px] sm:max-w-[280px] flex flex-col rounded-lg shrink-0 snap-start",
+                "transition-all duration-200",
+                "hover:bg-muted/30",
+                draggedCandidate && draggedCandidate.fromStage !== stage.id && 
+                  "ring-2 ring-primary/30 bg-primary/5"
+              )}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, stage.id)}
+            >
+              {/* Column header with colored accent bar */}
+              <div className={cn(
+                "px-2 sm:px-3 py-2 sm:py-2.5 rounded-t-lg border-b-[3px]",
+                "transition-colors duration-200",
+                index === 0 && "border-b-blue-400",
+                index === 1 && "border-b-amber-400",
+                index === 2 && "border-b-purple-400",
+                index === 3 && "border-b-emerald-400",
+                index === 4 && "border-b-green-500"
+              )}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs sm:text-sm font-semibold">{stage.name}</span>
+                    <span className="text-[10px] sm:text-[11px] text-muted-foreground bg-muted/80 px-1.5 py-0.5 rounded-md font-medium">
+                      {stage.candidates.length}
+                    </span>
+                  </div>
+                  {stage.avgDays > 0 && (
+                    <Tooltip delayDuration={0}>
+                      <TooltipTrigger>
+                        <span className="text-[10px] text-muted-foreground/70 hover:text-muted-foreground transition-colors">
+                          ~{stage.avgDays}d
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent>Gemiddeld {stage.avgDays} dagen in deze fase</TooltipContent>
+                    </Tooltip>
+                  )}
                 </div>
-                {stage.avgDays > 0 && (
-                  <Tooltip delayDuration={0}>
-                    <TooltipTrigger>
-                      <span className="text-[10px] text-muted-foreground/70 hover:text-muted-foreground transition-colors">
-                        ~{stage.avgDays}d
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent>Gemiddeld {stage.avgDays} dagen in deze fase</TooltipContent>
-                  </Tooltip>
+              </div>
+
+              {/* Candidate cards */}
+              <div className="flex-1 p-2 space-y-2 sm:space-y-2.5 min-h-[180px] sm:min-h-[200px]">
+                {stage.candidates.map((candidate) => (
+                  <CandidateCard
+                    key={candidate.id}
+                    candidate={candidate}
+                    onDragStart={(e) => handleDragStart(e, candidate.id, stage.id)}
+                    onOpenDetails={() => handleOpenDetails(candidate, stage.name)}
+                  />
+                ))}
+                {stage.candidates.length === 0 && (
+                  <div className="h-full min-h-[100px] sm:min-h-[120px] flex items-center justify-center text-xs text-muted-foreground border border-dashed border-border/40 rounded-lg bg-muted/20">
+                    Geen kandidaten
+                  </div>
                 )}
               </div>
             </div>
-
-            {/* Candidate cards */}
-            <div className="flex-1 p-2 space-y-2.5 min-h-[200px]">
-              {stage.candidates.map((candidate) => (
-                <CandidateCard
-                  key={candidate.id}
-                  candidate={candidate}
-                  onDragStart={(e) => handleDragStart(e, candidate.id, stage.id)}
-                  onOpenDetails={() => handleOpenDetails(candidate, stage.name)}
-                />
-              ))}
-              {stage.candidates.length === 0 && (
-                <div className="h-full min-h-[120px] flex items-center justify-center text-xs text-muted-foreground border border-dashed border-border/40 rounded-lg bg-muted/20">
-                  Geen kandidaten
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Candidate Detail Modal */}

@@ -151,23 +151,32 @@ export default function Kandidaten() {
         )}
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold text-foreground">Kandidaten</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Overzicht van alle kandidaten, filterbaar per stage, bron en tags.
-            </p>
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Kandidaten</h1>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1 hidden sm:block">
+                Overzicht van alle kandidaten, filterbaar per stage, bron en tags.
+              </p>
+            </div>
+
+            {/* Add Candidate - visible on mobile top right */}
+            <Button onClick={() => setAddCandidateOpen(true)} className="gap-2 sm:hidden self-end" size="sm">
+              <UserPlus className="h-4 w-4" />
+              Toevoegen
+            </Button>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Search and filters row */}
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Search */}
-            <div className="relative flex-1 md:w-64">
+            <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Zoek op naam, email of bron..."
+                placeholder="Zoek..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
+                className="pl-9 h-9 sm:h-10 text-sm"
               />
             </div>
 
@@ -175,20 +184,21 @@ export default function Kandidaten() {
             <Button
               variant={hasActiveFilters ? "default" : "outline"}
               size="icon"
+              className="h-9 w-9 sm:h-10 sm:w-10 shrink-0"
               onClick={() => setFilterDrawerOpen(true)}
             >
               <SlidersHorizontal className="h-4 w-4" />
             </Button>
 
             {/* Export */}
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10 shrink-0">
               <Download className="h-4 w-4" />
             </Button>
 
-            {/* Add Candidate */}
-            <Button onClick={() => setAddCandidateOpen(true)} className="gap-2">
+            {/* Add Candidate - hidden on mobile */}
+            <Button onClick={() => setAddCandidateOpen(true)} className="gap-2 hidden sm:flex">
               <UserPlus className="h-4 w-4" />
-              <span className="hidden sm:inline">Kandidaat toevoegen</span>
+              <span className="hidden md:inline">Kandidaat toevoegen</span>
             </Button>
           </div>
         </div>

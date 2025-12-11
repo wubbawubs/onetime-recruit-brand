@@ -19,22 +19,24 @@ export function FunnelCard({ data }: FunnelCardProps) {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Visual funnel flow */}
-        <div className="flex items-center justify-between gap-1">
-          {data.stages.map((stage, index) => (
-            <div key={stage.name} className="flex items-center">
-              <div className="text-center">
-                <div className="text-2xl font-bold">{stage.count}</div>
-                <div className="text-xs text-muted-foreground truncate max-w-[60px]">
-                  {stage.name === 'Eerste gesprek' ? 'EG' : 
-                   stage.name === 'Tweede gesprek' ? 'TG' : 
-                   stage.name}
+        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="flex items-center justify-between gap-1 min-w-max sm:min-w-0">
+            {data.stages.map((stage, index) => (
+              <div key={stage.name} className="flex items-center">
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-bold">{stage.count}</div>
+                  <div className="text-[10px] sm:text-xs text-muted-foreground truncate max-w-[50px] sm:max-w-[60px]">
+                    {stage.name === 'Eerste gesprek' ? 'EG' : 
+                     stage.name === 'Tweede gesprek' ? 'TG' : 
+                     stage.name}
+                  </div>
                 </div>
+                {index < data.stages.length - 1 && (
+                  <span className="text-muted-foreground/50 mx-0.5 sm:mx-1 text-xs sm:text-base">→</span>
+                )}
               </div>
-              {index < data.stages.length - 1 && (
-                <span className="text-muted-foreground/50 mx-1">→</span>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Visual bar representation */}

@@ -63,7 +63,7 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
           key={candidate.id}
           onClick={() => onCandidateClick(candidate)}
           className={cn(
-            "w-full flex items-center gap-4 px-5 py-4",
+            "w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-5 py-3 sm:py-4",
             "text-left",
             "transition-all duration-200",
             "hover:bg-muted/40",
@@ -73,22 +73,22 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
           )}
         >
           {/* Avatar */}
-          <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-medium shrink-0 transition-transform duration-200 group-hover:scale-105">
+          <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs sm:text-sm font-medium shrink-0 transition-transform duration-200 group-hover:scale-105">
             {getInitials(candidate.name)}
           </div>
 
           {/* Name & Source */}
           <div className="flex-1 min-w-0">
-            <div className="font-medium text-foreground truncate group-hover:text-primary transition-colors">
+            <div className="font-medium text-sm sm:text-base text-foreground truncate group-hover:text-primary transition-colors">
               {candidate.name}
             </div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-xs sm:text-sm text-muted-foreground">
               {candidate.source} · {formatDaysAgo(candidate.addedDate)}
             </div>
           </div>
 
           {/* Vacancy (hidden on mobile) */}
-          <div className="hidden md:block text-sm text-muted-foreground w-36 truncate">
+          <div className="hidden lg:block text-sm text-muted-foreground w-36 truncate">
             {candidate.currentVacancy}
           </div>
 
@@ -96,15 +96,21 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
           <Badge
             variant="outline"
             className={cn(
-              "shrink-0 font-normal text-xs px-2.5 py-0.5",
+              "shrink-0 font-normal text-[10px] sm:text-xs px-1.5 sm:px-2.5 py-0.5",
               getStageBadgeVariant(candidate.currentStage)
             )}
           >
-            {candidate.currentStage}
+            <span className="hidden sm:inline">{candidate.currentStage}</span>
+            <span className="sm:hidden">
+              {candidate.currentStage === 'Eerste gesprek' ? 'EG' : 
+               candidate.currentStage === 'Tweede gesprek' ? 'TG' : 
+               candidate.currentStage === 'In dienst' ? 'Hired' :
+               candidate.currentStage}
+            </span>
           </Badge>
 
-          {/* Score */}
-          <div className="w-12 text-right shrink-0">
+          {/* Score - hidden on small mobile */}
+          <div className="hidden sm:block w-12 text-right shrink-0">
             {candidate.score ? (
               <span className="text-sm font-semibold text-foreground tabular-nums">
                 {candidate.score.toFixed(1)}

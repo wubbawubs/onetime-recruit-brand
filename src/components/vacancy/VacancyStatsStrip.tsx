@@ -23,14 +23,11 @@ export function VacancyStatsStrip({
   ];
 
   return (
-    <div className="flex items-center gap-6 py-3 border-b border-border">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 py-3 border-b border-border">
       {stats.map((stat, index) => (
-        <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-          <stat.icon className="h-4 w-4" />
-          <span>{stat.label}</span>
-          {index < stats.length - 1 && (
-            <span className="ml-6 h-4 w-px bg-border" />
-          )}
+        <div key={index} className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+          <stat.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+          <span className="truncate">{stat.label}</span>
         </div>
       ))}
     </div>
