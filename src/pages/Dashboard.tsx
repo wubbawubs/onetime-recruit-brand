@@ -33,7 +33,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-10 page-enter page-enter-active">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-10 page-enter page-enter-active">
         {/* Error Banner */}
         {error && (
           <ErrorBanner
@@ -44,7 +44,7 @@ const Dashboard = () => {
 
         {/* Page header with personalized greeting */}
         <div>
-          <h1 className="text-2xl font-bold text-foreground">
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground">
             {greeting}, {firstName}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -55,8 +55,8 @@ const Dashboard = () => {
         {/* Hero insight with Today Focus */}
         <HeroInsightBar insight={dashboardSummary.heroInsight} />
 
-        {/* Main grid - 3 columns with staggered animation */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-stagger">
+        {/* Main grid - responsive columns with staggered animation */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 animate-stagger">
           {/* Left column */}
           <div className="space-y-8">
             <StatusSummaryCard summaryText={dashboardSummary.summaryText} />

@@ -10,11 +10,11 @@ export default function Rapportages() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 page-enter page-enter-active">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8 page-enter page-enter-active">
         {/* Hero Bar */}
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Rapportages</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Rapportages</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Inzicht in je doorlooptijden, hires en funnel-data.
           </p>
         </div>

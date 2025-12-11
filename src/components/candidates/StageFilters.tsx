@@ -19,9 +19,9 @@ export function StageFilters({ stages, counts, activeStage, onStageChange }: Sta
             key={stage.id}
             onClick={() => onStageChange(stage.id)}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap",
+              "flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap",
               "transition-all duration-200",
-              "border",
+              "border shrink-0",
               isActive
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-background text-muted-foreground border-border hover:bg-muted/50 hover:text-foreground"
