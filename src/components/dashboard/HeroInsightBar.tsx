@@ -32,36 +32,36 @@ export function HeroInsightBar({ insight }: HeroInsightBarProps) {
       </Card>
 
       {/* Main hero bar */}
-      <Card className="border-border/40 p-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-10">
+      <Card className="border-border/40 p-4 sm:p-6 lg:p-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 lg:gap-10">
             {/* Icon */}
-            <div className={`h-14 w-14 rounded-xl flex items-center justify-center ${
+            <div className={`h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 rounded-xl flex items-center justify-center shrink-0 ${
               insight.hasBottleneck ? "bg-warning/10" : "bg-success/10"
             }`}>
               {insight.hasBottleneck ? (
-                <AlertTriangle className="h-7 w-7 text-warning" />
+                <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-warning" />
               ) : (
-                <CheckCircle className="h-7 w-7 text-success" />
+                <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-success" />
               )}
             </div>
             
             {/* Main stat */}
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Wekelijkse status</p>
-              <div className="flex items-baseline gap-3">
-                <span className="text-5xl font-bold text-foreground">{onTrack}</span>
-                <span className="text-xl text-muted-foreground">van {total}</span>
-                <span className="text-base text-muted-foreground">vacatures op koers</span>
+              <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-1 sm:mb-2">Wekelijkse status</p>
+              <div className="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+                <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">{onTrack}</span>
+                <span className="text-base sm:text-lg lg:text-xl text-muted-foreground">van {total}</span>
+                <span className="text-sm sm:text-base text-muted-foreground">vacatures op koers</span>
               </div>
             </div>
             
             {/* Bottleneck */}
             {insight.hasBottleneck && (
               <>
-                <div className="h-16 w-px bg-border/40" />
-                <div className="flex items-start gap-3">
-                  <div className="h-2 w-2 rounded-full bg-warning mt-2 flex-shrink-0" />
+                <div className="hidden sm:block h-12 lg:h-16 w-px bg-border/40" />
+                <div className="flex items-start gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-border/30">
+                  <div className="h-2 w-2 rounded-full bg-warning mt-1.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-semibold text-foreground">{bottleneckJob} stagneert</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{daysSilent} dagen stil</p>
@@ -73,7 +73,7 @@ export function HeroInsightBar({ insight }: HeroInsightBarProps) {
 
           {/* CTA */}
           {insight.hasBottleneck && (
-            <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 gap-2">
+            <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 gap-2 self-start sm:self-center">
               Bekijk details
               <ArrowRight className="h-4 w-4" />
             </Button>

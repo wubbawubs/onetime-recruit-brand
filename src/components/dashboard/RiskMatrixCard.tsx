@@ -46,15 +46,15 @@ export function RiskMatrixCard() {
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
+        <div className="overflow-x-auto -mx-4 sm:mx-0">
+          <table className="w-full text-[10px] sm:text-xs min-w-[400px]">
             <thead>
               <tr className="border-b border-border/30">
-                <th className="text-left py-2 font-medium text-muted-foreground">Vacature</th>
-                <th className="text-center py-2 font-medium text-muted-foreground">Instroom</th>
-                <th className="text-center py-2 font-medium text-muted-foreground">Doorloop</th>
-                <th className="text-center py-2 font-medium text-muted-foreground">Reactie</th>
-                <th className="text-right py-2 font-medium text-muted-foreground">Status</th>
+                <th className="text-left py-2 px-4 sm:px-0 font-medium text-muted-foreground">Vacature</th>
+                <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Instroom</th>
+                <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Doorloop</th>
+                <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Reactie</th>
+                <th className="text-right py-2 px-4 sm:px-0 font-medium text-muted-foreground">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -66,11 +66,13 @@ export function RiskMatrixCard() {
                     key={vacancy.title} 
                     className={`${index !== riskData.length - 1 ? "border-b border-border/20" : ""} hover:bg-muted/20 transition-colors`}
                   >
-                    <td className="py-2.5 font-medium text-foreground">{vacancy.title}</td>
-                    <td className={`py-2.5 text-center ${cellColors[vacancy.instroom]}`}>{vacancy.instroom}</td>
-                    <td className={`py-2.5 text-center ${cellColors[vacancy.doorloop]}`}>{vacancy.doorloop}</td>
-                    <td className={`py-2.5 text-center ${cellColors[vacancy.reactietijd]}`}>{vacancy.reactietijd}</td>
-                    <td className="py-2.5 text-right">
+                    <td className="py-2 sm:py-2.5 px-4 sm:px-0 font-medium text-foreground">
+                      <span className="truncate block max-w-[120px] sm:max-w-none">{vacancy.title}</span>
+                    </td>
+                    <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.instroom]}`}>{vacancy.instroom}</td>
+                    <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.doorloop]}`}>{vacancy.doorloop}</td>
+                    <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.reactietijd]}`}>{vacancy.reactietijd}</td>
+                    <td className="py-2 sm:py-2.5 px-4 sm:px-0 text-right">
                       <div className={`inline-flex items-center gap-1 ${config.color}`}>
                         <ConclusionIcon className="h-3 w-3" />
                         <span className="font-medium">{config.label}</span>

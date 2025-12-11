@@ -20,29 +20,31 @@ const Instellingen = () => {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="account" className="space-y-8">
-          <TabsList className="bg-muted/50 p-1 h-auto flex-wrap">
-            <TabsTrigger value="account" className="gap-2 data-[state=active]:bg-background">
-              <User className="h-4 w-4" />
-              <span className="hidden sm:inline">Account</span>
-            </TabsTrigger>
-            <TabsTrigger value="organization" className="gap-2 data-[state=active]:bg-background">
-              <Building2 className="h-4 w-4" />
-              <span className="hidden sm:inline">Organisatie</span>
-            </TabsTrigger>
-            <TabsTrigger value="recruitment" className="gap-2 data-[state=active]:bg-background">
-              <GitBranch className="h-4 w-4" />
-              <span className="hidden sm:inline">Recruitment</span>
-            </TabsTrigger>
-            <TabsTrigger value="privacy" className="gap-2 data-[state=active]:bg-background">
-              <Shield className="h-4 w-4" />
-              <span className="hidden sm:inline">Privacy</span>
-            </TabsTrigger>
-            <TabsTrigger value="integrations" className="gap-2 data-[state=active]:bg-background">
-              <Plug className="h-4 w-4" />
-              <span className="hidden sm:inline">Integraties</span>
-            </TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="account" className="space-y-6 sm:space-y-8">
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+            <TabsList className="bg-muted/50 p-1 h-auto inline-flex min-w-max">
+              <TabsTrigger value="account" className="gap-1.5 sm:gap-2 data-[state=active]:bg-background px-2 sm:px-3 text-xs sm:text-sm">
+                <User className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Account</span>
+              </TabsTrigger>
+              <TabsTrigger value="organization" className="gap-1.5 sm:gap-2 data-[state=active]:bg-background px-2 sm:px-3 text-xs sm:text-sm">
+                <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Organisatie</span>
+              </TabsTrigger>
+              <TabsTrigger value="recruitment" className="gap-1.5 sm:gap-2 data-[state=active]:bg-background px-2 sm:px-3 text-xs sm:text-sm">
+                <GitBranch className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Recruitment</span>
+              </TabsTrigger>
+              <TabsTrigger value="privacy" className="gap-1.5 sm:gap-2 data-[state=active]:bg-background px-2 sm:px-3 text-xs sm:text-sm">
+                <Shield className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Privacy</span>
+              </TabsTrigger>
+              <TabsTrigger value="integrations" className="gap-1.5 sm:gap-2 data-[state=active]:bg-background px-2 sm:px-3 text-xs sm:text-sm">
+                <Plug className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Integraties</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="account" className="mt-8">
             <AccountTab />
