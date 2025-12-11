@@ -83,6 +83,14 @@ export default function Pipeline() {
   // Get bottleneck info
   const bottleneck = useMemo(() => getGlobalBottleneck(pipelineStages), [pipelineStages]);
 
+  // Handle bottleneck click - filter to that stage
+  const handleBottleneckClick = (stageName: string) => {
+    const stage = stages.find(s => s.label === stageName);
+    if (stage) {
+      setActiveStage(stage.id);
+    }
+  };
+
   const handleResetFilters = () => {
     setFilters(defaultFilters);
   };
@@ -136,8 +144,8 @@ export default function Pipeline() {
           </div>
         </div>
 
-        {/* Global Insight Bar */}
-        <GlobalInsightBar bottleneck={bottleneck} />
+        {/* Global Insight Bar - clickable to filter */}
+        <GlobalInsightBar bottleneck={bottleneck} onStageClick={handleBottleneckClick} />
 
         {/* Stage Filters */}
         <StageFilters
