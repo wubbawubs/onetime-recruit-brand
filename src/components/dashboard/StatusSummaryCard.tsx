@@ -8,19 +8,22 @@ interface VacancyStatus {
   candidates: number;
   eta: string;
   icon: React.ElementType;
+  // Heatmap indicators
+  instroom: "good" | "medium" | "low";
+  doorloop: "good" | "medium" | "stalled";
 }
 
 interface StatusSummaryCardProps {
   summaryText: string;
 }
 
-// Parse the summary text to extract key data with icons
+// Parse the summary text to extract key data with icons and heatmap data
 function extractVacancyData(): VacancyStatus[] {
   return [
-    { title: "Accountmanager", status: "on-track", candidates: 9, eta: "3 wkn", icon: Users },
-    { title: "Sales Support", status: "delayed", candidates: 5, eta: "4-5 wkn", icon: Headphones },
-    { title: "Senior Developer", status: "at-risk", candidates: 2, eta: "Onzeker", icon: Code },
-    { title: "Office Manager", status: "on-track", candidates: 4, eta: "5-6 wkn", icon: Briefcase },
+    { title: "Accountmanager", status: "on-track", candidates: 9, eta: "3 wkn", icon: Users, instroom: "good", doorloop: "good" },
+    { title: "Sales Support", status: "delayed", candidates: 5, eta: "4-5 wkn", icon: Headphones, instroom: "medium", doorloop: "medium" },
+    { title: "Senior Developer", status: "at-risk", candidates: 2, eta: "Onzeker", icon: Code, instroom: "low", doorloop: "stalled" },
+    { title: "Office Manager", status: "on-track", candidates: 4, eta: "5-6 wkn", icon: Briefcase, instroom: "good", doorloop: "good" },
   ];
 }
 
@@ -28,6 +31,13 @@ const statusConfig = {
   "on-track": { icon: TrendingUp, color: "text-success" },
   "delayed": { icon: Minus, color: "text-warning" },
   "at-risk": { icon: TrendingDown, color: "text-destructive" },
+};
+
+const heatmapColors = {
+  good: "bg-success",
+  medium: "bg-warning",
+  low: "bg-destructive",
+  stalled: "bg-destructive",
 };
 
 export function StatusSummaryCard({ summaryText }: StatusSummaryCardProps) {
@@ -48,15 +58,20 @@ export function StatusSummaryCard({ summaryText }: StatusSummaryCardProps) {
               <p className="text-xs text-muted-foreground mt-0.5">{vacancies.length} openstaand</p>
             </div>
           </div>
-          <div className="flex gap-1.5">
-            <Badge variant="secondary" className="text-[10px] font-medium bg-success/10 text-success border-0 px-2 py-0.5">
-              {onTrack} op koers
-            </Badge>
-            {atRisk > 0 && (
-              <Badge variant="secondary" className="text-[10px] font-medium bg-destructive/10 text-destructive border-0 px-2 py-0.5">
-                {atRisk} risico
-              </Badge>
-            )}
+          {/* Mini heatmap legend */}
+          <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+            <div className="flex items-center gap-1">
+              <div className="h-2 w-2 rounded-full bg-success" />
+              <span>Goed</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="h-2 w-2 rounded-full bg-warning" />
+              <span>Traag</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="h-2 w-2 rounded-full bg-destructive" />
+              <span>Risico</span>
+            </div>
           </div>
         </div>
       </CardHeader>
@@ -78,9 +93,16 @@ export function StatusSummaryCard({ summaryText }: StatusSummaryCardProps) {
                   <span className="text-sm font-medium text-foreground">{vacancy.title}</span>
                   <StatusIcon className={`h-3.5 w-3.5 ${config.color}`} />
                 </div>
-                <div className="flex items-center gap-6 text-xs text-muted-foreground">
-                  <span>{vacancy.candidates} kandidaten</span>
-                  <span className="w-14 text-right">{vacancy.eta}</span>
+                <div className="flex items-center gap-4">
+                  {/* Mini heatmap dots */}
+                  <div className="flex items-center gap-1.5" title="Instroom / Doorloop">
+                    <div className={`h-2 w-2 rounded-full ${heatmapColors[vacancy.instroom]}`} />
+                    <div className={`h-2 w-2 rounded-full ${heatmapColors[vacancy.doorloop]}`} />
+                  </div>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="w-16">{vacancy.candidates} kand.</span>
+                    <span className="w-14 text-right">{vacancy.eta}</span>
+                  </div>
                 </div>
               </div>
             );

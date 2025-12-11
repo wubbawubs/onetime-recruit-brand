@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, AlertTriangle } from "lucide-react";
+import { Users, TrendingDown } from "lucide-react";
 import type { PipelineStage } from "@/data/mockDashboardData";
 
 interface PipelineSummaryCardProps {
@@ -13,6 +13,15 @@ export function PipelineSummaryCard({
   perStage, 
   bottleneckDescription 
 }: PipelineSummaryCardProps) {
+  // Gradient colors from light to dark
+  const gradientColors = [
+    "bg-primary/20",
+    "bg-primary/40", 
+    "bg-primary/60",
+    "bg-primary/80",
+    "bg-primary"
+  ];
+
   return (
     <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="pb-4">
@@ -33,22 +42,15 @@ export function PipelineSummaryCard({
           <span className="text-sm text-muted-foreground">actief</span>
         </div>
 
-        {/* Stage breakdown - visual bar */}
+        {/* Stage breakdown - gradient visual bar */}
         <div className="space-y-3">
-          <div className="flex h-2.5 rounded-full overflow-hidden bg-muted/50">
+          <div className="flex h-3 rounded-full overflow-hidden bg-muted/30">
             {perStage.map((stage, index) => {
               const width = (stage.count / totalActive) * 100;
-              const colors = [
-                "bg-primary/30",
-                "bg-primary/50", 
-                "bg-primary/70",
-                "bg-primary/90",
-                "bg-success"
-              ];
               return (
                 <div 
                   key={stage.stageName}
-                  className={`${colors[index]} transition-all`}
+                  className={`${gradientColors[index]} transition-all`}
                   style={{ width: `${width}%` }}
                 />
               );
@@ -57,8 +59,11 @@ export function PipelineSummaryCard({
           
           {/* Stage labels */}
           <div className="flex justify-between text-xs text-muted-foreground">
-            {perStage.map(stage => (
+            {perStage.map((stage, index) => (
               <div key={stage.stageName} className="text-center">
+                <div 
+                  className={`h-1.5 w-1.5 rounded-full mx-auto mb-1 ${gradientColors[index]}`} 
+                />
                 <span className="font-semibold text-foreground text-sm">{stage.count}</span>
                 <p className="text-[10px] truncate max-w-[55px]">{stage.stageName}</p>
               </div>
@@ -66,11 +71,16 @@ export function PipelineSummaryCard({
           </div>
         </div>
 
-        {/* Bottleneck warning */}
-        <div className="flex items-center gap-2 p-3 rounded-lg bg-warning/5 border border-warning/20">
-          <AlertTriangle className="h-4 w-4 text-warning flex-shrink-0" />
-          <p className="text-xs text-muted-foreground">
-            <span className="font-medium text-foreground">Bottleneck:</span> Nieuw → Eerste gesprek
+        {/* Smart bottleneck analysis */}
+        <div className="p-3 rounded-lg bg-warning/5 border border-warning/20 space-y-1.5">
+          <div className="flex items-center gap-2">
+            <TrendingDown className="h-4 w-4 text-warning flex-shrink-0" />
+            <p className="text-xs font-medium text-foreground">
+              Doorlooptijd vertraagt door lage opvolgsnelheid in Nieuw
+            </p>
+          </div>
+          <p className="text-[11px] text-muted-foreground pl-6">
+            Impact: +4–7 dagen vertraging deze week
           </p>
         </div>
       </CardContent>
