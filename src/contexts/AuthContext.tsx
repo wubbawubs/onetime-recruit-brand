@@ -45,8 +45,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    // Simulate initial load
-    setTimeout(() => setIsLoading(false), 2000);
+    // Simulate initial load - matches loading animation duration
+    setTimeout(() => setIsLoading(false), 3600);
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
