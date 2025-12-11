@@ -2,6 +2,8 @@ import { Mail, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Candidate } from "@/data/mockVacancyData";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { SendEmailModal } from "./SendEmailModal";
+import { ScheduleMeetingModal } from "./ScheduleMeetingModal";
 
 interface CandidateCardProps {
   candidate: Candidate;
@@ -81,26 +83,35 @@ export function CandidateCard({ candidate, onDragStart, onOpenDetails }: Candida
       </div>
 
       {/* Quick actions on hover - floating at bottom */}
-      <div className={cn(
-        "flex items-center gap-0.5 mt-2 pt-2 border-t border-border/40",
-        "opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-      )}>
-        <button 
-          onClick={(e) => { e.stopPropagation(); }}
-          className="flex-1 flex items-center justify-center gap-1 py-1 text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
-          title="Mail"
-        >
-          <Mail className="h-3 w-3" />
-          Mail
-        </button>
-        <button 
-          onClick={(e) => { e.stopPropagation(); }}
-          className="flex-1 flex items-center justify-center gap-1 py-1 text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
-          title="Plan gesprek"
-        >
-          <Calendar className="h-3 w-3" />
-          Plan
-        </button>
+      <div 
+        className={cn(
+          "flex items-center gap-0.5 mt-2 pt-2 border-t border-border/40",
+          "opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <SendEmailModal 
+          candidate={candidate} 
+          trigger={
+            <button 
+              className="flex-1 flex items-center justify-center gap-1 py-1 text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
+            >
+              <Mail className="h-3 w-3" />
+              Mail
+            </button>
+          }
+        />
+        <ScheduleMeetingModal 
+          candidate={candidate}
+          trigger={
+            <button 
+              className="flex-1 flex items-center justify-center gap-1 py-1 text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
+            >
+              <Calendar className="h-3 w-3" />
+              Plan
+            </button>
+          }
+        />
       </div>
     </div>
   );
