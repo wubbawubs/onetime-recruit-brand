@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Briefcase, 
@@ -10,7 +10,9 @@ import {
   X,
   Sparkles,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  LogOut,
+  User
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import onetimeLogo from "@/assets/onetime-logo.webp";
@@ -18,6 +20,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSidebarContext } from "@/contexts/SidebarContext";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuth } from "@/contexts/AuthContext";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, badge: null },
@@ -30,8 +34,19 @@ const navItems = [
 
 export function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { collapsed, toggleCollapsed } = useSidebarContext();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  const getInitials = (name: string) => {
+    return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+  };
 
   return (
     <>
@@ -151,21 +166,54 @@ export function Sidebar() {
             })}
           </nav>
 
-          {/* Pro tip section - hidden when collapsed */}
-          {!collapsed && (
-            <div className="mx-3 mb-4 p-4 rounded-lg bg-primary/5 border border-primary/10">
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="h-3.5 w-3.5 text-primary" />
-                <span className="text-xs font-medium text-primary">Pro tip</span>
+          {/* User profile section */}
+          <div className={cn("border-t border-border/30", collapsed ? "px-2 py-3" : "px-3 py-4")}>
+            {user && (
+              <div className={cn("flex items-center", collapsed ? "justify-center" : "gap-3")}>
+                <Avatar className="h-8 w-8 flex-shrink-0">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
+                    {getInitials(user.name)}
+                  </AvatarFallback>
+                </Avatar>
+                {!collapsed && (
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{user.name}</p>
+                    <p className="text-[11px] text-muted-foreground truncate">{user.role}</p>
+                  </div>
+                )}
               </div>
-              <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Bekijk je pipeline dagelijks voor de beste resultaten.
-              </p>
-            </div>
-          )}
+            )}
+            
+            {/* Logout button */}
+            {collapsed ? (
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="w-full mt-2 h-9 text-muted-foreground hover:text-destructive"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right">Uitloggen</TooltipContent>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full mt-3 justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Uitloggen
+              </Button>
+            )}
+          </div>
 
           {/* Footer */}
-          <div className={cn("py-5 border-t border-border/30", collapsed ? "px-2" : "px-6")}>
+          <div className={cn("py-4 border-t border-border/30", collapsed ? "px-2" : "px-6")}>
             {!collapsed && (
               <p className="text-[11px] text-muted-foreground/60">
                 © 2025 Onetime Rooted
