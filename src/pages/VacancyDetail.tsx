@@ -9,6 +9,11 @@ import { VacancyHealthCard } from "@/components/vacancy/VacancyHealthCard";
 import { VacancyInflowCard } from "@/components/vacancy/VacancyInflowCard";
 import { VacancyActionsCard } from "@/components/vacancy/VacancyActionsCard";
 import { HeroInsightBar } from "@/components/vacancy/HeroInsightBar";
+import { VacancyEditTab } from "@/components/vacancy/tabs/VacancyEditTab";
+import { VacancyPublicationTab } from "@/components/vacancy/tabs/VacancyPublicationTab";
+import { VacancyFormTab } from "@/components/vacancy/tabs/VacancyFormTab";
+import { VacancyTeamTab } from "@/components/vacancy/tabs/VacancyTeamTab";
+import { VacancyAutomationTab } from "@/components/vacancy/tabs/VacancyAutomationTab";
 import { mockVacancyDetail } from "@/data/mockVacancyData";
 import { Button } from "@/components/ui/button";
 import { PanelRightClose, PanelRightOpen } from "lucide-react";
@@ -116,18 +121,38 @@ export default function VacancyDetail() {
           </div>
         )}
 
-        {/* Placeholder for other tabs */}
-        {activeTab !== 'overview' && (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center">
-              <p className="text-muted-foreground">
-                {activeTab === 'edit' && 'Bewerken — Komt binnenkort'}
-                {activeTab === 'publication' && 'Publicatie & jobsite — Komt binnenkort'}
-                {activeTab === 'form' && 'Formulier & vragen — Komt binnenkort'}
-                {activeTab === 'team' && 'Team & rechten — Komt binnenkort'}
-                {activeTab === 'automation' && 'Automatisering — Komt binnenkort'}
-              </p>
-            </div>
+        {/* Edit Tab */}
+        {activeTab === 'edit' && (
+          <div className="flex-1 overflow-auto">
+            <VacancyEditTab vacancy={vacancy} />
+          </div>
+        )}
+
+        {/* Publication Tab */}
+        {activeTab === 'publication' && (
+          <div className="flex-1 overflow-auto">
+            <VacancyPublicationTab vacancy={vacancy} />
+          </div>
+        )}
+
+        {/* Form Tab */}
+        {activeTab === 'form' && (
+          <div className="flex-1 overflow-auto">
+            <VacancyFormTab />
+          </div>
+        )}
+
+        {/* Team Tab */}
+        {activeTab === 'team' && (
+          <div className="flex-1 overflow-auto">
+            <VacancyTeamTab />
+          </div>
+        )}
+
+        {/* Automation Tab */}
+        {activeTab === 'automation' && (
+          <div className="flex-1 overflow-auto">
+            <VacancyAutomationTab />
           </div>
         )}
       </div>
