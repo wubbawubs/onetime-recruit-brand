@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { VacancyHeader } from "@/components/vacancy/VacancyHeader";
 import { VacancyStatsStrip } from "@/components/vacancy/VacancyStatsStrip";
@@ -16,7 +17,7 @@ import { VacancyTeamTab } from "@/components/vacancy/tabs/VacancyTeamTab";
 import { VacancyAutomationTab } from "@/components/vacancy/tabs/VacancyAutomationTab";
 import { mockVacancyDetail } from "@/data/mockVacancyData";
 import { Button } from "@/components/ui/button";
-import { PanelRightClose, PanelRightOpen } from "lucide-react";
+import { PanelRightClose, PanelRightOpen, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -38,6 +39,17 @@ export default function VacancyDetail() {
       <div className="h-full flex flex-col page-enter page-enter-active">
         {/* Fixed header section */}
         <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-4 space-y-4 border-b border-border/50 bg-background">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-1 text-sm text-muted-foreground">
+            <Link to="/vacatures" className="hover:text-foreground transition-colors">
+              Vacatures
+            </Link>
+            <ChevronRight className="h-3.5 w-3.5" />
+            <span className="text-foreground font-medium truncate max-w-[200px] sm:max-w-none">
+              {vacancy.title}
+            </span>
+          </nav>
+          
           <VacancyHeader
             id={vacancy.id}
             title={vacancy.title}
