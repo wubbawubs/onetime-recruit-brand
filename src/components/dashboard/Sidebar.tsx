@@ -80,10 +80,10 @@ export function Sidebar() {
           {/* Logo + Collapse button */}
           <div className={cn("flex items-center justify-between py-6", collapsed ? "px-3" : "px-6")}>
             <div className="flex items-center gap-3 overflow-hidden">
-              <img src={onetimeLogo} alt="Onetime Recruit" className="h-9 w-9 flex-shrink-0" />
+              <img src={onetimeLogo} alt="OneTime Rooted" className="h-9 w-9 flex-shrink-0" />
               {!collapsed && (
                 <span className="font-semibold text-lg text-foreground tracking-tight whitespace-nowrap">
-                  Onetime
+                  Rooted
                 </span>
               )}
             </div>

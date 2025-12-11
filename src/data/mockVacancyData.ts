@@ -96,7 +96,7 @@ export const mockVacancyList: VacancyListItem[] = [
 export const mockVacancyDetail: VacancyDetail = {
   id: 'vac_senior_accountmanager',
   title: 'Senior Accountmanager B2B',
-  company: 'OneTime Recruit',
+  company: 'OneTime Rooted',
   location: 'Utrecht',
   contractType: 'Fulltime',
   status: 'live',
