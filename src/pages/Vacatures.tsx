@@ -67,7 +67,7 @@ export default function Vacatures() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-8 page-enter page-enter-active">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8 page-enter page-enter-active">
         {/* Error Banner */}
         {error && (
           <ErrorBanner
@@ -77,43 +77,43 @@ export default function Vacatures() {
         )}
 
         {/* Header */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">Vacatures</h1>
-            <p className="text-muted-foreground mt-1">
-              Beheer je openstaande vacatures en bekijk de voortgang.
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Vacatures</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Beheer je openstaande vacatures.
             </p>
           </div>
-          <Button className="gap-2" onClick={() => setNewVacancyOpen(true)}>
+          <Button className="gap-2 w-full sm:w-auto" onClick={() => setNewVacancyOpen(true)}>
             <Plus className="h-4 w-4" />
-            Nieuwe vacature
+            <span className="sm:inline">Nieuwe vacature</span>
           </Button>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4">
-          <div className="bg-card border border-border/50 rounded-xl p-5">
-            <p className="text-sm text-muted-foreground">Totaal actief</p>
-            <p className="text-2xl font-semibold mt-1">{stats.active}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-5">
+            <p className="text-xs sm:text-sm text-muted-foreground">Totaal actief</p>
+            <p className="text-xl sm:text-2xl font-semibold mt-1">{stats.active}</p>
           </div>
-          <div className="bg-card border border-border/50 rounded-xl p-5">
-            <p className="text-sm text-muted-foreground">Gepauzeerd</p>
-            <p className="text-2xl font-semibold mt-1">{stats.paused}</p>
+          <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-5">
+            <p className="text-xs sm:text-sm text-muted-foreground">Gepauzeerd</p>
+            <p className="text-xl sm:text-2xl font-semibold mt-1">{stats.paused}</p>
           </div>
-          <div className="bg-card border border-border/50 rounded-xl p-5">
-            <p className="text-sm text-muted-foreground">Totaal kandidaten</p>
-            <p className="text-2xl font-semibold mt-1">{stats.totalCandidates}</p>
+          <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-5">
+            <p className="text-xs sm:text-sm text-muted-foreground">Kandidaten</p>
+            <p className="text-xl sm:text-2xl font-semibold mt-1">{stats.totalCandidates}</p>
           </div>
-          <div className="bg-card border border-border/50 rounded-xl p-5">
-            <p className="text-sm text-muted-foreground">Concepten</p>
-            <p className="text-2xl font-semibold mt-1">{stats.drafts}</p>
+          <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-5">
+            <p className="text-xs sm:text-sm text-muted-foreground">Concepten</p>
+            <p className="text-xl sm:text-2xl font-semibold mt-1">{stats.drafts}</p>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full sm:w-40">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -125,10 +125,10 @@ export default function Vacatures() {
               <SelectItem value="filled">Ingevuld</SelectItem>
             </SelectContent>
           </Select>
-          <div className="relative flex-1 max-w-xs">
+          <div className="relative flex-1 sm:max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Zoek op titel of locatie..."
+              placeholder="Zoeken..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"

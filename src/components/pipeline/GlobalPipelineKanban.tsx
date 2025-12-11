@@ -103,12 +103,12 @@ export function GlobalPipelineKanban({ stages: initialStages, onStageChange }: G
   return (
     <div className="space-y-4">
       {/* Kanban board */}
-      <div className="flex gap-3 overflow-x-auto pb-4">
+      <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory">
         {stages.map((stage, index) => (
           <div
             key={stage.id}
             className={cn(
-              "flex-1 min-w-[200px] max-w-[280px] flex flex-col rounded-lg",
+              "flex-shrink-0 w-[260px] sm:w-auto sm:flex-1 sm:min-w-[200px] sm:max-w-[280px] flex flex-col rounded-lg snap-start",
               "transition-all duration-200",
               "hover:bg-muted/30",
               draggedCandidate && draggedCandidate.fromStage !== stage.id && 

@@ -48,9 +48,9 @@ export function StatusSummaryCard({ summaryText }: StatusSummaryCardProps) {
   return (
     <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+            <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
               <Briefcase className="h-4 w-4 text-primary" />
             </div>
             <div>
@@ -58,8 +58,8 @@ export function StatusSummaryCard({ summaryText }: StatusSummaryCardProps) {
               <p className="text-xs text-muted-foreground mt-0.5">{vacancies.length} openstaand</p>
             </div>
           </div>
-          {/* Mini heatmap legend */}
-          <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+          {/* Mini heatmap legend - hidden on small screens */}
+          <div className="hidden sm:flex items-center gap-3 text-[10px] text-muted-foreground">
             <div className="flex items-center gap-1">
               <div className="h-2 w-2 rounded-full bg-success" />
               <span>Goed</span>
@@ -93,15 +93,15 @@ export function StatusSummaryCard({ summaryText }: StatusSummaryCardProps) {
                   <span className="text-sm font-medium text-foreground">{vacancy.title}</span>
                   <StatusIcon className={`h-3.5 w-3.5 ${config.color}`} />
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4">
                   {/* Mini heatmap dots */}
                   <div className="flex items-center gap-1.5" title="Instroom / Doorloop">
                     <div className={`h-2 w-2 rounded-full ${heatmapColors[vacancy.instroom]}`} />
                     <div className={`h-2 w-2 rounded-full ${heatmapColors[vacancy.doorloop]}`} />
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="w-16">{vacancy.candidates} kand.</span>
-                    <span className="w-14 text-right">{vacancy.eta}</span>
+                  <div className="flex items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
+                    <span className="whitespace-nowrap">{vacancy.candidates} kand.</span>
+                    <span className="hidden xs:inline whitespace-nowrap text-right">{vacancy.eta}</span>
                   </div>
                 </div>
               </div>

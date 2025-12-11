@@ -110,7 +110,7 @@ export default function Pipeline() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-8 page-enter page-enter-active">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8 page-enter page-enter-active">
         {/* Error Banner */}
         {error && (
           <ErrorBanner
@@ -120,24 +120,24 @@ export default function Pipeline() {
         )}
 
         {/* Header */}
-        <div className="space-y-2">
-          <div className="flex items-start justify-between gap-4">
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-semibold tracking-tight">Pipeline</h1>
-              <p className="text-muted-foreground mt-1">
-                Alle kandidaten over alle vacatures. Filter en beheer je volledige recruitment flow.
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Pipeline</h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                Alle kandidaten over alle vacatures.
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               {/* Search */}
-              <div className="relative">
+              <div className="relative flex-1 sm:flex-initial">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Zoek op naam, email, vacature..."
+                  placeholder="Zoeken..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 w-64"
+                  className="pl-9 w-full sm:w-48 lg:w-64"
                 />
               </div>
 
@@ -146,10 +146,10 @@ export default function Pipeline() {
                 variant="outline"
                 size="default"
                 onClick={() => setFilterDrawerOpen(true)}
-                className="gap-2"
+                className="gap-2 shrink-0"
               >
                 <SlidersHorizontal className="h-4 w-4" />
-                Filters
+                <span className="hidden sm:inline">Filters</span>
               </Button>
             </div>
           </div>

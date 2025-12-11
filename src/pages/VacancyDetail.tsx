@@ -37,7 +37,7 @@ export default function VacancyDetail() {
     <DashboardLayout>
       <div className="h-full flex flex-col page-enter page-enter-active">
         {/* Fixed header section */}
-        <div className="px-8 pt-6 pb-4 space-y-4 border-b border-border/50 bg-background">
+        <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-4 space-y-4 border-b border-border/50 bg-background">
           <VacancyHeader
             id={vacancy.id}
             title={vacancy.title}
@@ -92,28 +92,28 @@ export default function VacancyDetail() {
 
         {/* Main content - flexible layout */}
         {activeTab === 'overview' && (
-          <div className="flex-1 flex min-h-0">
+          <div className="flex-1 flex flex-col lg:flex-row min-h-0">
             {/* Pipeline section - takes all available space */}
-            <div className="flex-1 p-6 overflow-auto">
+            <div className="flex-1 p-4 sm:p-6 overflow-auto">
               <div className="space-y-6">
                 <VacancyPipeline stages={vacancy.pipeline} />
                 <VacancyActivityTimeline activities={vacancy.activity} />
               </div>
             </div>
 
-            {/* Insights sidebar - fixed width */}
+            {/* Insights sidebar - responsive: below on mobile/tablet, side on desktop */}
             <div className={cn(
-              "border-l border-border/50 bg-muted/30 overflow-y-auto transition-all duration-300",
-              insightsOpen ? "w-80 p-5" : "w-0 p-0 opacity-0"
+              "border-t lg:border-t-0 lg:border-l border-border/50 bg-muted/30 overflow-y-auto transition-all duration-300",
+              insightsOpen ? "lg:w-80 p-4 sm:p-5" : "lg:w-0 lg:p-0 lg:opacity-0 hidden lg:block"
             )}>
               {insightsOpen && (
-                <div className="space-y-5">
+                <div className="space-y-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-5">
                   <VacancyHealthCard health={vacancy.health} />
                   <VacancyInflowCard 
                     last14Days={vacancy.inflow.last14Days} 
                     sources={vacancy.inflow.sources} 
                   />
-                  <div id="actions-card">
+                  <div id="actions-card" className="sm:col-span-2 lg:col-span-1">
                     <VacancyActionsCard actions={vacancy.weekActions} />
                   </div>
                 </div>

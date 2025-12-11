@@ -58,14 +58,14 @@ export function PipelineSummaryCard({
           </div>
           
           {/* Stage labels */}
-          <div className="flex justify-between text-xs text-muted-foreground">
+          <div className="flex justify-between text-xs text-muted-foreground overflow-x-auto gap-1">
             {perStage.map((stage, index) => (
-              <div key={stage.stageName} className="text-center">
+              <div key={stage.stageName} className="text-center min-w-0 flex-1">
                 <div 
                   className={`h-1.5 w-1.5 rounded-full mx-auto mb-1 ${gradientColors[index]}`} 
                 />
                 <span className="font-semibold text-foreground text-sm">{stage.count}</span>
-                <p className="text-[10px] truncate max-w-[55px]">{stage.stageName}</p>
+                <p className="text-[10px] truncate">{stage.stageName}</p>
               </div>
             ))}
           </div>

@@ -73,25 +73,25 @@ export function ProcessQualityCard({ quality }: ProcessQualityCardProps) {
         </div>
 
         {/* Metrics grid */}
-        <div className="grid grid-cols-3 gap-3">
-          <div className="text-center p-3 rounded-lg bg-muted/30">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="text-center p-2 sm:p-3 rounded-lg bg-muted/30">
             <Clock className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
-            <p className="text-lg font-semibold text-foreground">{quality.avgResponseTimeDays}d</p>
-            <p className="text-[10px] text-muted-foreground">Gem. reactie</p>
+            <p className="text-base sm:text-lg font-semibold text-foreground">{quality.avgResponseTimeDays}d</p>
+            <p className="text-[9px] sm:text-[10px] text-muted-foreground">Gem. reactie</p>
           </div>
           
-          <div className="text-center p-3 rounded-lg bg-muted/30">
+          <div className="text-center p-2 sm:p-3 rounded-lg bg-muted/30">
             <Activity className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
-            <p className="text-lg font-semibold text-foreground">{quality.pctWithin48h}%</p>
-            <p className="text-[10px] text-muted-foreground">&lt;48u reactie</p>
+            <p className="text-base sm:text-lg font-semibold text-foreground">{quality.pctWithin48h}%</p>
+            <p className="text-[9px] sm:text-[10px] text-muted-foreground">&lt;48u reactie</p>
           </div>
           
-          <div className={`text-center p-3 rounded-lg ${quality.staleCandidatesCount > 2 ? "bg-destructive/5" : "bg-muted/30"}`}>
+          <div className={`text-center p-2 sm:p-3 rounded-lg ${quality.staleCandidatesCount > 2 ? "bg-destructive/5" : "bg-muted/30"}`}>
             <AlertCircle className={`h-4 w-4 mx-auto mb-1 ${quality.staleCandidatesCount > 2 ? "text-destructive" : "text-muted-foreground"}`} />
-            <p className={`text-lg font-semibold ${quality.staleCandidatesCount > 2 ? "text-destructive" : "text-foreground"}`}>
+            <p className={`text-base sm:text-lg font-semibold ${quality.staleCandidatesCount > 2 ? "text-destructive" : "text-foreground"}`}>
               {quality.staleCandidatesCount}
             </p>
-            <p className="text-[10px] text-muted-foreground">Vastgelopen</p>
+            <p className="text-[9px] sm:text-[10px] text-muted-foreground">Vastgelopen</p>
           </div>
         </div>
 
