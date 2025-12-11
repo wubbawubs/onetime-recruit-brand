@@ -6,6 +6,7 @@ import { CandidateDetailModal } from "./CandidateDetailModal";
 import { cn } from "@/lib/utils";
 import type { PipelineStage, Candidate } from "@/data/mockVacancyData";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
 
 interface VacancyPipelineProps {
   stages: PipelineStage[];
@@ -13,6 +14,7 @@ interface VacancyPipelineProps {
 }
 
 export function VacancyPipeline({ stages: initialStages, onStageChange }: VacancyPipelineProps) {
+  const { toast } = useToast();
   const [viewMode, setViewMode] = useState<'pipeline' | 'list'>('pipeline');
   const [stages, setStages] = useState(initialStages);
   const [draggedCandidate, setDraggedCandidate] = useState<{ id: string; fromStage: string } | null>(null);
@@ -54,6 +56,13 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
       }
 
       return newStages;
+    });
+
+    // Get stage name for toast
+    const toStageName = stages.find(s => s.id === toStageId)?.name || toStageId;
+    toast({
+      title: "Kandidaat verplaatst",
+      description: `Verplaatst naar ${toStageName}`,
     });
 
     onStageChange?.(draggedCandidate.id, draggedCandidate.fromStage, toStageId);

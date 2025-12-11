@@ -1,7 +1,8 @@
-import { ChevronRight, Users } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CandidateListItem } from "@/data/mockCandidatesData";
 import { Badge } from "@/components/ui/badge";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface CandidatesListProps {
   candidates: CandidateListItem[];
@@ -48,13 +49,10 @@ function getStageBadgeVariant(stage: string) {
 export function CandidatesList({ candidates, onCandidateClick }: CandidatesListProps) {
   if (candidates.length === 0) {
     return (
-      <div className="text-center py-16">
-        <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-foreground mb-2">Geen kandidaten gevonden</h3>
-        <p className="text-sm text-muted-foreground">
-          Pas je filters aan of wacht tot er nieuwe kandidaten binnenkomen.
-        </p>
-      </div>
+      <EmptyState
+        title="Geen kandidaten gevonden"
+        description="Pas je filters aan of wacht tot er nieuwe kandidaten binnenkomen."
+      />
     );
   }
 

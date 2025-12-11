@@ -4,6 +4,7 @@ import { CandidateDetailModal } from "@/components/vacancy/CandidateDetailModal"
 import { cn } from "@/lib/utils";
 import type { CandidateListItem, GlobalPipelineStage } from "@/data/mockCandidatesData";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
 
 interface GlobalPipelineKanbanProps {
   stages: GlobalPipelineStage[];
@@ -26,6 +27,7 @@ function convertToModalCandidate(candidate: CandidateListItem) {
 }
 
 export function GlobalPipelineKanban({ stages: initialStages, onStageChange }: GlobalPipelineKanbanProps) {
+  const { toast } = useToast();
   const [stages, setStages] = useState(initialStages);
   const [draggedCandidate, setDraggedCandidate] = useState<{ id: string; fromStage: string } | null>(null);
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateListItem | null>(null);
@@ -75,6 +77,12 @@ export function GlobalPipelineKanban({ stages: initialStages, onStageChange }: G
 
     const fromStageName = stages.find(s => s.id === draggedCandidate.fromStage)?.name || '';
     const toStageName = stages.find(s => s.id === toStageId)?.name || '';
+    
+    toast({
+      title: "Kandidaat verplaatst",
+      description: `Verplaatst naar ${toStageName}`,
+    });
+    
     onStageChange?.(draggedCandidate.id, fromStageName, toStageName);
     setDraggedCandidate(null);
   };

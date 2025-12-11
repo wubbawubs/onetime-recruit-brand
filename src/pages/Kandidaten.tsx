@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, SlidersHorizontal, Download } from "lucide-react";
+import { Search, SlidersHorizontal, Download, UserPlus } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { StageFilters } from "@/components/candidates/StageFilters";
 import { FilterDrawer, FilterState } from "@/components/candidates/FilterDrawer";
 import { CandidatesList } from "@/components/candidates/CandidatesList";
 import { CandidateDetailModal } from "@/components/vacancy/CandidateDetailModal";
+import { AddCandidateModal } from "@/components/candidates/AddCandidateModal";
 import { allCandidates, stages, getStageCounts, CandidateListItem } from "@/data/mockCandidatesData";
 import { Candidate } from "@/data/mockVacancyData";
 
@@ -25,6 +26,7 @@ export default function Kandidaten() {
   const [appliedFilters, setAppliedFilters] = useState<FilterState>(defaultFilters);
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateListItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [addCandidateOpen, setAddCandidateOpen] = useState(false);
 
   // Filter candidates
   const filteredCandidates = useMemo(() => {
@@ -154,6 +156,12 @@ export default function Kandidaten() {
             <Button variant="outline" size="icon">
               <Download className="h-4 w-4" />
             </Button>
+
+            {/* Add Candidate */}
+            <Button onClick={() => setAddCandidateOpen(true)} className="gap-2">
+              <UserPlus className="h-4 w-4" />
+              <span className="hidden sm:inline">Kandidaat toevoegen</span>
+            </Button>
           </div>
         </div>
 
@@ -192,6 +200,12 @@ export default function Kandidaten() {
             onOpenChange={setModalOpen}
           />
         )}
+
+        {/* Add Candidate Modal */}
+        <AddCandidateModal
+          open={addCandidateOpen}
+          onOpenChange={setAddCandidateOpen}
+        />
       </div>
     </DashboardLayout>
   );

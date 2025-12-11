@@ -30,11 +30,14 @@ import {
   History,
   Paperclip,
   Tags,
+  UserX,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Candidate } from "@/data/mockVacancyData";
 import { SendEmailModal } from "./SendEmailModal";
 import { ScheduleMeetingModal } from "./ScheduleMeetingModal";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 interface CandidateDetailModalProps {
   candidate: Candidate | null;
@@ -91,12 +94,24 @@ const getCandidateDetails = (candidate: Candidate, stageName: string) => ({
 });
 
 export function CandidateDetailModal({ candidate, currentStage, open, onOpenChange }: CandidateDetailModalProps) {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
   const [newNote, setNewNote] = useState('');
+  const [confirmRejectOpen, setConfirmRejectOpen] = useState(false);
 
   if (!candidate) return null;
 
   const details = getCandidateDetails(candidate, currentStage);
+
+  const handleReject = () => {
+    setConfirmRejectOpen(false);
+    onOpenChange(false);
+    toast({
+      title: "Kandidaat afgewezen",
+      description: `${candidate.name} is afgewezen voor deze vacature.`,
+      variant: "destructive",
+    });
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -136,6 +151,15 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
             <div className="flex gap-2 pr-8">
               <SendEmailModal candidate={candidate} />
               <ScheduleMeetingModal candidate={candidate} />
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => setConfirmRejectOpen(true)}
+                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
+                <UserX className="h-4 w-4 mr-1" />
+                Afwijzen
+              </Button>
             </div>
           </div>
         </DialogHeader>
@@ -506,6 +530,17 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
           </ScrollArea>
         </Tabs>
       </DialogContent>
+
+      {/* Confirm Reject Dialog */}
+      <ConfirmDialog
+        open={confirmRejectOpen}
+        onOpenChange={setConfirmRejectOpen}
+        title="Kandidaat afwijzen?"
+        description={`Weet je zeker dat je ${candidate.name} wilt afwijzen voor deze vacature? Deze actie kan niet ongedaan worden gemaakt.`}
+        confirmLabel="Ja, afwijzen"
+        variant="destructive"
+        onConfirm={handleReject}
+      />
     </Dialog>
   );
 }
