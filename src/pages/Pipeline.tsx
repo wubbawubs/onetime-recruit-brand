@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ import { GlobalInsightBar } from "@/components/pipeline/GlobalInsightBar";
 import { StageFilters } from "@/components/candidates/StageFilters";
 import { FilterDrawer, FilterState } from "@/components/candidates/FilterDrawer";
 import { EmptyState } from "@/components/ui/empty-state";
+import { PipelineSkeleton } from "@/components/ui/loading-skeletons";
+import { ErrorBanner } from "@/components/ui/error-banner";
 import { 
   allCandidates, 
   stages, 
@@ -29,6 +31,24 @@ export default function Pipeline() {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const [appliedFilters, setAppliedFilters] = useState<FilterState>(defaultFilters);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Simulate initial data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    setError(null);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+  };
 
   // Filter candidates based on search, stage, and drawer filters
   const filteredCandidates = useMemo(() => {
@@ -106,9 +126,26 @@ export default function Pipeline() {
     console.log(`Moved candidate ${candidateId} from ${fromStage} to ${toStage}`);
   };
 
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <PipelineSkeleton />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="p-8 space-y-8 page-enter page-enter-active">
+        {/* Error Banner */}
+        {error && (
+          <ErrorBanner
+            message={error}
+            onRetry={handleRetry}
+            onDismiss={() => setError(null)}
+          />
+        )}
+
         {/* Header */}
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
