@@ -18,6 +18,7 @@ interface VacancyHeaderProps {
   location: string;
   contractType: string;
   status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
+  onEditClick?: () => void;
 }
 
 const statusConfig = {
@@ -28,9 +29,14 @@ const statusConfig = {
   filled: { label: 'Ingevuld', className: 'bg-primary/10 text-primary border-primary/20' },
 };
 
-export function VacancyHeader({ id, title, company, location, contractType, status }: VacancyHeaderProps) {
+export function VacancyHeader({ id, title, company, location, contractType, status, onEditClick }: VacancyHeaderProps) {
   const statusStyle = statusConfig[status];
   const navigate = useNavigate();
+
+  const handleCandidateListClick = () => {
+    // Navigate to candidates page with vacancy filter
+    navigate(`/kandidaten?vacancy=${id}`);
+  };
 
   return (
     <div className="flex items-start justify-between gap-6">
@@ -78,11 +84,11 @@ export function VacancyHeader({ id, title, company, location, contractType, stat
       </div>
       
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="sm" className="text-muted-foreground">
+        <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={handleCandidateListClick}>
           <Users className="h-4 w-4 mr-2" />
           Kandidatenlijst
         </Button>
-        <Button size="sm">
+        <Button size="sm" onClick={onEditClick}>
           <Edit className="h-4 w-4 mr-2" />
           Vacature bewerken
         </Button>
