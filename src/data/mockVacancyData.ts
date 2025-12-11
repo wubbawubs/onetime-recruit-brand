@@ -48,6 +48,13 @@ export interface VacancyAction {
   cta: string;
 }
 
+export interface VacancyListItem {
+  id: string;
+  title: string;
+  candidateCount: number;
+  status: 'live' | 'draft' | 'paused' | 'closed';
+}
+
 export interface VacancyDetail {
   id: string;
   title: string;
@@ -69,6 +76,14 @@ export interface VacancyDetail {
   };
   weekActions: VacancyAction[];
 }
+
+// List of all vacancies for the switcher dropdown
+export const mockVacancyList: VacancyListItem[] = [
+  { id: 'vac_senior_accountmanager', title: 'Senior Accountmanager B2B', candidateCount: 32, status: 'live' },
+  { id: 'vac_office_manager', title: 'Office Manager', candidateCount: 8, status: 'live' },
+  { id: 'vac_senior_developer', title: 'Senior Developer', candidateCount: 14, status: 'paused' },
+  { id: 'vac_customer_success', title: 'Customer Success Manager', candidateCount: 21, status: 'live' },
+];
 
 export const mockVacancyDetail: VacancyDetail = {
   id: 'vac_senior_accountmanager',

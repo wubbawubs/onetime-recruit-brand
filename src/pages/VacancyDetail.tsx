@@ -9,9 +9,14 @@ import { VacancyHealthCard } from "@/components/vacancy/VacancyHealthCard";
 import { VacancyInflowCard } from "@/components/vacancy/VacancyInflowCard";
 import { VacancyActionsCard } from "@/components/vacancy/VacancyActionsCard";
 import { mockVacancyDetail } from "@/data/mockVacancyData";
+import { Button } from "@/components/ui/button";
+import { PanelRightClose, PanelRightOpen } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function VacancyDetail() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [insightsOpen, setInsightsOpen] = useState(true);
   const vacancy = mockVacancyDetail;
 
   return (
@@ -19,6 +24,7 @@ export default function VacancyDetail() {
       <div className="max-w-7xl mx-auto px-10 py-8 space-y-6">
         {/* Page header */}
         <VacancyHeader
+          id={vacancy.id}
           title={vacancy.title}
           company={vacancy.company}
           location={vacancy.location}
@@ -35,14 +41,44 @@ export default function VacancyDetail() {
           hireGoal={vacancy.hireGoal}
         />
 
-        {/* Tab navigation */}
-        <VacancyTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        {/* Tab navigation with insights toggle */}
+        <div className="flex items-center justify-between">
+          <VacancyTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          
+          {activeTab === 'overview' && (
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setInsightsOpen(!insightsOpen)}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  {insightsOpen ? (
+                    <PanelRightClose className="h-4 w-4" />
+                  ) : (
+                    <PanelRightOpen className="h-4 w-4" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {insightsOpen ? "Verberg insights" : "Toon insights"}
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </div>
 
         {/* Main content grid */}
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
-            {/* Left column - 70% */}
-            <div className="lg:col-span-7 space-y-6">
+          <div className={cn(
+            "grid gap-6 transition-all duration-300",
+            insightsOpen ? "grid-cols-1 lg:grid-cols-10" : "grid-cols-1"
+          )}>
+            {/* Left column */}
+            <div className={cn(
+              "space-y-6 transition-all duration-300",
+              insightsOpen ? "lg:col-span-7" : "lg:col-span-1"
+            )}>
               {/* Pipeline */}
               <VacancyPipeline stages={vacancy.pipeline} />
               
@@ -50,8 +86,11 @@ export default function VacancyDetail() {
               <VacancyActivityTimeline activities={vacancy.activity} />
             </div>
 
-            {/* Right column - 30% */}
-            <div className="lg:col-span-3 space-y-6">
+            {/* Right column - collapsible */}
+            <div className={cn(
+              "lg:col-span-3 space-y-6 transition-all duration-300",
+              insightsOpen ? "opacity-100" : "opacity-0 hidden lg:hidden"
+            )}>
               {/* Vacancy health */}
               <VacancyHealthCard health={vacancy.health} />
               
