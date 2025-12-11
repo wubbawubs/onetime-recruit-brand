@@ -9,7 +9,6 @@ import { FilterDrawer, FilterState } from "@/components/candidates/FilterDrawer"
 import { CandidatesList } from "@/components/candidates/CandidatesList";
 import { CandidateDetailModal } from "@/components/vacancy/CandidateDetailModal";
 import { AddCandidateModal } from "@/components/candidates/AddCandidateModal";
-import { KandidatenListSkeleton } from "@/components/ui/loading-skeletons";
 import { ErrorBanner } from "@/components/ui/error-banner";
 import { allCandidates, stages, getStageCounts, CandidateListItem } from "@/data/mockCandidatesData";
 import { Candidate } from "@/data/mockVacancyData";
@@ -39,16 +38,7 @@ export default function Kandidaten() {
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateListItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [addCandidateOpen, setAddCandidateOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Simulate initial data loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 150);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Update filters when URL changes
   useEffect(() => {
@@ -57,14 +47,6 @@ export default function Kandidaten() {
       setAppliedFilters(prev => ({ ...prev, vacancy: vacancyParam }));
     }
   }, [vacancyParam]);
-
-  const handleRetry = () => {
-    setIsLoading(true);
-    setError(null);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 150);
-  };
 
   // Filter candidates
   const filteredCandidates = useMemo(() => {
@@ -157,14 +139,6 @@ export default function Kandidaten() {
     appliedFilters.tags.length > 0 ||
     appliedFilters.vacancy !== "all";
 
-  if (isLoading) {
-    return (
-      <DashboardLayout>
-        <KandidatenListSkeleton />
-      </DashboardLayout>
-    );
-  }
-
   return (
     <DashboardLayout>
       <div className="p-6 md:p-8 space-y-6 page-enter page-enter-active">
@@ -172,7 +146,6 @@ export default function Kandidaten() {
         {error && (
           <ErrorBanner
             message={error}
-            onRetry={handleRetry}
             onDismiss={() => setError(null)}
           />
         )}

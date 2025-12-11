@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Briefcase, Users, ChevronRight, Plus, MapPin, Search, Calendar, Target } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils";
 import { mockVacancyList } from "@/data/mockVacancyData";
 import { NewVacancyModal } from "@/components/vacancy/NewVacancyModal";
 import { EmptyState } from "@/components/ui/empty-state";
-import { VacaturesListSkeleton } from "@/components/ui/loading-skeletons";
 import { ErrorBanner } from "@/components/ui/error-banner";
 
 const statusConfig = {
@@ -36,16 +35,7 @@ export default function Vacatures() {
   const [newVacancyOpen, setNewVacancyOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Simulate initial data loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 150);
-    return () => clearTimeout(timer);
-  }, []);
 
   const filteredVacancies = useMemo(() => {
     let result = [...mockVacancyList];
@@ -75,22 +65,6 @@ export default function Vacatures() {
     drafts: mockVacancyList.filter((v) => v.status === "draft").length,
   }), []);
 
-  const handleRetry = () => {
-    setIsLoading(true);
-    setError(null);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 150);
-  };
-
-  if (isLoading) {
-    return (
-      <DashboardLayout>
-        <VacaturesListSkeleton />
-      </DashboardLayout>
-    );
-  }
-
   return (
     <DashboardLayout>
       <div className="p-8 space-y-8 page-enter page-enter-active">
@@ -98,7 +72,6 @@ export default function Vacatures() {
         {error && (
           <ErrorBanner
             message={error}
-            onRetry={handleRetry}
             onDismiss={() => setError(null)}
           />
         )}
