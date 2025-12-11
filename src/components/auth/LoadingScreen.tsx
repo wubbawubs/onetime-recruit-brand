@@ -1,26 +1,13 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import onetimeLogo from "@/assets/onetime-logo.webp";
 
 export function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
 
-  // Generate floating leaf particles
-  const particles = useMemo(() => 
-    Array.from({ length: 12 }, (_, i) => ({
-      id: i,
-      size: Math.random() * 6 + 3,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      duration: Math.random() * 4 + 5,
-      delay: Math.random() * 3,
-      rotation: Math.random() * 360,
-    })), []
-  );
-
   useEffect(() => {
     setMounted(true);
-    const duration = 2500;
+    const duration = 3500; // Extended to let animations complete
     const interval = 16;
     const steps = duration / interval;
     let currentStep = 0;
@@ -50,38 +37,6 @@ export function LoadingScreen() {
         }}
       />
 
-      {/* Floating leaf particles */}
-      {particles.map((particle) => (
-        <div
-          key={particle.id}
-          className="absolute"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            animation: `leaf-float ${particle.duration}s ease-in-out infinite`,
-            animationDelay: `${particle.delay}s`,
-          }}
-        >
-          <svg 
-            width={particle.size * 2} 
-            height={particle.size * 3} 
-            viewBox="0 0 10 15" 
-            fill="none"
-            style={{ transform: `rotate(${particle.rotation}deg)` }}
-          >
-            <path 
-              d="M5 0C5 0 0 5 0 10C0 12.5 2.5 15 5 15C7.5 15 10 12.5 10 10C10 5 5 0 5 0Z" 
-              fill="hsl(142 40% 60% / 0.3)"
-            />
-            <path 
-              d="M5 3V13M5 6L3 8M5 9L7 11" 
-              stroke="hsl(142 40% 50% / 0.4)" 
-              strokeWidth="0.5"
-            />
-          </svg>
-        </div>
-      ))}
-
       {/* Main logo container */}
       <div 
         className={`relative transition-all duration-1000 ${mounted ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}
@@ -91,7 +46,6 @@ export function LoadingScreen() {
         <svg 
           className="absolute inset-0 -m-24 w-[calc(100%+12rem)] h-[calc(100%+12rem)]"
           viewBox="0 0 200 200"
-          style={{ animation: 'roots-grow 3s ease-out forwards' }}
         >
           <defs>
             <linearGradient id="root-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -112,7 +66,7 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 150,
                 strokeDashoffset: 150,
-                animation: 'draw-root 2s ease-out 0.5s forwards'
+                animation: 'draw-root 2.5s ease-out 0.3s forwards'
               }}
             />
             {/* Branch from main */}
@@ -125,7 +79,20 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 50,
                 strokeDashoffset: 50,
-                animation: 'draw-root 1s ease-out 1.2s forwards'
+                animation: 'draw-root 1.2s ease-out 1.5s forwards'
+              }}
+            />
+            {/* Extra branch left */}
+            <path 
+              d="M60 150 Q45 160 30 165" 
+              stroke="url(#root-gradient)" 
+              strokeWidth="1" 
+              fill="none"
+              strokeLinecap="round"
+              style={{ 
+                strokeDasharray: 45,
+                strokeDashoffset: 45,
+                animation: 'draw-root 1s ease-out 2s forwards'
               }}
             />
             
@@ -139,7 +106,7 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 150,
                 strokeDashoffset: 150,
-                animation: 'draw-root 2s ease-out 0.7s forwards'
+                animation: 'draw-root 2.5s ease-out 0.5s forwards'
               }}
             />
             {/* Branch from main */}
@@ -152,7 +119,20 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 50,
                 strokeDashoffset: 50,
-                animation: 'draw-root 1s ease-out 1.4s forwards'
+                animation: 'draw-root 1.2s ease-out 1.7s forwards'
+              }}
+            />
+            {/* Extra branch right */}
+            <path 
+              d="M140 150 Q155 160 170 165" 
+              stroke="url(#root-gradient)" 
+              strokeWidth="1" 
+              fill="none"
+              strokeLinecap="round"
+              style={{ 
+                strokeDasharray: 45,
+                strokeDashoffset: 45,
+                animation: 'draw-root 1s ease-out 2.2s forwards'
               }}
             />
             
@@ -166,7 +146,20 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 120,
                 strokeDashoffset: 120,
-                animation: 'draw-root 1.8s ease-out 0.9s forwards'
+                animation: 'draw-root 2s ease-out 0.7s forwards'
+              }}
+            />
+            {/* Left branch up */}
+            <path 
+              d="M50 112 Q35 100 25 85" 
+              stroke="url(#root-gradient)" 
+              strokeWidth="1" 
+              fill="none"
+              strokeLinecap="round"
+              style={{ 
+                strokeDasharray: 40,
+                strokeDashoffset: 40,
+                animation: 'draw-root 1s ease-out 1.9s forwards'
               }}
             />
             
@@ -180,7 +173,20 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 120,
                 strokeDashoffset: 120,
-                animation: 'draw-root 1.8s ease-out 1.1s forwards'
+                animation: 'draw-root 2s ease-out 0.9s forwards'
+              }}
+            />
+            {/* Right branch up */}
+            <path 
+              d="M150 112 Q165 100 175 85" 
+              stroke="url(#root-gradient)" 
+              strokeWidth="1" 
+              fill="none"
+              strokeLinecap="round"
+              style={{ 
+                strokeDasharray: 40,
+                strokeDashoffset: 40,
+                animation: 'draw-root 1s ease-out 2.1s forwards'
               }}
             />
 
@@ -194,7 +200,7 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 40,
                 strokeDashoffset: 40,
-                animation: 'draw-root 0.8s ease-out 1.8s forwards'
+                animation: 'draw-root 0.8s ease-out 2.4s forwards'
               }}
             />
             <path 
@@ -206,7 +212,32 @@ export function LoadingScreen() {
               style={{ 
                 strokeDasharray: 40,
                 strokeDashoffset: 40,
-                animation: 'draw-root 0.8s ease-out 2s forwards'
+                animation: 'draw-root 0.8s ease-out 2.6s forwards'
+              }}
+            />
+            {/* Center down root */}
+            <path 
+              d="M100 100 Q100 130 95 160 Q92 180 90 195" 
+              stroke="url(#root-gradient)" 
+              strokeWidth="1.5" 
+              fill="none"
+              strokeLinecap="round"
+              style={{ 
+                strokeDasharray: 100,
+                strokeDashoffset: 100,
+                animation: 'draw-root 2s ease-out 1.1s forwards'
+              }}
+            />
+            <path 
+              d="M100 100 Q100 130 105 160 Q108 180 110 195" 
+              stroke="url(#root-gradient)" 
+              strokeWidth="1" 
+              fill="none"
+              strokeLinecap="round"
+              style={{ 
+                strokeDasharray: 100,
+                strokeDashoffset: 100,
+                animation: 'draw-root 2s ease-out 1.3s forwards'
               }}
             />
           </g>
@@ -392,19 +423,6 @@ export function LoadingScreen() {
         @keyframes background-breathe {
           0%, 100% { opacity: 0.6; }
           50% { opacity: 0.9; }
-        }
-        
-        @keyframes leaf-float {
-          0%, 100% { 
-            transform: translateY(0) rotate(0deg);
-            opacity: 0.4;
-          }
-          25% { transform: translateY(-30px) rotate(10deg); }
-          50% { 
-            transform: translateY(-15px) rotate(-5deg);
-            opacity: 0.7;
-          }
-          75% { transform: translateY(-40px) rotate(5deg); }
         }
         
         @keyframes draw-root {
