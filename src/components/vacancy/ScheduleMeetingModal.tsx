@@ -17,9 +17,10 @@ import type { Candidate } from "@/data/mockVacancyData";
 
 interface ScheduleMeetingModalProps {
   candidate: Candidate;
+  trigger?: React.ReactNode;
 }
 
-export function ScheduleMeetingModal({ candidate }: ScheduleMeetingModalProps) {
+export function ScheduleMeetingModal({ candidate, trigger }: ScheduleMeetingModalProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -48,13 +49,17 @@ export function ScheduleMeetingModal({ candidate }: ScheduleMeetingModalProps) {
     setOpen(false);
   };
 
+  const defaultTrigger = (
+    <Button size="sm">
+      <Calendar className="h-4 w-4 mr-2" />
+      Plan gesprek
+    </Button>
+  );
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">
-          <Calendar className="h-4 w-4 mr-2" />
-          Plan gesprek
-        </Button>
+        {trigger || defaultTrigger}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

@@ -23,6 +23,7 @@ import type { Candidate } from "@/data/mockVacancyData";
 
 interface SendEmailModalProps {
   candidate: Candidate;
+  trigger?: React.ReactNode;
 }
 
 const emailTemplates = {
@@ -73,7 +74,7 @@ Met vriendelijke groet,
   },
 };
 
-export function SendEmailModal({ candidate }: SendEmailModalProps) {
+export function SendEmailModal({ candidate, trigger }: SendEmailModalProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [template, setTemplate] = useState<keyof typeof emailTemplates>("invitation");
@@ -107,13 +108,17 @@ export function SendEmailModal({ candidate }: SendEmailModalProps) {
     .replace("{vacature}", "Senior Accountmanager B2B")
     .replace("{recruiter}", "Sarah HR");
 
+  const defaultTrigger = (
+    <Button variant="outline" size="sm">
+      <Mail className="h-4 w-4 mr-2" />
+      E-mail
+    </Button>
+  );
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Mail className="h-4 w-4 mr-2" />
-          E-mail
-        </Button>
+        {trigger || defaultTrigger}
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
