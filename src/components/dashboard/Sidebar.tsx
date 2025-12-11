@@ -8,12 +8,16 @@ import {
   Settings,
   Menu,
   X,
-  Sparkles
+  Sparkles,
+  PanelLeftClose,
+  PanelLeftOpen
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import onetimeLogo from "@/assets/onetime-logo.webp";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useSidebarContext } from "@/contexts/SidebarContext";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, badge: null },
@@ -27,6 +31,7 @@ const navItems = [
 export function Sidebar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { collapsed, toggleCollapsed } = useSidebarContext();
 
   return (
     <>
@@ -51,32 +56,51 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-screen w-60 bg-card/95 backdrop-blur-sm border-r border-border/30 transition-transform duration-200 lg:translate-x-0",
+          "fixed left-0 top-0 z-40 h-screen bg-card/95 backdrop-blur-sm border-r border-border/30 transition-all duration-300 lg:translate-x-0",
+          collapsed ? "w-16" : "w-60",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="px-6 py-8">
-            <div className="flex items-center gap-3">
-              <img src={onetimeLogo} alt="Onetime Recruit" className="h-9 w-auto" />
-              <span className="font-semibold text-lg text-foreground tracking-tight">Onetime</span>
+          {/* Logo + Collapse button */}
+          <div className={cn("flex items-center justify-between py-6", collapsed ? "px-3" : "px-6")}>
+            <div className="flex items-center gap-3 overflow-hidden">
+              <img src={onetimeLogo} alt="Onetime Recruit" className="h-9 w-9 flex-shrink-0" />
+              {!collapsed && (
+                <span className="font-semibold text-lg text-foreground tracking-tight whitespace-nowrap">
+                  Onetime
+                </span>
+              )}
             </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn("hidden lg:flex h-8 w-8 flex-shrink-0", collapsed && "mx-auto")}
+              onClick={toggleCollapsed}
+            >
+              {collapsed ? (
+                <PanelLeftOpen className="h-4 w-4" />
+              ) : (
+                <PanelLeftClose className="h-4 w-4" />
+              )}
+            </Button>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-3 space-y-1">
+          <nav className={cn("flex-1 space-y-1", collapsed ? "px-2" : "px-3")}>
             {navItems.map((item) => {
               const isActive = location.pathname === item.href || 
-                (item.href === "/dashboard" && location.pathname === "/");
+                (item.href === "/dashboard" && location.pathname === "/") ||
+                (item.href === "/vacatures" && location.pathname.startsWith("/vacatures"));
               
-              return (
+              const linkContent = (
                 <Link
                   key={item.href}
                   to={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "group relative flex items-center justify-between px-4 py-3 rounded-lg text-sm transition-all duration-200",
+                    "group relative flex items-center justify-between rounded-lg text-sm transition-all duration-200",
+                    collapsed ? "px-3 py-3 justify-center" : "px-4 py-3",
                     isActive
                       ? "bg-primary/8 text-primary font-medium"
                       : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
@@ -87,14 +111,16 @@ export function Sidebar() {
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full" />
                   )}
                   
-                  <div className="flex items-center gap-3">
+                  <div className={cn("flex items-center", collapsed ? "gap-0" : "gap-3")}>
                     <item.icon className={cn(
-                      "h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-105", 
+                      "h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-105 flex-shrink-0", 
                       isActive && "text-primary"
                     )} />
-                    <span className="transition-colors duration-200">{item.label}</span>
+                    {!collapsed && (
+                      <span className="transition-colors duration-200">{item.label}</span>
+                    )}
                   </div>
-                  {item.badge && (
+                  {!collapsed && item.badge && (
                     <span className={cn(
                       "text-[10px] font-medium min-w-[20px] text-center px-1.5 py-0.5 rounded-full transition-colors duration-200",
                       isActive 
@@ -106,25 +132,45 @@ export function Sidebar() {
                   )}
                 </Link>
               );
+
+              if (collapsed) {
+                return (
+                  <Tooltip key={item.href} delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      {linkContent}
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="font-medium">
+                      {item.label}
+                      {item.badge && <span className="ml-2 text-muted-foreground">({item.badge})</span>}
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              }
+
+              return linkContent;
             })}
           </nav>
 
-          {/* Pro tip section */}
-          <div className="mx-3 mb-4 p-4 rounded-lg bg-primary/5 border border-primary/10">
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium text-primary">Pro tip</span>
+          {/* Pro tip section - hidden when collapsed */}
+          {!collapsed && (
+            <div className="mx-3 mb-4 p-4 rounded-lg bg-primary/5 border border-primary/10">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <span className="text-xs font-medium text-primary">Pro tip</span>
+              </div>
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                Bekijk je pipeline dagelijks voor de beste resultaten.
+              </p>
             </div>
-            <p className="text-[11px] text-muted-foreground leading-relaxed">
-              Bekijk je pipeline dagelijks voor de beste resultaten.
-            </p>
-          </div>
+          )}
 
           {/* Footer */}
-          <div className="px-6 py-5 border-t border-border/30">
-            <p className="text-[11px] text-muted-foreground/60">
-              © 2024 Onetime Recruit
-            </p>
+          <div className={cn("py-5 border-t border-border/30", collapsed ? "px-2" : "px-6")}>
+            {!collapsed && (
+              <p className="text-[11px] text-muted-foreground/60">
+                © 2024 Onetime Recruit
+              </p>
+            )}
           </div>
         </div>
       </aside>
