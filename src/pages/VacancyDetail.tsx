@@ -21,7 +21,10 @@ export default function VacancyDetail() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-7xl mx-auto px-10 py-8 space-y-6">
+      <div className={cn(
+        "mx-auto px-10 py-8 space-y-6 transition-all duration-300",
+        insightsOpen ? "max-w-7xl" : "max-w-none"
+      )}>
         {/* Page header */}
         <VacancyHeader
           id={vacancy.id}
@@ -74,23 +77,21 @@ export default function VacancyDetail() {
             "grid gap-6 transition-all duration-300",
             insightsOpen ? "grid-cols-1 lg:grid-cols-10" : "grid-cols-1"
           )}>
-            {/* Left column */}
+            {/* Left column - full width when insights collapsed */}
             <div className={cn(
               "space-y-6 transition-all duration-300",
-              insightsOpen ? "lg:col-span-7" : "lg:col-span-1"
+              insightsOpen ? "lg:col-span-7" : "col-span-full"
             )}>
               {/* Pipeline */}
-              <VacancyPipeline stages={vacancy.pipeline} />
+              <VacancyPipeline stages={vacancy.pipeline} fullWidth={!insightsOpen} />
               
               {/* Activity timeline */}
               <VacancyActivityTimeline activities={vacancy.activity} />
             </div>
 
             {/* Right column - collapsible */}
-            <div className={cn(
-              "lg:col-span-3 space-y-6 transition-all duration-300",
-              insightsOpen ? "opacity-100" : "opacity-0 hidden lg:hidden"
-            )}>
+            {insightsOpen && (
+              <div className="lg:col-span-3 space-y-6">
               {/* Vacancy health */}
               <VacancyHealthCard health={vacancy.health} />
               
@@ -103,6 +104,7 @@ export default function VacancyDetail() {
               {/* This week actions */}
               <VacancyActionsCard actions={vacancy.weekActions} />
             </div>
+            )}
           </div>
         )}
 

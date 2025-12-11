@@ -1,14 +1,15 @@
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Mail, Calendar, FileText } from "lucide-react";
+import { Mail, Calendar, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Candidate } from "@/data/mockVacancyData";
 
 interface CandidateCardProps {
   candidate: Candidate;
   onDragStart?: (e: React.DragEvent, candidateId: string) => void;
+  onOpenDetails?: () => void;
 }
 
-export function CandidateCard({ candidate, onDragStart }: CandidateCardProps) {
+export function CandidateCard({ candidate, onDragStart, onOpenDetails }: CandidateCardProps) {
   return (
     <div
       draggable
@@ -59,7 +60,13 @@ export function CandidateCard({ candidate, onDragStart }: CandidateCardProps) {
 
       {/* Hover actions */}
       <div className="flex items-center gap-1 pt-2 border-t border-border opacity-0 group-hover:opacity-100 transition-opacity">
-        <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-muted">
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenDetails?.();
+          }}
+          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-muted"
+        >
           <FileText className="h-3 w-3" />
           Details
         </button>
