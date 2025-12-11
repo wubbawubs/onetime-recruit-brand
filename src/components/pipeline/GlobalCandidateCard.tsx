@@ -1,7 +1,8 @@
-import { Mail, Calendar } from "lucide-react";
+import { Mail, Calendar, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CandidateListItem } from "@/data/mockCandidatesData";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 interface GlobalCandidateCardProps {
   candidate: CandidateListItem;
@@ -72,20 +73,23 @@ export function GlobalCandidateCard({ candidate, onDragStart, onOpenDetails }: G
         
         <div className="flex-1 min-w-0 pr-6">
           <p className="text-sm font-medium truncate leading-tight">{candidate.name}</p>
-          {/* Show vacancy name - this is the key difference from regular CandidateCard */}
-          <p className="text-[11px] text-primary/80 font-medium mt-0.5 truncate">
-            {candidate.currentVacancy}
-          </p>
-          <p className="text-[10px] text-muted-foreground mt-0.5">
-            {candidate.source} · {candidate.daysInStage}d
-          </p>
           
-          {/* Score line - only if scored */}
-          {candidate.score && (
-            <p className="text-[10px] text-muted-foreground/80 mt-1">
-              Score: <span className="font-medium text-foreground/70">{candidate.score}</span>
-            </p>
-          )}
+          {/* Vacancy badge - prominent, scannable */}
+          <Badge 
+            variant="secondary" 
+            className="mt-1.5 bg-emerald-50 text-emerald-700 border-emerald-200/60 hover:bg-emerald-100 text-[10px] font-medium px-1.5 py-0 h-5 rounded inline-flex items-center gap-1 max-w-full"
+          >
+            <Briefcase className="h-2.5 w-2.5 shrink-0" />
+            <span className="truncate">{candidate.currentVacancy}</span>
+          </Badge>
+          
+          {/* Meta info */}
+          <p className="text-[10px] text-muted-foreground mt-1.5">
+            {candidate.source} · {candidate.daysInStage}d
+            {candidate.score && (
+              <span className="ml-1.5">· Score: <span className="font-medium text-foreground/70">{candidate.score}</span></span>
+            )}
+          </p>
         </div>
       </div>
 
