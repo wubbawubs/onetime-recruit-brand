@@ -19,11 +19,37 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
+// Get badge color based on vacancy type
+function getVacancyBadgeColors(vacancyName: string): { bg: string; text: string; border: string; hover: string } {
+  const name = vacancyName.toLowerCase();
+  
+  if (name.includes("developer") || name.includes("engineer") || name.includes("software")) {
+    return { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200/60", hover: "hover:bg-blue-100" };
+  }
+  if (name.includes("account") || name.includes("sales") || name.includes("commerc")) {
+    return { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200/60", hover: "hover:bg-orange-100" };
+  }
+  if (name.includes("office") || name.includes("admin") || name.includes("assistent")) {
+    return { bg: "bg-violet-50", text: "text-violet-700", border: "border-violet-200/60", hover: "hover:bg-violet-100" };
+  }
+  if (name.includes("marketing") || name.includes("content") || name.includes("communicatie")) {
+    return { bg: "bg-pink-50", text: "text-pink-700", border: "border-pink-200/60", hover: "hover:bg-pink-100" };
+  }
+  if (name.includes("finance") || name.includes("boekhou") || name.includes("controller")) {
+    return { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200/60", hover: "hover:bg-cyan-100" };
+  }
+  // Default: emerald
+  return { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200/60", hover: "hover:bg-emerald-100" };
+}
+
 export function GlobalCandidateCard({ candidate, onDragStart, onOpenDetails }: GlobalCandidateCardProps) {
   // Intelligence indicators logic
   const isAtRisk = candidate.daysInStage > 5;
   const isStrongMatch = candidate.score && candidate.score >= 8.0;
   const needsAction = !candidate.score && candidate.daysInStage > 3;
+  
+  // Get vacancy-specific colors
+  const badgeColors = getVacancyBadgeColors(candidate.currentVacancy);
 
   return (
     <div
@@ -74,10 +100,13 @@ export function GlobalCandidateCard({ candidate, onDragStart, onOpenDetails }: G
         <div className="flex-1 min-w-0 pr-6">
           <p className="text-sm font-medium truncate leading-tight">{candidate.name}</p>
           
-          {/* Vacancy badge - prominent, scannable */}
+          {/* Vacancy badge - prominent, scannable, color-coded */}
           <Badge 
             variant="secondary" 
-            className="mt-1.5 bg-emerald-50 text-emerald-700 border-emerald-200/60 hover:bg-emerald-100 text-[10px] font-medium px-1.5 py-0 h-5 rounded inline-flex items-center gap-1 max-w-full"
+            className={cn(
+              "mt-1.5 text-[10px] font-medium px-1.5 py-0 h-5 rounded inline-flex items-center gap-1 max-w-full",
+              badgeColors.bg, badgeColors.text, badgeColors.border, badgeColors.hover
+            )}
           >
             <Briefcase className="h-2.5 w-2.5 shrink-0" />
             <span className="truncate">{candidate.currentVacancy}</span>
