@@ -236,3 +236,57 @@ export function getStageCounts(candidates: CandidateListItem[]) {
   
   return counts;
 }
+
+export interface GlobalPipelineStage {
+  id: string;
+  name: string;
+  candidates: CandidateListItem[];
+  avgDays: number;
+}
+
+export function getCandidatesGroupedByStage(candidates: CandidateListItem[]): GlobalPipelineStage[] {
+  const stageNames = ["Nieuw", "Eerste gesprek", "Tweede gesprek", "Aanbod", "In dienst"];
+  
+  return stageNames.map((name, index) => {
+    const stageCandidates = candidates.filter(c => c.currentStage === name);
+    const avgDays = stageCandidates.length > 0
+      ? Math.round((stageCandidates.reduce((sum, c) => sum + c.daysInStage, 0) / stageCandidates.length) * 10) / 10
+      : 0;
+    
+    return {
+      id: `stage-${index}`,
+      name,
+      candidates: stageCandidates,
+      avgDays,
+    };
+  });
+}
+
+export function getGlobalBottleneck(stages: GlobalPipelineStage[]): { stage: string; avgDays: number; impact: number } | null {
+  const targetDays: Record<string, number> = {
+    "Nieuw": 3,
+    "Eerste gesprek": 5,
+    "Tweede gesprek": 4,
+    "Aanbod": 3,
+    "In dienst": 0,
+  };
+
+  let worstStage: { stage: string; avgDays: number; impact: number } | null = null;
+
+  stages.forEach((stage) => {
+    if (stage.name === "In dienst" || stage.candidates.length === 0) return;
+    
+    const target = targetDays[stage.name] || 3;
+    const delay = stage.avgDays - target;
+    
+    if (delay > 0 && (!worstStage || delay > worstStage.impact)) {
+      worstStage = {
+        stage: stage.name,
+        avgDays: stage.avgDays,
+        impact: Math.round(delay * 1.5 * 10) / 10, // Projected total pipeline impact
+      };
+    }
+  });
+
+  return worstStage;
+}
