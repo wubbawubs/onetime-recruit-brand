@@ -44,7 +44,7 @@ export function TodayImportantCard({ items }: TodayImportantCardProps) {
             <div className="flex items-center justify-between">
               <CardTitle className="text-base font-semibold">Vandaag belangrijk</CardTitle>
               {highPriority > 0 && (
-                <span className="text-[10px] font-medium text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">
+                <span className="text-xs font-semibold text-destructive bg-destructive/15 px-3 py-1 rounded-full border border-destructive/20">
                   {highPriority} urgent
                 </span>
               )}

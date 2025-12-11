@@ -56,9 +56,9 @@ export function ReportsExportTab() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
             <Select value={selectedVacancy} onValueChange={setSelectedVacancy}>
-              <SelectTrigger className="w-[300px]">
+              <SelectTrigger className="w-full sm:w-[300px]">
                 <SelectValue placeholder="Selecteer vacature" />
               </SelectTrigger>
               <SelectContent>
@@ -69,7 +69,7 @@ export function ReportsExportTab() {
                 ))}
               </SelectContent>
             </Select>
-            <Button onClick={handleVacancyExport}>
+            <Button onClick={handleVacancyExport} className="w-full sm:w-auto">
               <Download className="h-4 w-4 mr-2" />
               Download PDF
             </Button>

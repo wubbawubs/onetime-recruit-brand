@@ -56,15 +56,17 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile toggle */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="fixed top-4 left-4 z-50 lg:hidden"
-        onClick={() => setMobileOpen(!mobileOpen)}
-      >
-        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </Button>
+      {/* Mobile toggle - only hamburger when sidebar closed */}
+      {!mobileOpen && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="fixed top-4 left-4 z-50 lg:hidden"
+          onClick={() => setMobileOpen(true)}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+      )}
 
       {/* Overlay */}
       {mobileOpen && (
@@ -83,7 +85,7 @@ export function Sidebar() {
         )}
       >
         <div className="flex flex-col h-full">
-          {/* Logo + Collapse button */}
+          {/* Logo + Close/Collapse button */}
           <div className={cn("flex items-center justify-between py-6", collapsed ? "px-3" : "px-6")}>
             <div className="flex items-center gap-3 overflow-hidden">
               <img src={onetimeLogo} alt="OneTime Rooted" className="h-9 w-9 flex-shrink-0" />
@@ -93,6 +95,16 @@ export function Sidebar() {
                 </span>
               )}
             </div>
+            {/* Mobile close button - inside sidebar */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden h-8 w-8 flex-shrink-0"
+              onClick={() => setMobileOpen(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+            {/* Desktop collapse button */}
             <Button
               variant="ghost"
               size="icon"
