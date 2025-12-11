@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import BrandGuide from "./pages/BrandGuide";
 import VacancyDetail from "./pages/VacancyDetail";
+import Kandidaten from "./pages/Kandidaten";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,7 +24,7 @@ const App = () => (
           {/* Placeholder routes for sidebar navigation */}
           <Route path="/vacatures" element={<Dashboard />} />
           <Route path="/vacatures/:vacatureId" element={<VacancyDetail />} />
-          <Route path="/kandidaten" element={<Dashboard />} />
+          <Route path="/kandidaten" element={<Kandidaten />} />
           <Route path="/pipeline" element={<Dashboard />} />
           <Route path="/rapportages" element={<Dashboard />} />
           <Route path="/instellingen" element={<Dashboard />} />
