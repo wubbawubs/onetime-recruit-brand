@@ -11,7 +11,7 @@ import { dashboardSummary } from "@/data/mockDashboardData";
 const Dashboard = () => {
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-10">
         {/* Page header */}
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
@@ -22,15 +22,15 @@ const Dashboard = () => {
         <HeroInsightBar insight={dashboardSummary.heroInsight} />
 
         {/* Main grid - 3 columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left column */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             <StatusSummaryCard summaryText={dashboardSummary.summaryText} />
             <TodayImportantCard items={dashboardSummary.todayAttention} />
           </div>
           
           {/* Middle column */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             <PipelineSummaryCard
               totalActive={dashboardSummary.pipelineSummary.totalActive}
               perStage={dashboardSummary.pipelineSummary.perStage}
@@ -40,7 +40,7 @@ const Dashboard = () => {
           </div>
 
           {/* Right column */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             <ProcessQualityCard quality={dashboardSummary.processQuality} />
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, AlertTriangle, ArrowRight } from "lucide-react";
+import { Users, AlertTriangle } from "lucide-react";
 import type { PipelineStage } from "@/data/mockDashboardData";
 
 interface PipelineSummaryCardProps {
@@ -13,15 +13,12 @@ export function PipelineSummaryCard({
   perStage, 
   bottleneckDescription 
 }: PipelineSummaryCardProps) {
-  // Find the bottleneck stage (highest count in early stages)
-  const bottleneckStage = perStage[0]; // "Nieuw" is usually the bottleneck
-
   return (
-    <Card className="border-border/50 shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
+    <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+      <CardHeader className="pb-4">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Users className="h-4.5 w-4.5 text-primary" />
+            <Users className="h-4 w-4 text-primary" />
           </div>
           <div>
             <CardTitle className="text-base font-semibold">Pipeline</CardTitle>
@@ -29,7 +26,7 @@ export function PipelineSummaryCard({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pt-0 space-y-4">
+      <CardContent className="pt-0 space-y-5">
         {/* Big number */}
         <div className="flex items-baseline gap-2">
           <span className="text-4xl font-bold text-foreground">{totalActive}</span>
@@ -37,8 +34,8 @@ export function PipelineSummaryCard({
         </div>
 
         {/* Stage breakdown - visual bar */}
-        <div className="space-y-2">
-          <div className="flex h-2 rounded-full overflow-hidden bg-muted/50">
+        <div className="space-y-3">
+          <div className="flex h-2.5 rounded-full overflow-hidden bg-muted/50">
             {perStage.map((stage, index) => {
               const width = (stage.count / totalActive) * 100;
               const colors = [
@@ -62,8 +59,8 @@ export function PipelineSummaryCard({
           <div className="flex justify-between text-xs text-muted-foreground">
             {perStage.map(stage => (
               <div key={stage.stageName} className="text-center">
-                <span className="font-medium text-foreground">{stage.count}</span>
-                <p className="text-[10px] truncate max-w-[60px]">{stage.stageName}</p>
+                <span className="font-semibold text-foreground text-sm">{stage.count}</span>
+                <p className="text-[10px] truncate max-w-[55px]">{stage.stageName}</p>
               </div>
             ))}
           </div>

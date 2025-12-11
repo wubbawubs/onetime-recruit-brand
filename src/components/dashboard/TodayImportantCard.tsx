@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, Clock, Users, Calendar, ArrowRight } from "lucide-react";
+import { Zap, ArrowRight } from "lucide-react";
 import type { AttentionItem } from "@/data/mockDashboardData";
 import { cn } from "@/lib/utils";
 
@@ -8,21 +8,9 @@ interface TodayImportantCardProps {
 }
 
 const urgencyConfig = {
-  high: { 
-    dot: "bg-destructive", 
-    icon: Zap,
-    bg: "bg-destructive/5"
-  },
-  medium: { 
-    dot: "bg-warning", 
-    icon: Clock,
-    bg: "bg-warning/5"
-  },
-  low: { 
-    dot: "bg-muted-foreground/40", 
-    icon: Calendar,
-    bg: "bg-muted/50"
-  },
+  high: { dot: "bg-destructive" },
+  medium: { dot: "bg-warning" },
+  low: { dot: "bg-muted-foreground/40" },
 };
 
 // Shorten labels for scannability
@@ -46,23 +34,23 @@ export function TodayImportantCard({ items }: TodayImportantCardProps) {
   const highPriority = items.filter(i => i.urgency === "high").length;
 
   return (
-    <Card className="border-border/50 shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-warning/10 flex items-center justify-center">
-              <Zap className="h-4.5 w-4.5 text-warning" />
-            </div>
-            <div>
-              <CardTitle className="text-base font-semibold">Vandaag belangrijk</CardTitle>
-              <p className="text-xs text-muted-foreground mt-0.5">{items.length} actiepunten</p>
-            </div>
+    <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+      <CardHeader className="pb-4">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-lg bg-warning/10 flex items-center justify-center">
+            <Zap className="h-4 w-4 text-warning" />
           </div>
-          {highPriority > 0 && (
-            <span className="text-xs font-medium text-destructive bg-destructive/10 px-2 py-1 rounded-full">
-              {highPriority} urgent
-            </span>
-          )}
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base font-semibold">Vandaag belangrijk</CardTitle>
+              {highPriority > 0 && (
+                <span className="text-[10px] font-medium text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">
+                  {highPriority} urgent
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">{items.length} actiepunten</p>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
@@ -75,7 +63,7 @@ export function TodayImportantCard({ items }: TodayImportantCardProps) {
               <div
                 key={item.id}
                 className={cn(
-                  "flex items-center justify-between py-3 group cursor-pointer hover:bg-muted/30 -mx-6 px-6 transition-colors",
+                  "flex items-center justify-between py-3.5 group cursor-pointer hover:bg-muted/30 -mx-6 px-6 transition-colors",
                   index !== items.length - 1 && "border-b border-border/30"
                 )}
               >
@@ -88,7 +76,7 @@ export function TodayImportantCard({ items }: TodayImportantCardProps) {
                     )}
                   </div>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
               </div>
             );
           })}
