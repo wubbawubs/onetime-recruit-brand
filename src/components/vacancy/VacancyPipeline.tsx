@@ -3,18 +3,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid, List } from "lucide-react";
 import { CandidateCard } from "./CandidateCard";
+import { CandidateDetailModal } from "./CandidateDetailModal";
 import { cn } from "@/lib/utils";
 import type { PipelineStage, Candidate } from "@/data/mockVacancyData";
 
 interface VacancyPipelineProps {
   stages: PipelineStage[];
+  fullWidth?: boolean;
   onStageChange?: (candidateId: string, fromStage: string, toStage: string) => void;
 }
 
-export function VacancyPipeline({ stages: initialStages, onStageChange }: VacancyPipelineProps) {
+export function VacancyPipeline({ stages: initialStages, fullWidth = false, onStageChange }: VacancyPipelineProps) {
   const [viewMode, setViewMode] = useState<'pipeline' | 'list'>('pipeline');
   const [stages, setStages] = useState(initialStages);
   const [draggedCandidate, setDraggedCandidate] = useState<{ id: string; fromStage: string } | null>(null);
+  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+  const [selectedStage, setSelectedStage] = useState<string>('');
 
   const handleDragStart = (e: React.DragEvent, candidateId: string, stageId: string) => {
     setDraggedCandidate({ id: candidateId, fromStage: stageId });
@@ -57,6 +61,11 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
     setDraggedCandidate(null);
   };
 
+  const handleOpenDetails = (candidate: Candidate, stageName: string) => {
+    setSelectedCandidate(candidate);
+    setSelectedStage(stageName);
+  };
+
   return (
     <div className="space-y-4">
       {/* Section header */}
@@ -88,12 +97,16 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
       </div>
 
       {/* Kanban board */}
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      <div className={cn(
+        "flex gap-4 overflow-x-auto pb-4",
+        fullWidth && "justify-start"
+      )}>
         {stages.map((stage) => (
           <div
             key={stage.id}
             className={cn(
-              "flex-shrink-0 w-64 bg-muted/50 rounded-xl p-3 transition-colors",
+              "flex-shrink-0 bg-muted/50 rounded-xl p-3 transition-colors",
+              fullWidth ? "w-[calc((100%-64px)/5)] min-w-[220px]" : "w-64",
               draggedCandidate && draggedCandidate.fromStage !== stage.id && "ring-2 ring-primary/20"
             )}
             onDragOver={handleDragOver}
@@ -122,6 +135,7 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
                   key={candidate.id}
                   candidate={candidate}
                   onDragStart={(e) => handleDragStart(e, candidate.id, stage.id)}
+                  onOpenDetails={() => handleOpenDetails(candidate, stage.name)}
                 />
               ))}
               {stage.candidates.length === 0 && (
@@ -133,6 +147,14 @@ export function VacancyPipeline({ stages: initialStages, onStageChange }: Vacanc
           </div>
         ))}
       </div>
+
+      {/* Candidate Detail Modal */}
+      <CandidateDetailModal
+        candidate={selectedCandidate}
+        currentStage={selectedStage}
+        open={!!selectedCandidate}
+        onOpenChange={(open) => !open && setSelectedCandidate(null)}
+      />
     </div>
   );
 }
