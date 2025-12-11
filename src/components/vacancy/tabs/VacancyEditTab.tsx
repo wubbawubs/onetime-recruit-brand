@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Save, XCircle, CheckCircle2, Circle, Pause, FileEdit, Archive } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 interface VacancyEditTabProps {
   vacancy: {
@@ -22,6 +23,7 @@ interface VacancyEditTabProps {
 
 export function VacancyEditTab({ vacancy }: VacancyEditTabProps) {
   const { toast } = useToast();
+  const [confirmCloseOpen, setConfirmCloseOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: vacancy.title,
     location: vacancy.location,
@@ -52,7 +54,9 @@ Wat wij vragen:
     });
   };
 
-  const handleClose = () => {
+  const handleConfirmClose = () => {
+    setFormData({ ...formData, status: 'closed' });
+    setConfirmCloseOpen(false);
     toast({
       title: "Vacature gesloten",
       description: "De vacature is nu niet meer zichtbaar voor kandidaten.",
@@ -230,7 +234,7 @@ Wat wij vragen:
 
       {/* Sticky Footer */}
       <div className="border-t bg-card px-8 py-4 flex items-center justify-between">
-        <Button variant="outline" onClick={handleClose} className="text-destructive hover:text-destructive hover:bg-destructive/10">
+        <Button variant="outline" onClick={() => setConfirmCloseOpen(true)} className="text-destructive hover:text-destructive hover:bg-destructive/10">
           <XCircle className="h-4 w-4 mr-2" />
           Vacature sluiten
         </Button>
@@ -239,6 +243,17 @@ Wat wij vragen:
           Wijzigingen opslaan
         </Button>
       </div>
+
+      {/* Confirm Close Dialog */}
+      <ConfirmDialog
+        open={confirmCloseOpen}
+        onOpenChange={setConfirmCloseOpen}
+        title="Vacature sluiten?"
+        description="Weet je zeker dat je deze vacature wilt sluiten? De vacature is daarna niet meer zichtbaar voor kandidaten. Je kunt de vacature later opnieuw activeren."
+        confirmLabel="Ja, sluiten"
+        variant="warning"
+        onConfirm={handleConfirmClose}
+      />
     </div>
   );
 }

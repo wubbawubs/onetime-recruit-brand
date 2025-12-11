@@ -7,6 +7,7 @@ import { GlobalPipelineKanban } from "@/components/pipeline/GlobalPipelineKanban
 import { GlobalInsightBar } from "@/components/pipeline/GlobalInsightBar";
 import { StageFilters } from "@/components/candidates/StageFilters";
 import { FilterDrawer, FilterState } from "@/components/candidates/FilterDrawer";
+import { EmptyState } from "@/components/ui/empty-state";
 import { 
   allCandidates, 
   stages, 
@@ -155,11 +156,18 @@ export default function Pipeline() {
           onStageChange={setActiveStage}
         />
 
-        {/* Kanban Board */}
-        <GlobalPipelineKanban 
-          stages={pipelineStages} 
-          onStageChange={handleStageChange}
-        />
+        {/* Kanban Board or Empty State */}
+        {filteredCandidates.length === 0 ? (
+          <EmptyState
+            title="Geen kandidaten in pipeline"
+            description="Er zijn geen kandidaten die aan je filters voldoen. Pas je filters aan of voeg nieuwe kandidaten toe."
+          />
+        ) : (
+          <GlobalPipelineKanban 
+            stages={pipelineStages} 
+            onStageChange={handleStageChange}
+          />
+        )}
 
         {/* Filter Drawer */}
         <FilterDrawer

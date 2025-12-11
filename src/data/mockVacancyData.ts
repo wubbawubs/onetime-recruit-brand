@@ -51,7 +51,11 @@ export interface VacancyAction {
 export interface VacancyListItem {
   id: string;
   title: string;
+  location: string;
   candidateCount: number;
+  hires: number;
+  hireGoal: number;
+  publishedDate: string;
   status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
 }
 
@@ -87,10 +91,10 @@ export interface VacancyDetail {
 
 // List of all vacancies for the switcher dropdown
 export const mockVacancyList: VacancyListItem[] = [
-  { id: 'vac_senior_accountmanager', title: 'Senior Accountmanager B2B', candidateCount: 32, status: 'live' },
-  { id: 'vac_office_manager', title: 'Office Manager', candidateCount: 8, status: 'live' },
-  { id: 'vac_senior_developer', title: 'Senior Developer', candidateCount: 14, status: 'paused' },
-  { id: 'vac_customer_success', title: 'Customer Success Manager', candidateCount: 21, status: 'live' },
+  { id: 'vac_senior_accountmanager', title: 'Senior Accountmanager B2B', location: 'Utrecht', candidateCount: 32, hires: 2, hireGoal: 3, publishedDate: '2024-12-15', status: 'live' },
+  { id: 'vac_office_manager', title: 'Office Manager', location: 'Amsterdam', candidateCount: 8, hires: 0, hireGoal: 1, publishedDate: '2024-12-28', status: 'live' },
+  { id: 'vac_senior_developer', title: 'Senior Developer', location: 'Remote', candidateCount: 14, hires: 1, hireGoal: 2, publishedDate: '2024-11-20', status: 'paused' },
+  { id: 'vac_customer_success', title: 'Customer Success Manager', location: 'Rotterdam', candidateCount: 21, hires: 0, hireGoal: 2, publishedDate: '2024-12-01', status: 'live' },
 ];
 
 export const mockVacancyDetail: VacancyDetail = {
