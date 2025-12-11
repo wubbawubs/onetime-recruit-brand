@@ -10,7 +10,7 @@ export default function Rapportages() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-8 page-enter page-enter-active">
         {/* Hero Bar */}
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Rapportages</h1>
