@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (foundUser && password.length >= 4) {
       // Show loading animation for full duration
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 3600));
+      await new Promise((resolve) => setTimeout(resolve, 2800));
       
       setUser(foundUser);
       localStorage.setItem("otr_user", JSON.stringify(foundUser));

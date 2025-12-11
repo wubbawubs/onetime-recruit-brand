@@ -7,7 +7,7 @@ export function LoadingScreen() {
 
   useEffect(() => {
     setMounted(true);
-    const duration = 3500; // Extended to let animations complete
+    const duration = 2700; // Slightly less than auth timeout for smooth finish
     const interval = 16;
     const steps = duration / interval;
     let currentStep = 0;
