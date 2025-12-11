@@ -19,16 +19,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Mock user data
 const mockUsers: Record<string, User> = {
-  "juliette@onetimerecruit.nl": {
+  "juliette@onetimerooted.nl": {
     id: "1",
-    email: "juliette@onetimerecruit.nl",
+    email: "juliette@onetimerooted.nl",
     name: "Juliëtte Welten",
     role: "Recruitment Manager",
     avatar: undefined,
   },
-  "demo@onetimerecruit.nl": {
+  "demo@onetimerooted.nl": {
     id: "2",
-    email: "demo@onetimerecruit.nl",
+    email: "demo@onetimerooted.nl",
     name: "Juliëtte Welten",
     role: "Recruitment Manager",
     avatar: undefined,

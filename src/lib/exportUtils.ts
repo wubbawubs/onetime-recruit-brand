@@ -33,7 +33,7 @@ export function exportMonthlyReport(): void {
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Maandrapport - OneTimeRecruit</title>
+      <title>Maandrapport - OneTime Rooted</title>
       <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
         h1 { font-size: 24px; margin-bottom: 8px; }
@@ -51,7 +51,7 @@ export function exportMonthlyReport(): void {
     </head>
     <body>
       <h1>Maandrapport</h1>
-      <p class="subtitle">OneTimeRecruit - ${new Date().toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })}</p>
+      <p class="subtitle">OneTime Rooted - ${new Date().toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })}</p>
       
       <div class="metric-grid">
         <div class="metric-card">

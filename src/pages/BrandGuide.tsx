@@ -12,9 +12,9 @@ const BrandGuide = () => {
       <header className="border-b bg-card">
         <div className="container py-6">
           <div className="flex items-center gap-4">
-            <img src={onetimeLogo} alt="Onetime Recruit" className="h-12 w-auto" />
+            <img src={onetimeLogo} alt="OneTime Rooted" className="h-12 w-auto" />
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Onetime Recruit</h1>
+              <h1 className="text-2xl font-bold text-foreground">OneTime Rooted</h1>
               <p className="text-muted-foreground">Brand & Design System Guide</p>
             </div>
           </div>
@@ -31,7 +31,7 @@ const BrandGuide = () => {
                 <CardTitle className="text-base">Light Background</CardTitle>
               </CardHeader>
               <CardContent className="flex items-center justify-center p-8 bg-background rounded-lg border">
-                <img src={onetimeLogo} alt="Onetime Recruit Logo" className="h-20 w-auto" />
+                <img src={onetimeLogo} alt="OneTime Rooted Logo" className="h-20 w-auto" />
               </CardContent>
             </Card>
             <Card>
@@ -39,7 +39,7 @@ const BrandGuide = () => {
                 <CardTitle className="text-base">Dark Background</CardTitle>
               </CardHeader>
               <CardContent className="flex items-center justify-center p-8 bg-sidebar rounded-lg">
-                <img src={onetimeLogo} alt="Onetime Recruit Logo" className="h-20 w-auto" />
+                <img src={onetimeLogo} alt="OneTime Rooted Logo" className="h-20 w-auto" />
               </CardContent>
             </Card>
           </div>

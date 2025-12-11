@@ -49,13 +49,13 @@ export default function Login() {
           <div className="flex justify-center mb-4">
             <img 
               src={onetimeLogo} 
-              alt="OneTimeRecruit" 
+              alt="OneTime Rooted" 
               className="h-12 w-auto"
             />
           </div>
           <CardTitle className="text-2xl font-semibold">Welkom terug</CardTitle>
           <CardDescription>
-            Log in op je OneTimeRecruit account
+            Log in op je OneTime Rooted account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -112,7 +112,7 @@ export default function Login() {
           <div className="mt-6 p-3 bg-muted/50 rounded-lg">
             <p className="text-xs text-muted-foreground text-center">
               <strong>Demo account:</strong><br />
-              juliette@onetimerecruit.nl / demo
+              juliette@onetimerooted.nl / demo
             </p>
           </div>
         </CardContent>
