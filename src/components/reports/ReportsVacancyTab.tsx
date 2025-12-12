@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Clock, TrendingUp, Users, Heart, ChevronDown } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Clock, TrendingUp, Users, Heart, Building2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
@@ -8,11 +8,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { getAllVacanciesForReport, getVacancyReport, VacancyReportData } from '@/data/mockReportsData';
+import { getAllVacanciesForReport, getVacancyReport } from '@/data/mockReportsData';
+import { Badge } from '@/components/ui/badge';
 
-export function ReportsVacancyTab() {
-  const vacancies = getAllVacanciesForReport();
+interface ReportsVacancyTabProps {
+  partnerId?: string;
+}
+
+export function ReportsVacancyTab({ partnerId = 'all' }: ReportsVacancyTabProps) {
+  const vacancies = getAllVacanciesForReport(partnerId);
   const [selectedVacancy, setSelectedVacancy] = useState(vacancies[0]?.id || '');
+  
+  // Update selected vacancy when partner filter changes
+  useEffect(() => {
+    const newVacancies = getAllVacanciesForReport(partnerId);
+    if (newVacancies.length > 0 && !newVacancies.find(v => v.id === selectedVacancy)) {
+      setSelectedVacancy(newVacancies[0].id);
+    }
+  }, [partnerId, selectedVacancy]);
+
   const report = getVacancyReport(selectedVacancy);
 
   const statusConfig = {
@@ -23,24 +37,47 @@ export function ReportsVacancyTab() {
 
   const status = statusConfig[report.status];
 
+  if (vacancies.length === 0) {
+    return (
+      <div className="text-center py-12 text-muted-foreground">
+        <p>Geen vacatures gevonden voor deze partner.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Vacancy Selector */}
-      <div className="flex items-center gap-4">
-        <label className="text-sm font-medium text-muted-foreground">Selecteer vacature:</label>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <label className="text-sm font-medium text-muted-foreground whitespace-nowrap">Selecteer vacature:</label>
         <Select value={selectedVacancy} onValueChange={setSelectedVacancy}>
-          <SelectTrigger className="w-[300px]">
+          <SelectTrigger className="w-full sm:w-[350px]">
             <SelectValue placeholder="Kies een vacature" />
           </SelectTrigger>
           <SelectContent>
             {vacancies.map((vacancy) => (
               <SelectItem key={vacancy.id} value={vacancy.id}>
-                {vacancy.title}
+                <div className="flex items-center gap-2">
+                  <span>{vacancy.title}</span>
+                  {partnerId === 'all' && (
+                    <span className="text-xs text-muted-foreground">({vacancy.partnerName})</span>
+                  )}
+                </div>
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
+
+      {/* Partner badge */}
+      {partnerId === 'all' && report.partnerName && (
+        <div className="flex items-center gap-2">
+          <Building2 className="h-4 w-4 text-muted-foreground" />
+          <Badge variant="outline" className="text-xs">
+            {report.partnerName}
+          </Badge>
+        </div>
+      )}
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -124,6 +161,7 @@ export function ReportsVacancyTab() {
                     <div className="text-xs text-muted-foreground truncate max-w-[50px]">
                       {stage.stage === 'Eerste gesprek' ? 'EG' :
                        stage.stage === 'Tweede gesprek' ? 'TG' :
+                       stage.stage === 'In dienst' ? 'Hired' :
                        stage.stage}
                     </div>
                   </div>
@@ -156,12 +194,16 @@ export function ReportsVacancyTab() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {report.instroom.bySource.map((source) => (
-                <div key={source.source} className="flex items-center justify-between">
-                  <span className="text-sm">{source.source}</span>
-                  <span className="font-medium">{source.count}</span>
-                </div>
-              ))}
+              {report.instroom.bySource.length > 0 ? (
+                report.instroom.bySource.map((source) => (
+                  <div key={source.source} className="flex items-center justify-between">
+                    <span className="text-sm">{source.source}</span>
+                    <span className="font-medium">{source.count}</span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground">Geen data beschikbaar</p>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FileText, FileSpreadsheet, Download } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,10 +13,27 @@ import { getAllVacanciesForReport } from '@/data/mockReportsData';
 import { exportCandidatesCSV, exportMonthlyReport, exportVacancyReport } from '@/lib/exportUtils';
 import { useToast } from '@/hooks/use-toast';
 
-export function ReportsExportTab() {
-  const vacancies = getAllVacanciesForReport();
+interface ReportsExportTabProps {
+  partnerId?: string;
+}
+
+export function ReportsExportTab({ partnerId = 'all' }: ReportsExportTabProps) {
+  const vacancies = getAllVacanciesForReport(partnerId);
   const [selectedVacancy, setSelectedVacancy] = useState(vacancies[0]?.id || '');
+  const [selectedMonthlyVacancy, setSelectedMonthlyVacancy] = useState('all');
+  const [selectedCSVVacancy, setSelectedCSVVacancy] = useState('all');
   const { toast } = useToast();
+
+  // Update selected vacancies when partner filter changes
+  useEffect(() => {
+    const newVacancies = getAllVacanciesForReport(partnerId);
+    if (newVacancies.length > 0 && !newVacancies.find(v => v.id === selectedVacancy)) {
+      setSelectedVacancy(newVacancies[0].id);
+    }
+    // Reset monthly and CSV to 'all' when partner changes
+    setSelectedMonthlyVacancy('all');
+    setSelectedCSVVacancy('all');
+  }, [partnerId, selectedVacancy]);
 
   const handleVacancyExport = () => {
     exportVacancyReport(selectedVacancy);
@@ -30,7 +47,9 @@ export function ReportsExportTab() {
     exportMonthlyReport();
     toast({
       title: 'Export gestart',
-      description: 'Je maandrapport wordt nu gegenereerd.',
+      description: selectedMonthlyVacancy === 'all' 
+        ? 'Je maandrapport voor alle vacatures wordt nu gegenereerd.'
+        : 'Je maandrapport voor de geselecteerde vacature wordt nu gegenereerd.',
     });
   };
 
@@ -38,7 +57,9 @@ export function ReportsExportTab() {
     exportCandidatesCSV();
     toast({
       title: 'CSV gedownload',
-      description: 'Je kandidatenlijst is geëxporteerd.',
+      description: selectedCSVVacancy === 'all'
+        ? 'Alle kandidaten zijn geëxporteerd.'
+        : 'Kandidaten voor de geselecteerde vacature zijn geëxporteerd.',
     });
   };
 
@@ -64,12 +85,17 @@ export function ReportsExportTab() {
               <SelectContent>
                 {vacancies.map((vacancy) => (
                   <SelectItem key={vacancy.id} value={vacancy.id}>
-                    {vacancy.title}
+                    <div className="flex items-center gap-2">
+                      <span>{vacancy.title}</span>
+                      {partnerId === 'all' && (
+                        <span className="text-xs text-muted-foreground">({vacancy.partnerName})</span>
+                      )}
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            <Button onClick={handleVacancyExport} className="w-full sm:w-auto">
+            <Button onClick={handleVacancyExport} className="w-full sm:w-auto" disabled={!selectedVacancy}>
               <Download className="h-4 w-4 mr-2" />
               Download PDF
             </Button>
@@ -89,10 +115,30 @@ export function ReportsExportTab() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button onClick={handleMonthlyExport}>
-            <Download className="h-4 w-4 mr-2" />
-            Download PDF
-          </Button>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+            <Select value={selectedMonthlyVacancy} onValueChange={setSelectedMonthlyVacancy}>
+              <SelectTrigger className="w-full sm:w-[300px]">
+                <SelectValue placeholder="Selecteer vacature" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Alle vacatures</SelectItem>
+                {vacancies.map((vacancy) => (
+                  <SelectItem key={vacancy.id} value={vacancy.id}>
+                    <div className="flex items-center gap-2">
+                      <span>{vacancy.title}</span>
+                      {partnerId === 'all' && (
+                        <span className="text-xs text-muted-foreground">({vacancy.partnerName})</span>
+                      )}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button onClick={handleMonthlyExport}>
+              <Download className="h-4 w-4 mr-2" />
+              Download PDF
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
@@ -104,14 +150,34 @@ export function ReportsExportTab() {
             CSV Kandidatenlijst
           </CardTitle>
           <CardDescription>
-            Exporteer alle kandidaten met stage, bron, datum en score. Perfect voor eigen analyses of externe rapportages.
+            Exporteer kandidaten met stage, bron, datum en score. Perfect voor eigen analyses of externe rapportages.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button variant="outline" onClick={handleCSVExport}>
-            <Download className="h-4 w-4 mr-2" />
-            Download CSV
-          </Button>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+            <Select value={selectedCSVVacancy} onValueChange={setSelectedCSVVacancy}>
+              <SelectTrigger className="w-full sm:w-[300px]">
+                <SelectValue placeholder="Selecteer vacature" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Alle kandidaten</SelectItem>
+                {vacancies.map((vacancy) => (
+                  <SelectItem key={vacancy.id} value={vacancy.id}>
+                    <div className="flex items-center gap-2">
+                      <span>{vacancy.title}</span>
+                      {partnerId === 'all' && (
+                        <span className="text-xs text-muted-foreground">({vacancy.partnerName})</span>
+                      )}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button variant="outline" onClick={handleCSVExport}>
+              <Download className="h-4 w-4 mr-2" />
+              Download CSV
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

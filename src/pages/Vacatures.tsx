@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Briefcase, Users, ChevronRight, Plus, MapPin, Search, Calendar, Target } from "lucide-react";
+import { Briefcase, Users, ChevronRight, Plus, MapPin, Search, Calendar, Target, CheckCircle } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,9 @@ import { mockVacancyList } from "@/data/mockVacancyData";
 import { NewVacancyModal } from "@/components/vacancy/NewVacancyModal";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorBanner } from "@/components/ui/error-banner";
+import { PartnerFilter } from "@/components/shared/PartnerFilter";
+import { useAuth } from "@/contexts/AuthContext";
+import { getVisiblePartners } from "@/data/mockPartnersData";
 
 const statusConfig = {
   live: { label: "Live", color: "bg-emerald-500", textColor: "text-emerald-700 dark:text-emerald-400", bgColor: "bg-emerald-50 dark:bg-emerald-500/10" },
@@ -32,13 +35,30 @@ function formatDate(dateString: string) {
 }
 
 export default function Vacatures() {
+  const { user } = useAuth();
   const [newVacancyOpen, setNewVacancyOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
+  
+  // Partner filter - for clients, default to their own partner
+  const defaultPartnerId = user?.role === 'client' ? (user.partnerId || 'all') : 'all';
+  const [partnerFilter, setPartnerFilter] = useState(defaultPartnerId);
+  
+  // Get visible partners for the current user
+  const visiblePartners = getVisiblePartners(user?.role || 'client', user?.partnerId);
+  const visiblePartnerIds = visiblePartners.map(p => p.id);
 
   const filteredVacancies = useMemo(() => {
     let result = [...mockVacancyList];
+
+    // First filter by visible partners (role-based access)
+    result = result.filter(v => visiblePartnerIds.includes(v.partnerId));
+
+    // Then apply partner filter if not "all"
+    if (partnerFilter !== "all") {
+      result = result.filter((v) => v.partnerId === partnerFilter);
+    }
 
     // Status filter
     if (statusFilter !== "all") {
@@ -56,14 +76,20 @@ export default function Vacatures() {
     }
 
     return result;
-  }, [statusFilter, searchQuery]);
+  }, [statusFilter, searchQuery, partnerFilter, visiblePartnerIds]);
+
+  // Stats based on visible vacancies (respecting role-based access)
+  const visibleVacancies = useMemo(() => {
+    return mockVacancyList.filter(v => visiblePartnerIds.includes(v.partnerId));
+  }, [visiblePartnerIds]);
 
   const stats = useMemo(() => ({
-    active: mockVacancyList.filter((v) => v.status === "live").length,
-    paused: mockVacancyList.filter((v) => v.status === "paused").length,
-    totalCandidates: mockVacancyList.reduce((sum, v) => sum + v.candidateCount, 0),
-    drafts: mockVacancyList.filter((v) => v.status === "draft").length,
-  }), []);
+    active: visibleVacancies.filter((v) => v.status === "live").length,
+    paused: visibleVacancies.filter((v) => v.status === "paused").length,
+    totalCandidates: visibleVacancies.reduce((sum, v) => sum + v.candidateCount, 0),
+    drafts: visibleVacancies.filter((v) => v.status === "draft").length,
+    filled: visibleVacancies.filter((v) => v.status === "filled").length,
+  }), [visibleVacancies]);
 
   return (
     <DashboardLayout>
@@ -91,7 +117,7 @@ export default function Vacatures() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
           <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-5">
             <p className="text-xs sm:text-sm text-muted-foreground">Totaal actief</p>
             <p className="text-xl sm:text-2xl font-semibold mt-1">{stats.active}</p>
@@ -108,10 +134,21 @@ export default function Vacatures() {
             <p className="text-xs sm:text-sm text-muted-foreground">Concepten</p>
             <p className="text-xl sm:text-2xl font-semibold mt-1">{stats.drafts}</p>
           </div>
+          <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-5">
+            <div className="flex items-center gap-1.5">
+              <CheckCircle className="h-3.5 w-3.5 text-muted-foreground" />
+              <p className="text-xs sm:text-sm text-muted-foreground">Gevuld</p>
+            </div>
+            <p className="text-xl sm:text-2xl font-semibold mt-1">{stats.filled}</p>
+          </div>
         </div>
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <PartnerFilter 
+            value={partnerFilter} 
+            onValueChange={setPartnerFilter}
+          />
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-full sm:w-40">
               <SelectValue placeholder="Status" />
@@ -138,16 +175,21 @@ export default function Vacatures() {
 
         {/* Vacancy list */}
         <div className="bg-card border border-border/50 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-border/50">
-            <h2 className="font-medium">
-              Alle vacatures
-              {filteredVacancies.length !== mockVacancyList.length && (
+          {filteredVacancies.length !== visibleVacancies.length && (
+            <div className="px-5 py-4 border-b border-border/50">
+              <h2 className="font-medium">
+                Alle vacatures
                 <span className="text-muted-foreground font-normal ml-2">
-                  ({filteredVacancies.length} van {mockVacancyList.length})
+                  ({filteredVacancies.length} van {visibleVacancies.length})
                 </span>
-              )}
-            </h2>
-          </div>
+              </h2>
+            </div>
+          )}
+          {filteredVacancies.length === visibleVacancies.length && (
+            <div className="px-5 py-4 border-b border-border/50">
+              <h2 className="font-medium">Alle vacatures</h2>
+            </div>
+          )}
 
           {filteredVacancies.length === 0 ? (
             <EmptyState

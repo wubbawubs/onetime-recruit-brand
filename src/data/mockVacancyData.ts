@@ -57,6 +57,7 @@ export interface VacancyListItem {
   hireGoal: number;
   publishedDate: string;
   status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
+  partnerId: string; // Which partner/client this vacancy belongs to
 }
 
 export interface HeroInsight {
@@ -91,10 +92,12 @@ export interface VacancyDetail {
 
 // List of all vacancies for the switcher dropdown
 export const mockVacancyList: VacancyListItem[] = [
-  { id: 'vac_senior_accountmanager', title: 'Senior Accountmanager B2B', location: 'Utrecht', candidateCount: 32, hires: 2, hireGoal: 3, publishedDate: '2024-12-15', status: 'live' },
-  { id: 'vac_office_manager', title: 'Office Manager', location: 'Amsterdam', candidateCount: 8, hires: 0, hireGoal: 1, publishedDate: '2024-12-28', status: 'live' },
-  { id: 'vac_senior_developer', title: 'Senior Developer', location: 'Remote', candidateCount: 14, hires: 1, hireGoal: 2, publishedDate: '2024-11-20', status: 'paused' },
-  { id: 'vac_customer_success', title: 'Customer Success Manager', location: 'Rotterdam', candidateCount: 21, hires: 0, hireGoal: 2, publishedDate: '2024-12-01', status: 'live' },
+  { id: 'vac_senior_accountmanager', title: 'Senior Accountmanager B2B', location: 'Utrecht', candidateCount: 32, hires: 2, hireGoal: 3, publishedDate: '2024-12-15', status: 'live', partnerId: 'partner-techbedrijf' },
+  { id: 'vac_office_manager', title: 'Office Manager', location: 'Amsterdam', candidateCount: 8, hires: 0, hireGoal: 1, publishedDate: '2024-12-28', status: 'live', partnerId: 'partner-techbedrijf' },
+  { id: 'vac_senior_developer', title: 'Senior Developer', location: 'Remote', candidateCount: 14, hires: 1, hireGoal: 2, publishedDate: '2024-11-20', status: 'paused', partnerId: 'partner-marketingbureau' },
+  { id: 'vac_customer_success', title: 'Customer Success Manager', location: 'Rotterdam', candidateCount: 21, hires: 0, hireGoal: 2, publishedDate: '2024-12-01', status: 'live', partnerId: 'partner-financials' },
+  { id: 'vac_marketing_manager', title: 'Marketing Manager', location: 'Den Haag', candidateCount: 15, hires: 1, hireGoal: 1, publishedDate: '2024-11-10', status: 'filled', partnerId: 'partner-marketingbureau' },
+  { id: 'vac_sales_rep', title: 'Sales Representative', location: 'Eindhoven', candidateCount: 28, hires: 0, hireGoal: 3, publishedDate: '2024-12-05', status: 'live', partnerId: 'partner-financials' },
 ];
 
 export const mockVacancyDetail: VacancyDetail = {

@@ -1,22 +1,37 @@
+import { useState } from 'react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReportsOverviewTab } from '@/components/reports/ReportsOverviewTab';
 import { ReportsVacancyTab } from '@/components/reports/ReportsVacancyTab';
 import { ReportsExportTab } from '@/components/reports/ReportsExportTab';
+import { PartnerFilter } from '@/components/shared/PartnerFilter';
 import { getReportsOverview } from '@/data/mockReportsData';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Rapportages() {
-  const overviewData = getReportsOverview();
+  const { user } = useAuth();
+  
+  // For clients, default to their own partner. For others, show all.
+  const defaultPartnerId = user?.role === 'client' ? (user.partnerId || 'all') : 'all';
+  const [selectedPartnerId, setSelectedPartnerId] = useState(defaultPartnerId);
+  
+  const overviewData = getReportsOverview(selectedPartnerId);
 
   return (
     <DashboardLayout>
       <div className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8 page-enter page-enter-active">
         {/* Hero Bar */}
-        <div>
-          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Rapportages</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Inzicht in je doorlooptijden, hires en funnel-data.
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Rapportages</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Inzicht in je doorlooptijden, hires en funnel-data.
+            </p>
+          </div>
+          <PartnerFilter 
+            value={selectedPartnerId} 
+            onValueChange={setSelectedPartnerId}
+          />
         </div>
 
         {/* Tabs */}
@@ -32,11 +47,11 @@ export default function Rapportages() {
           </TabsContent>
 
           <TabsContent value="per-vacature" className="mt-6">
-            <ReportsVacancyTab />
+            <ReportsVacancyTab partnerId={selectedPartnerId} />
           </TabsContent>
 
           <TabsContent value="exporteer" className="mt-6">
-            <ReportsExportTab />
+            <ReportsExportTab partnerId={selectedPartnerId} />
           </TabsContent>
         </Tabs>
       </div>
