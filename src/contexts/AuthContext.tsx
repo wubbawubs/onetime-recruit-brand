@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
+export type UserRole = 'admin' | 'partner' | 'client';
+
 interface User {
   id: string;
   email: string;
   name: string;
-  role: string;
+  displayRole: string; // Display name for the role
+  role: UserRole; // System role for permissions
+  partnerId?: string; // Which partner this user belongs to
   avatar?: string;
 }
 
@@ -17,20 +21,56 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock user data
+// Mock user data with multi-tenant roles
 const mockUsers: Record<string, User> = {
+  // Admin - Platform Owner (OneTimeRooted team)
   "juliette@onetimerooted.nl": {
     id: "1",
     email: "juliette@onetimerooted.nl",
     name: "Juliëtte Welten",
-    role: "Recruitment Manager",
+    displayRole: "Platform Admin",
+    role: "admin",
+    partnerId: "partner-otr",
     avatar: undefined,
   },
-  "demo@onetimerooted.nl": {
+  // Partner - Recruitment Partner
+  "robin@onetimerooted.nl": {
     id: "2",
+    email: "robin@onetimerooted.nl",
+    name: "Robin Verhoeven",
+    displayRole: "Recruitment Partner",
+    role: "partner",
+    partnerId: "partner-otr",
+    avatar: undefined,
+  },
+  // Partner - Recruitment Partner
+  "dennie@onetimerooted.nl": {
+    id: "3",
+    email: "dennie@onetimerooted.nl",
+    name: "Dennie de Boer",
+    displayRole: "Recruitment Partner",
+    role: "partner",
+    partnerId: "partner-otr",
+    avatar: undefined,
+  },
+  // Client - Opdrachtgever
+  "luuk@techbedrijf.nl": {
+    id: "4",
+    email: "luuk@techbedrijf.nl",
+    name: "Luuk Janssen",
+    displayRole: "Hiring Manager",
+    role: "client",
+    partnerId: "partner-techbedrijf",
+    avatar: undefined,
+  },
+  // Legacy demo account - keep for backwards compatibility
+  "demo@onetimerooted.nl": {
+    id: "5",
     email: "demo@onetimerooted.nl",
-    name: "Juliëtte Welten",
-    role: "Recruitment Manager",
+    name: "Demo Gebruiker",
+    displayRole: "Platform Admin",
+    role: "admin",
+    partnerId: "partner-otr",
     avatar: undefined,
   },
 };
