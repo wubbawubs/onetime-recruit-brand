@@ -1,12 +1,14 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CandidateListItem } from "@/data/mockCandidatesData";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 
 interface CandidatesListProps {
   candidates: CandidateListItem[];
   onCandidateClick: (candidate: CandidateListItem) => void;
+  onAssignClick?: (candidate: CandidateListItem) => void;
 }
 
 function getInitials(name: string) {
@@ -29,7 +31,10 @@ function formatDaysAgo(dateString: string) {
   return `${diffDays}d`;
 }
 
-function getStageBadgeVariant(stage: string) {
+function getStageBadgeVariant(stage: string, isRejected?: boolean) {
+  if (isRejected) {
+    return "bg-destructive/10 text-destructive border-destructive/20";
+  }
   switch (stage.toLowerCase()) {
     case "nieuw":
       return "bg-blue-500/10 text-blue-600 border-blue-500/20";
@@ -46,7 +51,7 @@ function getStageBadgeVariant(stage: string) {
   }
 }
 
-export function CandidatesList({ candidates, onCandidateClick }: CandidatesListProps) {
+export function CandidatesList({ candidates, onCandidateClick, onAssignClick }: CandidatesListProps) {
   if (candidates.length === 0) {
     return (
       <EmptyState
@@ -92,21 +97,43 @@ export function CandidatesList({ candidates, onCandidateClick }: CandidatesListP
             {candidate.currentVacancy}
           </div>
 
+          {/* Assign Button */}
+          {onAssignClick && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 text-xs text-muted-foreground hover:text-primary hidden sm:flex shrink-0"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAssignClick(candidate);
+              }}
+            >
+              <UserPlus className="h-3.5 w-3.5 mr-1" />
+              <span className="hidden lg:inline">Toewijzen</span>
+            </Button>
+          )}
+
           {/* Stage Badge */}
           <Badge
             variant="outline"
             className={cn(
               "shrink-0 font-normal text-[10px] sm:text-xs px-1.5 sm:px-2.5 py-0.5",
-              getStageBadgeVariant(candidate.currentStage)
+              getStageBadgeVariant(candidate.currentStage, candidate.isRejected)
             )}
           >
-            <span className="hidden sm:inline">{candidate.currentStage}</span>
-            <span className="sm:hidden">
-              {candidate.currentStage === 'Eerste gesprek' ? 'EG' : 
-               candidate.currentStage === 'Tweede gesprek' ? 'TG' : 
-               candidate.currentStage === 'In dienst' ? 'Hired' :
-               candidate.currentStage}
-            </span>
+            {candidate.isRejected ? (
+              <span>Afgewezen</span>
+            ) : (
+              <>
+                <span className="hidden sm:inline">{candidate.currentStage}</span>
+                <span className="sm:hidden">
+                  {candidate.currentStage === 'Eerste gesprek' ? 'EG' : 
+                   candidate.currentStage === 'Tweede gesprek' ? 'TG' : 
+                   candidate.currentStage === 'In dienst' ? 'Hired' :
+                   candidate.currentStage}
+                </span>
+              </>
+            )}
           </Badge>
 
           {/* Score - hidden on small mobile */}

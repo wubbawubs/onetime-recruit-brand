@@ -15,6 +15,7 @@ import { VacancyPublicationTab } from "@/components/vacancy/tabs/VacancyPublicat
 import { VacancyFormTab } from "@/components/vacancy/tabs/VacancyFormTab";
 import { VacancyTeamTab } from "@/components/vacancy/tabs/VacancyTeamTab";
 import { VacancyAutomationTab } from "@/components/vacancy/tabs/VacancyAutomationTab";
+import { VacancyArchiveModal } from "@/components/vacancy/VacancyArchiveModal";
 import { mockVacancyDetail } from "@/data/mockVacancyData";
 import { Button } from "@/components/ui/button";
 import { PanelRightClose, PanelRightOpen, ChevronRight } from "lucide-react";
@@ -24,6 +25,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 export default function VacancyDetail() {
   const [activeTab, setActiveTab] = useState('overview');
   const [insightsOpen, setInsightsOpen] = useState(true);
+  const [archiveModalOpen, setArchiveModalOpen] = useState(false);
   const vacancy = mockVacancyDetail;
 
   const scrollToActions = () => {
@@ -58,6 +60,7 @@ export default function VacancyDetail() {
             contractType={vacancy.contractType}
             status={vacancy.status}
             onEditClick={() => setActiveTab('edit')}
+            onArchiveClick={() => setArchiveModalOpen(true)}
           />
           <VacancyStatsStrip
             totalCandidates={vacancy.totalCandidates}
@@ -168,6 +171,20 @@ export default function VacancyDetail() {
             <VacancyAutomationTab />
           </div>
         )}
+
+        {/* Archive Modal */}
+        <VacancyArchiveModal
+          vacancyId={vacancy.id}
+          vacancyTitle={vacancy.title}
+          open={archiveModalOpen}
+          onOpenChange={setArchiveModalOpen}
+          stats={{
+            totalCandidates: vacancy.totalCandidates,
+            hiredCount: vacancy.hires,
+            avgTimeToHire: 28,
+            daysOpen: vacancy.weeksOpen * 7,
+          }}
+        />
       </div>
     </DashboardLayout>
   );

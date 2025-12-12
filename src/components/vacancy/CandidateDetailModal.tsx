@@ -44,6 +44,8 @@ interface CandidateDetailModalProps {
   currentStage: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onReject?: (candidateId: string) => void;
+  onAssign?: () => void;
 }
 
 // Extended candidate data for the modal
@@ -93,7 +95,7 @@ const getCandidateDetails = (candidate: Candidate, stageName: string) => ({
   ],
 });
 
-export function CandidateDetailModal({ candidate, currentStage, open, onOpenChange }: CandidateDetailModalProps) {
+export function CandidateDetailModal({ candidate, currentStage, open, onOpenChange, onReject, onAssign }: CandidateDetailModalProps) {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
   const [newNote, setNewNote] = useState('');
@@ -105,6 +107,7 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
 
   const handleReject = () => {
     setConfirmRejectOpen(false);
+    onReject?.(candidate.id);
     onOpenChange(false);
     toast({
       title: "Kandidaat afgewezen",
@@ -151,6 +154,16 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
             <div className="flex gap-2 pr-8">
               <SendEmailModal candidate={candidate} />
               <ScheduleMeetingModal candidate={candidate} />
+              {onAssign && (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={onAssign}
+                >
+                  <Briefcase className="h-4 w-4 mr-1" />
+                  Toewijzen
+                </Button>
+              )}
               <Button 
                 variant="outline" 
                 size="sm"
