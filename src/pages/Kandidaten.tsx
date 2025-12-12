@@ -15,6 +15,8 @@ import { PartnerFilter } from "@/components/shared/PartnerFilter";
 import { allCandidates, stages, getStageCounts, CandidateListItem } from "@/data/mockCandidatesData";
 import { Candidate } from "@/data/mockVacancyData";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { exportCandidatesCSV } from "@/lib/exportUtils";
 
 const defaultFilters: FilterState = {
   stages: [],
@@ -27,6 +29,7 @@ export default function Kandidaten() {
   const [searchParams] = useSearchParams();
   const vacancyParam = searchParams.get("vacancy");
   const { user } = useAuth();
+  const { toast } = useToast();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStage, setActiveStage] = useState("all");
@@ -237,7 +240,18 @@ export default function Kandidaten() {
             </Button>
 
             {/* Export */}
-            <Button variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10 shrink-0">
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className="h-9 w-9 sm:h-10 sm:w-10 shrink-0"
+              onClick={() => {
+                exportCandidatesCSV();
+                toast({
+                  title: "Export gestart",
+                  description: "CSV bestand wordt gedownload.",
+                });
+              }}
+            >
               <Download className="h-4 w-4" />
             </Button>
 

@@ -9,6 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 interface GlobalPipelineKanbanProps {
   stages: GlobalPipelineStage[];
   onStageChange?: (candidateId: string, fromStage: string, toStage: string) => void;
+  onRejectCandidate?: (candidateId: string) => void;
+  onAssignCandidate?: (candidate: CandidateListItem) => void;
 }
 
 // Convert CandidateListItem to the format expected by CandidateDetailModal
@@ -26,7 +28,7 @@ function convertToModalCandidate(candidate: CandidateListItem) {
   };
 }
 
-export function GlobalPipelineKanban({ stages: initialStages, onStageChange }: GlobalPipelineKanbanProps) {
+export function GlobalPipelineKanban({ stages: initialStages, onStageChange, onRejectCandidate, onAssignCandidate }: GlobalPipelineKanbanProps) {
   const { toast } = useToast();
   const [stages, setStages] = useState(initialStages);
   const [draggedCandidate, setDraggedCandidate] = useState<{ id: string; fromStage: string } | null>(null);
@@ -170,6 +172,14 @@ export function GlobalPipelineKanban({ stages: initialStages, onStageChange }: G
           currentStage={selectedStage}
           open={!!selectedCandidate}
           onOpenChange={(open) => !open && setSelectedCandidate(null)}
+          onReject={onRejectCandidate ? (id) => {
+            onRejectCandidate(id);
+            setSelectedCandidate(null);
+          } : undefined}
+          onAssign={onAssignCandidate ? () => {
+            onAssignCandidate(selectedCandidate);
+            setSelectedCandidate(null);
+          } : undefined}
         />
       )}
     </div>

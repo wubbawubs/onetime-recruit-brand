@@ -5,11 +5,13 @@ import { ReportsOverviewTab } from '@/components/reports/ReportsOverviewTab';
 import { ReportsVacancyTab } from '@/components/reports/ReportsVacancyTab';
 import { ReportsExportTab } from '@/components/reports/ReportsExportTab';
 import { PartnerFilter } from '@/components/shared/PartnerFilter';
+import { ErrorBanner } from '@/components/ui/error-banner';
 import { getReportsOverview } from '@/data/mockReportsData';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Rapportages() {
   const { user } = useAuth();
+  const [error, setError] = useState<string | null>(null);
   
   // For clients, default to their own partner. For others, show all.
   const defaultPartnerId = user?.role === 'client' ? (user.partnerId || 'all') : 'all';
@@ -20,6 +22,14 @@ export default function Rapportages() {
   return (
     <DashboardLayout>
       <div className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8 page-enter page-enter-active">
+        {/* Error Banner */}
+        {error && (
+          <ErrorBanner
+            message={error}
+            onDismiss={() => setError(null)}
+          />
+        )}
+
         {/* Hero Bar */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>

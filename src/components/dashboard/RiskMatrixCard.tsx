@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Flame, CheckCircle } from "lucide-react";
 
@@ -31,60 +32,62 @@ const conclusionConfig = {
   risico: { icon: Flame, color: "text-destructive", label: "Risico" },
 };
 
-export function RiskMatrixCard() {
-  return (
-    <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader className="pb-4">
-        <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-destructive/10 flex items-center justify-center">
-            <Shield className="h-4 w-4 text-destructive" />
+export const RiskMatrixCard = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  function RiskMatrixCard(props, ref) {
+    return (
+      <Card ref={ref} className="border-border/40 shadow-sm hover:shadow-md transition-shadow" {...props}>
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-lg bg-destructive/10 flex items-center justify-center">
+              <Shield className="h-4 w-4 text-destructive" />
+            </div>
+            <div>
+              <CardTitle className="text-base font-semibold">Risico per vacature</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Overzicht knelpunten</p>
+            </div>
           </div>
-          <div>
-            <CardTitle className="text-base font-semibold">Risico per vacature</CardTitle>
-            <p className="text-xs text-muted-foreground mt-0.5">Overzicht knelpunten</p>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <table className="w-full text-[10px] sm:text-xs min-w-[400px]">
+              <thead>
+                <tr className="border-b border-border/30">
+                  <th className="text-left py-2 px-4 sm:px-0 font-medium text-muted-foreground">Vacature</th>
+                  <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Instroom</th>
+                  <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Doorloop</th>
+                  <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Reactie</th>
+                  <th className="text-right py-2 px-4 sm:px-0 font-medium text-muted-foreground">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {riskData.map((vacancy, index) => {
+                  const config = conclusionConfig[vacancy.conclusion];
+                  const ConclusionIcon = config.icon;
+                  return (
+                    <tr 
+                      key={vacancy.title} 
+                      className={`${index !== riskData.length - 1 ? "border-b border-border/20" : ""} hover:bg-muted/20 transition-colors`}
+                    >
+                      <td className="py-2 sm:py-2.5 px-4 sm:px-0 font-medium text-foreground">
+                        <span className="truncate block max-w-[120px] sm:max-w-none">{vacancy.title}</span>
+                      </td>
+                      <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.instroom]}`}>{vacancy.instroom}</td>
+                      <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.doorloop]}`}>{vacancy.doorloop}</td>
+                      <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.reactietijd]}`}>{vacancy.reactietijd}</td>
+                      <td className="py-2 sm:py-2.5 px-4 sm:px-0 text-right">
+                        <div className={`inline-flex items-center gap-1 ${config.color}`}>
+                          <ConclusionIcon className="h-3 w-3" />
+                          <span className="font-medium">{config.label}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="overflow-x-auto -mx-4 sm:mx-0">
-          <table className="w-full text-[10px] sm:text-xs min-w-[400px]">
-            <thead>
-              <tr className="border-b border-border/30">
-                <th className="text-left py-2 px-4 sm:px-0 font-medium text-muted-foreground">Vacature</th>
-                <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Instroom</th>
-                <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Doorloop</th>
-                <th className="text-center py-2 font-medium text-muted-foreground hidden sm:table-cell">Reactie</th>
-                <th className="text-right py-2 px-4 sm:px-0 font-medium text-muted-foreground">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {riskData.map((vacancy, index) => {
-                const config = conclusionConfig[vacancy.conclusion];
-                const ConclusionIcon = config.icon;
-                return (
-                  <tr 
-                    key={vacancy.title} 
-                    className={`${index !== riskData.length - 1 ? "border-b border-border/20" : ""} hover:bg-muted/20 transition-colors`}
-                  >
-                    <td className="py-2 sm:py-2.5 px-4 sm:px-0 font-medium text-foreground">
-                      <span className="truncate block max-w-[120px] sm:max-w-none">{vacancy.title}</span>
-                    </td>
-                    <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.instroom]}`}>{vacancy.instroom}</td>
-                    <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.doorloop]}`}>{vacancy.doorloop}</td>
-                    <td className={`py-2 sm:py-2.5 text-center hidden sm:table-cell ${cellColors[vacancy.reactietijd]}`}>{vacancy.reactietijd}</td>
-                    <td className="py-2 sm:py-2.5 px-4 sm:px-0 text-right">
-                      <div className={`inline-flex items-center gap-1 ${config.color}`}>
-                        <ConclusionIcon className="h-3 w-3" />
-                        <span className="font-medium">{config.label}</span>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+        </CardContent>
+      </Card>
+    );
+  }
+);
