@@ -9,6 +9,8 @@ import { StageFilters } from "@/components/candidates/StageFilters";
 import { FilterDrawer, FilterState } from "@/components/candidates/FilterDrawer";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorBanner } from "@/components/ui/error-banner";
+import { PartnerFilter } from "@/components/shared/PartnerFilter";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   allCandidates, 
   stages, 
@@ -25,16 +27,23 @@ const defaultFilters: FilterState = {
 };
 
 export default function Pipeline() {
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStage, setActiveStage] = useState("all");
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [partnerFilter, setPartnerFilter] = useState<string | null>(
+    user?.role === 'client' ? (user?.partnerId || null) : null
+  );
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const [appliedFilters, setAppliedFilters] = useState<FilterState>(defaultFilters);
   const [error, setError] = useState<string | null>(null);
 
-  // Filter candidates based on search, stage, and drawer filters
+  // Filter candidates based on search, stage, partner, and drawer filters
   const filteredCandidates = useMemo(() => {
     return allCandidates.filter((candidate) => {
+      // Partner filter
+      if (partnerFilter && candidate.partnerId !== partnerFilter) return false;
+
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
@@ -53,9 +62,6 @@ export default function Pipeline() {
 
       // Drawer filters
       if (appliedFilters.stages.length > 0) {
-        const stageLabel = stages.find(s => s.id === appliedFilters.stages.find(
-          sid => stages.find(st => st.id === sid)?.label === candidate.currentStage
-        ))?.label;
         if (!appliedFilters.stages.some(sid => 
           stages.find(s => s.id === sid)?.label === candidate.currentStage
         )) return false;
@@ -75,7 +81,7 @@ export default function Pipeline() {
 
       return true;
     });
-  }, [searchQuery, activeStage, appliedFilters]);
+  }, [searchQuery, activeStage, appliedFilters, partnerFilter]);
 
   // Get stage counts for filter chips
   const stageCounts = useMemo(() => getStageCounts(allCandidates), []);
@@ -130,6 +136,12 @@ export default function Pipeline() {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3">
+              {/* Partner Filter */}
+              <PartnerFilter
+                value={partnerFilter || "all"}
+                onValueChange={(val) => setPartnerFilter(val === "all" ? null : val)}
+              />
+
               {/* Search */}
               <div className="relative flex-1 sm:flex-initial">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

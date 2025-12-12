@@ -10,8 +10,10 @@ import { CandidatesList } from "@/components/candidates/CandidatesList";
 import { CandidateDetailModal } from "@/components/vacancy/CandidateDetailModal";
 import { AddCandidateModal } from "@/components/candidates/AddCandidateModal";
 import { ErrorBanner } from "@/components/ui/error-banner";
+import { PartnerFilter } from "@/components/shared/PartnerFilter";
 import { allCandidates, stages, getStageCounts, CandidateListItem } from "@/data/mockCandidatesData";
 import { Candidate } from "@/data/mockVacancyData";
+import { useAuth } from "@/contexts/AuthContext";
 
 const defaultFilters: FilterState = {
   stages: [],
@@ -23,10 +25,14 @@ const defaultFilters: FilterState = {
 export default function Kandidaten() {
   const [searchParams] = useSearchParams();
   const vacancyParam = searchParams.get("vacancy");
+  const { user } = useAuth();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStage, setActiveStage] = useState("all");
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [partnerFilter, setPartnerFilter] = useState<string | null>(
+    user?.role === 'client' ? (user?.partnerId || null) : null
+  );
   const [filters, setFilters] = useState<FilterState>({
     ...defaultFilters,
     vacancy: vacancyParam || "all",
@@ -51,6 +57,11 @@ export default function Kandidaten() {
   // Filter candidates
   const filteredCandidates = useMemo(() => {
     let result = [...allCandidates];
+
+    // Partner filter
+    if (partnerFilter) {
+      result = result.filter((c) => c.partnerId === partnerFilter);
+    }
 
     // Search filter
     if (searchQuery) {
@@ -94,7 +105,7 @@ export default function Kandidaten() {
     }
 
     return result;
-  }, [searchQuery, activeStage, appliedFilters]);
+  }, [searchQuery, activeStage, appliedFilters, partnerFilter]);
 
   const stageCounts = useMemo(() => getStageCounts(allCandidates), []);
 
@@ -153,11 +164,19 @@ export default function Kandidaten() {
         {/* Header */}
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Kandidaten</h1>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-1 hidden sm:block">
-                Overzicht van alle kandidaten, filterbaar per stage, bron en tags.
-              </p>
+            <div className="flex items-center gap-4">
+              <div>
+                <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Kandidaten</h1>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 hidden sm:block">
+                  Overzicht van alle kandidaten, filterbaar per stage, bron en tags.
+                </p>
+              </div>
+              
+              {/* Partner Filter */}
+              <PartnerFilter
+                value={partnerFilter || "all"}
+                onValueChange={(val) => setPartnerFilter(val === "all" ? null : val)}
+              />
             </div>
 
             {/* Add Candidate - visible on mobile top right */}
