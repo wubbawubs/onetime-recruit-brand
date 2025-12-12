@@ -20,6 +20,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { 
   Users, 
   Building2, 
@@ -29,7 +35,9 @@ import {
   ShieldCheck,
   User,
   MoreHorizontal,
-  Plus
+  Plus,
+  Pencil,
+  Trash2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -267,9 +275,26 @@ export default function Admin() {
                         {partner?.name}
                       </span>
                       {getRoleBadge(u.role)}
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => toast({ title: "Bewerken", description: `${u.name} bewerken wordt geopend.` })}>
+                            <Pencil className="h-4 w-4 mr-2" />
+                            Bewerken
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            className="text-destructive"
+                            onClick={() => toast({ title: "Verwijderen", description: `${u.name} zou worden verwijderd.`, variant: "destructive" })}
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Verwijderen
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                 );
@@ -368,9 +393,26 @@ export default function Admin() {
                       <Badge variant={partner.type === 'recruitment_agency' ? 'default' : 'secondary'}>
                         {partner.type === 'recruitment_agency' ? 'Recruitment' : 'Klant'}
                       </Badge>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => toast({ title: "Bewerken", description: `${partner.name} bewerken wordt geopend.` })}>
+                            <Pencil className="h-4 w-4 mr-2" />
+                            Bewerken
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            className="text-destructive"
+                            onClick={() => toast({ title: "Verwijderen", description: `${partner.name} zou worden verwijderd.`, variant: "destructive" })}
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Verwijderen
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                 );

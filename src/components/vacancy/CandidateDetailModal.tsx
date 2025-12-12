@@ -118,7 +118,7 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0 gap-0">
+      <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] p-0 gap-0">
         {/* Header */}
         <DialogHeader className="p-6 pb-4 border-b">
           <div className="flex items-start gap-4">
@@ -179,35 +179,40 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
-          <div className="border-b px-6">
-            <TabsList className="h-12 bg-transparent p-0 gap-6">
-              <TabsTrigger value="overview" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 pb-3">
-                <User className="h-4 w-4 mr-2" />
-                Overzicht
+          <div className="border-b px-4 sm:px-6 overflow-x-auto">
+            <TabsList className="h-12 bg-transparent p-0 gap-2 sm:gap-6 min-w-max">
+              <TabsTrigger value="overview" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-1 sm:px-0 pb-3 text-xs sm:text-sm">
+                <User className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Overzicht</span>
+                <span className="sm:hidden">Info</span>
               </TabsTrigger>
-              <TabsTrigger value="scorecard" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 pb-3">
-                <Star className="h-4 w-4 mr-2" />
-                Scorecard
+              <TabsTrigger value="scorecard" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-1 sm:px-0 pb-3 text-xs sm:text-sm">
+                <Star className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Scorecard</span>
+                <span className="sm:hidden">Score</span>
               </TabsTrigger>
-              <TabsTrigger value="notes" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 pb-3">
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Notities ({details.notes.length})
+              <TabsTrigger value="notes" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-1 sm:px-0 pb-3 text-xs sm:text-sm">
+                <MessageSquare className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Notities</span>
+                <span className="sm:hidden">Notes</span>
               </TabsTrigger>
-              <TabsTrigger value="history" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 pb-3">
-                <History className="h-4 w-4 mr-2" />
-                Geschiedenis
+              <TabsTrigger value="history" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-1 sm:px-0 pb-3 text-xs sm:text-sm">
+                <History className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Geschiedenis</span>
+                <span className="sm:hidden">Log</span>
               </TabsTrigger>
-              <TabsTrigger value="documents" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 pb-3">
-                <Paperclip className="h-4 w-4 mr-2" />
-                Documenten
+              <TabsTrigger value="documents" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-1 sm:px-0 pb-3 text-xs sm:text-sm">
+                <Paperclip className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Documenten</span>
+                <span className="sm:hidden">Docs</span>
               </TabsTrigger>
             </TabsList>
           </div>
 
           <ScrollArea className="h-[calc(90vh-220px)]">
             {/* Overview Tab */}
-            <TabsContent value="overview" className="m-0 p-6">
-              <div className="grid grid-cols-2 gap-6">
+            <TabsContent value="overview" className="m-0 p-4 sm:p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {/* Left column */}
                 <div className="space-y-6">
                   {/* Personal Info */}
@@ -260,7 +265,15 @@ export function CandidateDetailModal({ candidate, currentStage, open, onOpenChan
                             {tag}
                           </Badge>
                         ))}
-                        <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-muted-foreground">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-6 px-2 text-xs text-muted-foreground"
+                          onClick={() => toast({
+                            title: "Komt binnenkort",
+                            description: "Tags toevoegen wordt binnenkort beschikbaar.",
+                          })}
+                        >
                           + Tag toevoegen
                         </Button>
                       </div>
