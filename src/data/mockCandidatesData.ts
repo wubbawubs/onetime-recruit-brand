@@ -13,6 +13,8 @@ export interface CandidateListItem {
   addedDate: string;
   lastActivityDate: string;
   daysInStage: number;
+  isRejected?: boolean; // Candidate has been rejected
+  rejectedDate?: string; // When the candidate was rejected
 }
 
 export const allCandidates: CandidateListItem[] = [
@@ -259,6 +261,7 @@ export const stages = [
   { id: "tweede-gesprek", label: "Tweede gesprek" },
   { id: "aanbod", label: "Aanbod" },
   { id: "in-dienst", label: "In dienst" },
+  { id: "afgewezen", label: "Afgewezen" },
 ];
 
 export const sources = ["LinkedIn", "Website", "Referral", "Indeed"];

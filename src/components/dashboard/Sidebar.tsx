@@ -31,6 +31,7 @@ const navItems = [
   { label: "Pipeline", href: "/pipeline", icon: GitBranch, badge: null },
   { label: "Rapportages", href: "/rapportages", icon: BarChart3, badge: null },
   { label: "Instellingen", href: "/instellingen", icon: Settings, badge: null },
+  { label: "Beheer", href: "/admin", icon: Settings, badge: null, adminOnly: true },
 ];
 
 export function Sidebar() {
@@ -121,7 +122,9 @@ export function Sidebar() {
 
           {/* Navigation */}
           <nav className={cn("flex-1 space-y-1", collapsed ? "px-2" : "px-3")}>
-            {navItems.map((item) => {
+            {navItems
+              .filter((item) => !('adminOnly' in item && item.adminOnly) || user?.role === 'admin')
+              .map((item) => {
               const isActive = location.pathname === item.href || 
                 (item.href === "/dashboard" && location.pathname === "/") ||
                 (item.href === "/vacatures" && location.pathname.startsWith("/vacatures"));

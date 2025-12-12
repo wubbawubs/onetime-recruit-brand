@@ -14,6 +14,7 @@ import Pipeline from "./pages/Pipeline";
 import Vacatures from "./pages/Vacatures";
 import Rapportages from "./pages/Rapportages";
 import Instellingen from "./pages/Instellingen";
+import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -52,6 +53,7 @@ function AppRoutes() {
       <Route path="/pipeline" element={<ProtectedRoute><Pipeline /></ProtectedRoute>} />
       <Route path="/rapportages" element={<ProtectedRoute><Rapportages /></ProtectedRoute>} />
       <Route path="/instellingen" element={<ProtectedRoute><Instellingen /></ProtectedRoute>} />
+      <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
