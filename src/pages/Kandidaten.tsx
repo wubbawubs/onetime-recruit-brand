@@ -9,6 +9,7 @@ import { FilterDrawer, FilterState } from "@/components/candidates/FilterDrawer"
 import { CandidatesList } from "@/components/candidates/CandidatesList";
 import { CandidateDetailModal } from "@/components/vacancy/CandidateDetailModal";
 import { AddCandidateModal } from "@/components/candidates/AddCandidateModal";
+import { AssignCandidateModal } from "@/components/candidates/AssignCandidateModal";
 import { ErrorBanner } from "@/components/ui/error-banner";
 import { PartnerFilter } from "@/components/shared/PartnerFilter";
 import { allCandidates, stages, getStageCounts, CandidateListItem } from "@/data/mockCandidatesData";
@@ -44,7 +45,10 @@ export default function Kandidaten() {
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateListItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [addCandidateOpen, setAddCandidateOpen] = useState(false);
+  const [assignCandidateOpen, setAssignCandidateOpen] = useState(false);
+  const [candidateToAssign, setCandidateToAssign] = useState<CandidateListItem | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [localCandidates, setLocalCandidates] = useState(allCandidates);
 
   // Update filters when URL changes
   useEffect(() => {
@@ -56,7 +60,7 @@ export default function Kandidaten() {
 
   // Filter candidates
   const filteredCandidates = useMemo(() => {
-    let result = [...allCandidates];
+    let result = [...localCandidates];
 
     // Partner filter
     if (partnerFilter) {
@@ -105,9 +109,9 @@ export default function Kandidaten() {
     }
 
     return result;
-  }, [searchQuery, activeStage, appliedFilters, partnerFilter]);
+  }, [searchQuery, activeStage, appliedFilters, partnerFilter, localCandidates]);
 
-  const stageCounts = useMemo(() => getStageCounts(allCandidates), []);
+  const stageCounts = useMemo(() => getStageCounts(localCandidates), [localCandidates]);
 
   const handleApplyFilters = () => {
     setAppliedFilters(filters);
@@ -122,6 +126,29 @@ export default function Kandidaten() {
   const handleCandidateClick = (candidate: CandidateListItem) => {
     setSelectedCandidate(candidate);
     setModalOpen(true);
+  };
+
+  const handleAssignClick = (candidate: CandidateListItem) => {
+    setCandidateToAssign(candidate);
+    setAssignCandidateOpen(true);
+  };
+
+  const handleRejectCandidate = (candidateId: string) => {
+    setLocalCandidates(prev => 
+      prev.map(c => 
+        c.id === candidateId 
+          ? { ...c, isRejected: true, rejectedDate: new Date().toISOString().split('T')[0] }
+          : c
+      )
+    );
+  };
+
+  const handleAssignFromModal = () => {
+    if (selectedCandidate) {
+      setCandidateToAssign(selectedCandidate);
+      setModalOpen(false);
+      setAssignCandidateOpen(true);
+    }
   };
 
   // Convert CandidateListItem to Candidate for modal
@@ -235,6 +262,7 @@ export default function Kandidaten() {
           <CandidatesList
             candidates={filteredCandidates}
             onCandidateClick={handleCandidateClick}
+            onAssignClick={handleAssignClick}
           />
         </div>
 
@@ -255,6 +283,17 @@ export default function Kandidaten() {
             currentStage={selectedCandidate?.currentStage || "Nieuw"}
             open={modalOpen}
             onOpenChange={setModalOpen}
+            onReject={handleRejectCandidate}
+            onAssign={handleAssignFromModal}
+          />
+        )}
+
+        {/* Assign Candidate Modal */}
+        {candidateToAssign && (
+          <AssignCandidateModal
+            candidate={candidateToAssign}
+            open={assignCandidateOpen}
+            onOpenChange={setAssignCandidateOpen}
           />
         )}
 

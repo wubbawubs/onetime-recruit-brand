@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Users, ChevronDown, Check } from "lucide-react";
+import { Edit, Users, ChevronDown, Check, Archive } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -19,6 +19,7 @@ interface VacancyHeaderProps {
   contractType: string;
   status: 'live' | 'draft' | 'paused' | 'closed' | 'filled';
   onEditClick?: () => void;
+  onArchiveClick?: () => void;
 }
 
 const statusConfig = {
@@ -29,7 +30,7 @@ const statusConfig = {
   filled: { label: 'Ingevuld', className: 'bg-primary/10 text-primary border-primary/20' },
 };
 
-export function VacancyHeader({ id, title, company, location, contractType, status, onEditClick }: VacancyHeaderProps) {
+export function VacancyHeader({ id, title, company, location, contractType, status, onEditClick, onArchiveClick }: VacancyHeaderProps) {
   const statusStyle = statusConfig[status];
   const navigate = useNavigate();
 
@@ -88,6 +89,12 @@ export function VacancyHeader({ id, title, company, location, contractType, stat
           <Users className="h-4 w-4 sm:mr-2" />
           <span className="hidden sm:inline">Kandidatenlijst</span>
         </Button>
+        {status === 'filled' && onArchiveClick && (
+          <Button variant="outline" size="sm" onClick={onArchiveClick} className="h-8 sm:h-9 px-2 sm:px-3 text-muted-foreground">
+            <Archive className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Archiveren</span>
+          </Button>
+        )}
         <Button size="sm" onClick={onEditClick} className="h-8 sm:h-9 px-2 sm:px-3">
           <Edit className="h-4 w-4 sm:mr-2" />
           <span className="hidden sm:inline">Vacature bewerken</span>

@@ -295,8 +295,11 @@ export interface GlobalPipelineStage {
 export function getCandidatesGroupedByStage(candidates: CandidateListItem[]): GlobalPipelineStage[] {
   const stageNames = ["Nieuw", "Eerste gesprek", "Tweede gesprek", "Aanbod", "In dienst"];
   
+  // Filter out rejected candidates from pipeline view
+  const activeCandidates = candidates.filter(c => !c.isRejected);
+  
   return stageNames.map((name, index) => {
-    const stageCandidates = candidates.filter(c => c.currentStage === name);
+    const stageCandidates = activeCandidates.filter(c => c.currentStage === name);
     const avgDays = stageCandidates.length > 0
       ? Math.round((stageCandidates.reduce((sum, c) => sum + c.daysInStage, 0) / stageCandidates.length) * 10) / 10
       : 0;
