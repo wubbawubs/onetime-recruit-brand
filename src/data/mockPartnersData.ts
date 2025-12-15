@@ -1,4 +1,4 @@
-// Multi-tenant data model for OneTimeRooted
+// Multi-tenant data model for One Rooted
 
 export type UserRole = 'admin' | 'partner' | 'client';
 
@@ -25,9 +25,9 @@ export interface ExtendedUser {
 export const partners: Partner[] = [
   {
     id: 'partner-otr',
-    name: 'OneTimeRooted',
+    name: 'One Rooted',
     type: 'recruitment_agency',
-    contactEmail: 'info@onetimerooted.nl',
+    contactEmail: 'info@onerooted.nl',
   },
   {
     id: 'partner-techbedrijf',

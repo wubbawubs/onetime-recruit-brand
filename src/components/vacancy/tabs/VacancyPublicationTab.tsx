@@ -17,7 +17,7 @@ export function VacancyPublicationTab({ vacancy }: VacancyPublicationTabProps) {
   const [publicationMethod, setPublicationMethod] = useState('onetime');
 
   const isLive = vacancy.status === 'live';
-  const mockUrl = `jobs.onetimerooted.nl/vacature/${vacancy.id.replace('vac_', '')}`;
+  const mockUrl = `jobs.onerooted.nl/vacature/${vacancy.id.replace('vac_', '')}`;
 
   const checklist = [
     { id: 'title', label: 'Titel ingevuld', completed: true },

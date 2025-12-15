@@ -15,7 +15,7 @@ import {
   Moon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import onetimeLogo from "@/assets/onetime-logo.webp";
+import onerootedLogo from "@/assets/onerooted-logo.png";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSidebarContext } from "@/contexts/SidebarContext";
@@ -89,10 +89,10 @@ export function Sidebar() {
           {/* Logo + Close/Collapse button */}
           <div className={cn("flex items-center justify-between py-6", collapsed ? "px-3" : "px-6")}>
             <div className="flex items-center gap-3 overflow-hidden">
-              <img src={onetimeLogo} alt="OneTime Rooted" className="h-9 w-9 flex-shrink-0" />
+              <img src={onerootedLogo} alt="One Rooted" className="h-9 w-9 flex-shrink-0" />
               {!collapsed && (
                 <span className="font-semibold text-lg text-foreground tracking-tight whitespace-nowrap">
-                  Rooted
+                  One Rooted
                 </span>
               )}
             </div>
@@ -280,7 +280,7 @@ export function Sidebar() {
           <div className={cn("py-4 border-t border-border/30", collapsed ? "px-2" : "px-6")}>
             {!collapsed && (
               <p className="text-[11px] text-muted-foreground/60">
-                © 2025 Onetime Rooted
+                © 2025 One Rooted
               </p>
             )}
           </div>

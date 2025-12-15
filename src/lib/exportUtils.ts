@@ -51,7 +51,7 @@ export function exportMonthlyReport(): void {
     </head>
     <body>
       <h1>Maandrapport</h1>
-      <p class="subtitle">OneTime Rooted - ${new Date().toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })}</p>
+      <p class="subtitle">One Rooted - ${new Date().toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })}</p>
       
       <div class="metric-grid">
         <div class="metric-card">
