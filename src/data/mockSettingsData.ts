@@ -61,7 +61,7 @@ export interface IntegrationSettings {
 export const mockAccountSettings: AccountSettings = {
   name: 'Juliëtte Welten',
   role: 'Recruitment Manager',
-  email: 'juliette@onetimerooted.nl',
+  email: 'juliette@onerooted.nl',
   avatar: undefined,
   language: 'nl',
   timezone: 'Europe/Amsterdam',

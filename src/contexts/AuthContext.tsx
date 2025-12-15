@@ -24,9 +24,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Mock user data with multi-tenant roles
 const mockUsers: Record<string, User> = {
   // Admin - Platform Owner (OneTimeRooted team)
-  "juliette@onetimerooted.nl": {
+  "juliette@onerooted.nl": {
     id: "1",
-    email: "juliette@onetimerooted.nl",
+    email: "juliette@onerooted.nl",
     name: "Juliëtte Welten",
     displayRole: "Platform Admin",
     role: "admin",
@@ -34,9 +34,9 @@ const mockUsers: Record<string, User> = {
     avatar: undefined,
   },
   // Partner - Recruitment Partner
-  "robin@onetimerooted.nl": {
+  "robin@onerooted.nl": {
     id: "2",
-    email: "robin@onetimerooted.nl",
+    email: "robin@onerooted.nl",
     name: "Robin Verhoeven",
     displayRole: "Recruitment Partner",
     role: "partner",
@@ -44,9 +44,9 @@ const mockUsers: Record<string, User> = {
     avatar: undefined,
   },
   // Partner - Recruitment Partner
-  "dennie@onetimerooted.nl": {
+  "dennie@onerooted.nl": {
     id: "3",
-    email: "dennie@onetimerooted.nl",
+    email: "dennie@onerooted.nl",
     name: "Dennie de Boer",
     displayRole: "Recruitment Partner",
     role: "partner",
@@ -64,9 +64,9 @@ const mockUsers: Record<string, User> = {
     avatar: undefined,
   },
   // Legacy demo account - keep for backwards compatibility
-  "demo@onetimerooted.nl": {
+  "demo@onerooted.nl": {
     id: "5",
-    email: "demo@onetimerooted.nl",
+    email: "demo@onerooted.nl",
     name: "Demo Gebruiker",
     displayRole: "Platform Admin",
     role: "admin",

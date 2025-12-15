@@ -46,9 +46,9 @@ import { Navigate } from "react-router-dom";
 
 // Mock users for display
 const mockUsers = [
-  { id: '1', name: 'Juliëtte Welten', email: 'juliette@onetimerooted.nl', role: 'admin' as UserRole, partnerId: 'partner-otr', status: 'active' },
-  { id: '2', name: 'Robin van der Berg', email: 'robin@onetimerooted.nl', role: 'partner' as UserRole, partnerId: 'partner-otr', status: 'active' },
-  { id: '3', name: 'Dennie Kuiper', email: 'dennie@onetimerooted.nl', role: 'partner' as UserRole, partnerId: 'partner-otr', status: 'active' },
+  { id: '1', name: 'Juliëtte Welten', email: 'juliette@onerooted.nl', role: 'admin' as UserRole, partnerId: 'partner-otr', status: 'active' },
+  { id: '2', name: 'Robin van der Berg', email: 'robin@onerooted.nl', role: 'partner' as UserRole, partnerId: 'partner-otr', status: 'active' },
+  { id: '3', name: 'Dennie Kuiper', email: 'dennie@onerooted.nl', role: 'partner' as UserRole, partnerId: 'partner-otr', status: 'active' },
   { id: '4', name: 'Luuk Janssen', email: 'luuk@techbedrijf.nl', role: 'client' as UserRole, partnerId: 'partner-techbedrijf', status: 'active' },
   { id: '5', name: 'Sarah Marketing', email: 'sarah@marketingbureau.nl', role: 'client' as UserRole, partnerId: 'partner-marketingbureau', status: 'pending' },
 ];

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Mail, Lock } from "lucide-react";
-import onetimeLogo from "@/assets/onetime-logo.webp";
+import onerootedLogo from "@/assets/onerooted-logo.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -48,14 +48,14 @@ export default function Login() {
         <CardHeader className="text-center pb-2">
           <div className="flex justify-center mb-4">
             <img 
-              src={onetimeLogo} 
-              alt="OneTime Rooted" 
+              src={onerootedLogo} 
+              alt="One Rooted" 
               className="h-12 w-auto"
             />
           </div>
           <CardTitle className="text-2xl font-semibold">Welkom terug</CardTitle>
           <CardDescription>
-            Log in op je OneTime Rooted account
+            Log in op je One Rooted account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -112,7 +112,7 @@ export default function Login() {
           <div className="mt-6 p-3 bg-muted/50 rounded-lg">
             <p className="text-xs text-muted-foreground text-center">
               <strong>Demo account:</strong><br />
-              juliette@onetimerooted.nl / demo
+              juliette@onerooted.nl / demo
             </p>
           </div>
         </CardContent>

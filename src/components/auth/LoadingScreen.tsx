@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import onetimeLogo from "@/assets/onetime-logo.webp";
+import onerootedLogo from "@/assets/onerooted-logo.png";
 
 export function LoadingScreen() {
   const [progress, setProgress] = useState(0);
@@ -342,8 +342,8 @@ export function LoadingScreen() {
           }}
         >
           <img 
-            src={onetimeLogo} 
-            alt="OneTime Rooted" 
+            src={onerootedLogo} 
+            alt="One Rooted" 
             className="h-28 w-28 object-contain"
           />
         </div>
