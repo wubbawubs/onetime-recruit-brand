@@ -46,13 +46,12 @@ export default function Login() {
       
       <Card className="w-full max-w-md relative z-10 shadow-xl border-border/50">
         <CardHeader className="text-center pb-2">
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="flex justify-center mb-4">
             <img 
               src={onerootedLogo} 
               alt="One Rooted" 
-              className="h-14 w-auto"
+              className="h-16 w-auto"
             />
-            <span className="text-2xl font-semibold text-foreground tracking-tight">One Rooted</span>
           </div>
           <CardTitle className="text-2xl font-semibold">Welkom terug</CardTitle>
           <CardDescription>
@@ -109,11 +108,10 @@ export default function Login() {
             </Button>
           </form>
 
-          {/* Demo credentials hint */}
-          <div className="mt-6 p-3 bg-muted/50 rounded-lg">
-            <p className="text-xs text-muted-foreground text-center">
-              <strong>Demo account:</strong><br />
-              juliette@onerooted.nl / demo
+          {/* Marketing tagline */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-muted-foreground italic">
+              Een nieuwe standaard
             </p>
           </div>
         </CardContent>
