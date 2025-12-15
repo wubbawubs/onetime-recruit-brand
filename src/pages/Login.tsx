@@ -46,12 +46,13 @@ export default function Login() {
       
       <Card className="w-full max-w-md relative z-10 shadow-xl border-border/50">
         <CardHeader className="text-center pb-2">
-          <div className="flex justify-center mb-4">
+          <div className="flex items-center justify-center gap-3 mb-4">
             <img 
               src={onerootedLogo} 
               alt="One Rooted" 
-              className="h-12 w-auto"
+              className="h-14 w-auto"
             />
+            <span className="text-2xl font-semibold text-foreground tracking-tight">One Rooted</span>
           </div>
           <CardTitle className="text-2xl font-semibold">Welkom terug</CardTitle>
           <CardDescription>
