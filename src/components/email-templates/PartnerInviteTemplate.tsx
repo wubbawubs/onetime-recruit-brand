@@ -39,26 +39,28 @@ export function PartnerInviteTemplate({
       </EmailText>
 
       <table role="presentation" cellPadding={0} cellSpacing={0} style={{ marginBottom: '16px' }}>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ Vacatures beheren voor je klanten</EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ Kandidaten door de pipeline begeleiden</EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ Rapportages en inzichten bekijken</EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ Samenwerken met je team</EmailText>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ Vacatures beheren voor je klanten</EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ Kandidaten door de pipeline begeleiden</EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ Rapportages en inzichten bekijken</EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ Samenwerken met je team</EmailText>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       <EmailButton href={inviteUrl}>Account Activeren</EmailButton>

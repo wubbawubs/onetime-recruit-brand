@@ -52,48 +52,50 @@ export function InterviewInviteTemplate({
 
       <EmailInfoBox>
         <table role="presentation" cellPadding={0} cellSpacing={0} style={{ width: '100%' }}>
-          <tr>
-            <td style={{ paddingBottom: '12px' }}>
-              <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
-                📅 Datum
-              </EmailText>
-              <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
-                {date}
-              </EmailText>
-            </td>
-            <td style={{ paddingBottom: '12px' }}>
-              <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
-                🕐 Tijd
-              </EmailText>
-              <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
-                {time} ({duration})
-              </EmailText>
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={2} style={{ paddingBottom: '12px' }}>
-              <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
-                {locationType === 'online' ? '💻 Online meeting' : '📍 Locatie'}
-              </EmailText>
-              <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
-                {locationType === 'online' ? (
-                  <a href={location} style={{ color: '#2d5a3d' }}>{location}</a>
-                ) : (
-                  location
-                )}
-              </EmailText>
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={2}>
-              <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
-                👤 Je spreekt met
-              </EmailText>
-              <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
-                {interviewerName}{interviewerRole && ` - ${interviewerRole}`}
-              </EmailText>
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td style={{ paddingBottom: '12px' }}>
+                <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
+                  📅 Datum
+                </EmailText>
+                <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
+                  {date}
+                </EmailText>
+              </td>
+              <td style={{ paddingBottom: '12px' }}>
+                <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
+                  🕐 Tijd
+                </EmailText>
+                <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
+                  {time} ({duration})
+                </EmailText>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={2} style={{ paddingBottom: '12px' }}>
+                <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
+                  {locationType === 'online' ? '💻 Online meeting' : '📍 Locatie'}
+                </EmailText>
+                <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
+                  {locationType === 'online' ? (
+                    <a href={location} style={{ color: '#2d5a3d' }}>{location}</a>
+                  ) : (
+                    location
+                  )}
+                </EmailText>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={2}>
+                <EmailText style={{ margin: 0, fontSize: '14px', color: '#5a6b5a' }}>
+                  👤 Je spreekt met
+                </EmailText>
+                <EmailText style={{ margin: '4px 0 0 0', fontWeight: 600 }}>
+                  {interviewerName}{interviewerRole && ` - ${interviewerRole}`}
+                </EmailText>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </EmailInfoBox>
 

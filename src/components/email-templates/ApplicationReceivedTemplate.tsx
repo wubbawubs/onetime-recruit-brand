@@ -49,27 +49,29 @@ export function ApplicationReceivedTemplate({
       <EmailText style={{ fontWeight: 600 }}>Wat kun je verwachten?</EmailText>
 
       <table role="presentation" cellPadding={0} cellSpacing={0} style={{ marginBottom: '16px' }}>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>
-              1. We bekijken je sollicitatie binnen {expectedResponseDays} werkdagen
-            </EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>
-              2. Je ontvangt bericht over het vervolg via email
-            </EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px' }}>
-            <EmailText style={{ margin: 0 }}>
-              3. Bij een match nodigen we je uit voor een kennismakingsgesprek
-            </EmailText>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>
+                1. We bekijken je sollicitatie binnen {expectedResponseDays} werkdagen
+              </EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>
+                2. Je ontvangt bericht over het vervolg via email
+              </EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px' }}>
+              <EmailText style={{ margin: 0 }}>
+                3. Bij een match nodigen we je uit voor een kennismakingsgesprek
+              </EmailText>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       {portalUrl && (

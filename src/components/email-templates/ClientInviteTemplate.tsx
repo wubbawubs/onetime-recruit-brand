@@ -39,26 +39,28 @@ export function ClientInviteTemplate({
       </EmailText>
 
       <table role="presentation" cellPadding={0} cellSpacing={0} style={{ marginBottom: '16px' }}>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ De voortgang van je vacatures volgen</EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ Kandidaatprofielen en scores bekijken</EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ Feedback geven op kandidaten</EmailText>
-          </td>
-        </tr>
-        <tr>
-          <td style={{ paddingLeft: '8px' }}>
-            <EmailText style={{ margin: 0 }}>✓ Real-time updates ontvangen</EmailText>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ De voortgang van je vacatures volgen</EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ Kandidaatprofielen en scores bekijken</EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px', paddingBottom: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ Feedback geven op kandidaten</EmailText>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingLeft: '8px' }}>
+              <EmailText style={{ margin: 0 }}>✓ Real-time updates ontvangen</EmailText>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       <EmailButton href={inviteUrl}>Account Aanmaken</EmailButton>
