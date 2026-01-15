@@ -11,6 +11,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   LogOut,
+  Mail,
   Sun,
   Moon
 } from "lucide-react";
@@ -32,6 +33,7 @@ const navItems = [
   { label: "Rapportages", href: "/rapportages", icon: BarChart3, badge: null },
   { label: "Instellingen", href: "/instellingen", icon: Settings, badge: null },
   { label: "Beheer", href: "/admin", icon: Settings, badge: null, adminOnly: true },
+  { label: "Email Templates", href: "/admin/email-templates", icon: Mail, badge: null, adminOnly: true },
 ];
 
 export function Sidebar() {
