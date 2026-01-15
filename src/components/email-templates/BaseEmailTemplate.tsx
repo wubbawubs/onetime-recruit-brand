@@ -72,7 +72,7 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <img
-                          src="https://theme-composer-hub.lovable.app/assets/or-logo.avif"
+                          src="https://theme-composer-hub.lovable.app/assets/onerooted-logo.png"
                           alt="One Rooted"
                           width="48"
                           height="48"
