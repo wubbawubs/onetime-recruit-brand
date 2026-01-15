@@ -8,6 +8,7 @@ import {
   InterviewInviteTemplate,
   ApplicationReceivedTemplate,
   RejectionTemplate,
+  WelcomeTemplate,
 } from '@/components/email-templates';
 import type {
   PartnerInviteTemplateProps,
@@ -17,6 +18,7 @@ import type {
   InterviewInviteTemplateProps,
   ApplicationReceivedTemplateProps,
   RejectionTemplateProps,
+  WelcomeTemplateProps,
 } from '@/components/email-templates';
 
 // Template registry
@@ -28,6 +30,7 @@ export const EMAIL_TEMPLATES = {
   'interview-invite': InterviewInviteTemplate,
   'application-received': ApplicationReceivedTemplate,
   'rejection': RejectionTemplate,
+  'welcome': WelcomeTemplate,
 } as const;
 
 export type EmailTemplateSlug = keyof typeof EMAIL_TEMPLATES;
@@ -81,6 +84,12 @@ export const TEMPLATE_METADATA: Record<EmailTemplateSlug, {
     defaultSubject: 'Update over je sollicitatie bij {{companyName}}',
     category: 'candidate',
   },
+  'welcome': {
+    name: 'Welkom',
+    description: 'Welkomstbericht na registratie',
+    defaultSubject: 'Welkom bij One Rooted!',
+    category: 'user',
+  },
 };
 
 // Props types mapping
@@ -92,6 +101,7 @@ export type TemplatePropsMap = {
   'interview-invite': InterviewInviteTemplateProps;
   'application-received': ApplicationReceivedTemplateProps;
   'rejection': RejectionTemplateProps;
+  'welcome': WelcomeTemplateProps;
 };
 
 // Mock data for preview
@@ -153,6 +163,11 @@ export const TEMPLATE_MOCK_DATA: TemplatePropsMap = {
     recruiterName: 'Robin van der Berg',
     feedbackMessage: 'Je technische vaardigheden zijn sterk, maar we zochten iemand met meer ervaring in team leadership. We raden je aan om te kijken naar projecten waar je leiderschapservaring kunt opdoen.',
     keepInTouch: true,
+  },
+  'welcome': {
+    firstName: 'Robin',
+    loginUrl: 'https://app.onerooted.nl/login',
+    supportEmail: 'support@onerooted.nl',
   },
 };
 
