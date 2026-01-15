@@ -13,3 +13,5 @@ export { ApplicationReceivedTemplate } from './ApplicationReceivedTemplate';
 export type { ApplicationReceivedTemplateProps } from './ApplicationReceivedTemplate';
 export { RejectionTemplate } from './RejectionTemplate';
 export type { RejectionTemplateProps } from './RejectionTemplate';
+export { WelcomeTemplate } from './WelcomeTemplate';
+export type { WelcomeTemplateProps } from './WelcomeTemplate';
