@@ -12,6 +12,7 @@ export interface PartnerInviteTemplateProps {
   inviterName: string;
   inviteUrl: string;
   expiresIn?: string;
+  previewMode?: boolean;
 }
 
 export function PartnerInviteTemplate({
@@ -19,9 +20,10 @@ export function PartnerInviteTemplate({
   inviterName,
   inviteUrl,
   expiresIn = '7 dagen',
+  previewMode,
 }: PartnerInviteTemplateProps) {
   return (
-    <BaseEmailTemplate preheader={`${inviterName} heeft je uitgenodigd om partner te worden bij One Rooted`}>
+    <BaseEmailTemplate preheader={`${inviterName} heeft je uitgenodigd om partner te worden bij One Rooted`} previewMode={previewMode}>
       <EmailHeading>Welkom bij One Rooted</EmailHeading>
       
       <EmailText>Hoi {firstName},</EmailText>

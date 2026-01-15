@@ -12,15 +12,17 @@ export interface PasswordResetTemplateProps {
   firstName: string;
   resetUrl: string;
   expiresIn?: string;
+  previewMode?: boolean;
 }
 
 export function PasswordResetTemplate({
   firstName,
   resetUrl,
   expiresIn = '1 uur',
+  previewMode,
 }: PasswordResetTemplateProps) {
   return (
-    <BaseEmailTemplate preheader="Je hebt een wachtwoord reset aangevraagd voor One Rooted">
+    <BaseEmailTemplate preheader="Je hebt een wachtwoord reset aangevraagd voor One Rooted" previewMode={previewMode}>
       <EmailHeading>Wachtwoord Resetten</EmailHeading>
       
       <EmailText>Hoi {firstName},</EmailText>

@@ -12,6 +12,7 @@ export interface ClientInviteTemplateProps {
   companyName: string;
   partnerName: string;
   inviteUrl: string;
+  previewMode?: boolean;
 }
 
 export function ClientInviteTemplate({
@@ -19,9 +20,10 @@ export function ClientInviteTemplate({
   companyName,
   partnerName,
   inviteUrl,
+  previewMode,
 }: ClientInviteTemplateProps) {
   return (
-    <BaseEmailTemplate preheader={`Volg je kandidaten en vacatures bij ${companyName} via One Rooted`}>
+    <BaseEmailTemplate preheader={`Volg je kandidaten en vacatures bij ${companyName} via One Rooted`} previewMode={previewMode}>
       <EmailHeading>Welkom bij One Rooted</EmailHeading>
       
       <EmailText>Hoi {firstName},</EmailText>

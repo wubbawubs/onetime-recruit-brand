@@ -16,6 +16,7 @@ export interface ApplicationReceivedTemplateProps {
   recruiterEmail: string;
   expectedResponseDays?: number;
   portalUrl?: string;
+  previewMode?: boolean;
 }
 
 export function ApplicationReceivedTemplate({
@@ -26,9 +27,10 @@ export function ApplicationReceivedTemplate({
   recruiterEmail,
   expectedResponseDays = 5,
   portalUrl,
+  previewMode,
 }: ApplicationReceivedTemplateProps) {
   return (
-    <BaseEmailTemplate preheader={`Bedankt voor je sollicitatie voor ${vacancyTitle} bij ${companyName}`}>
+    <BaseEmailTemplate preheader={`Bedankt voor je sollicitatie voor ${vacancyTitle} bij ${companyName}`} previewMode={previewMode}>
       <EmailHeading>Sollicitatie Ontvangen</EmailHeading>
       
       <EmailText>Hoi {firstName},</EmailText>

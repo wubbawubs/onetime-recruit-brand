@@ -13,6 +13,7 @@ export interface RejectionTemplateProps {
   recruiterName: string;
   feedbackMessage?: string;
   keepInTouch?: boolean;
+  previewMode?: boolean;
 }
 
 export function RejectionTemplate({
@@ -22,9 +23,10 @@ export function RejectionTemplate({
   recruiterName,
   feedbackMessage,
   keepInTouch = true,
+  previewMode,
 }: RejectionTemplateProps) {
   return (
-    <BaseEmailTemplate preheader={`Update over je sollicitatie voor ${vacancyTitle}`}>
+    <BaseEmailTemplate preheader={`Update over je sollicitatie voor ${vacancyTitle}`} previewMode={previewMode}>
       <EmailHeading>Bedankt voor je interesse</EmailHeading>
       
       <EmailText>Beste {firstName},</EmailText>
