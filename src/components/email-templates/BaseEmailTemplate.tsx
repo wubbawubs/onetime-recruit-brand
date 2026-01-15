@@ -70,17 +70,48 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
                         padding: '32px 40px',
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: '28px',
-                          fontWeight: 800,
-                          color: '#ffffff',
-                          letterSpacing: '-0.5px',
-                          textShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                        }}
-                      >
-                        One Rooted
-                      </div>
+                      <table role="presentation" cellPadding={0} cellSpacing={0}>
+                        <tbody>
+                          <tr>
+                            <td style={{ paddingRight: '12px', verticalAlign: 'middle' }}>
+                              {/* Inline SVG logo - werkt in alle email clients */}
+                              <svg
+                                width="44"
+                                height="44"
+                                viewBox="0 0 100 100"
+                                style={{ display: 'block' }}
+                              >
+                                {/* White circle background */}
+                                <circle cx="50" cy="50" r="48" fill="#ffffff" />
+                                {/* Plant with roots - One Rooted logo */}
+                                <g fill="#2d5a3d" transform="translate(25, 12) scale(0.5)">
+                                  {/* Leaves */}
+                                  <path d="M50 10 C30 25, 25 45, 50 55 C75 45, 70 25, 50 10" />
+                                  <path d="M25 30 C15 40, 20 55, 45 55 C40 45, 30 35, 25 30" />
+                                  <path d="M75 30 C85 40, 80 55, 55 55 C60 45, 70 35, 75 30" />
+                                  {/* Stem */}
+                                  <rect x="47" y="55" width="6" height="25" />
+                                  {/* Roots */}
+                                  <path d="M50 80 L50 95 M50 80 L35 100 M50 80 L65 100 M50 85 L25 105 M50 85 L75 105 M45 90 L30 110 M55 90 L70 110" stroke="#2d5a3d" strokeWidth="4" strokeLinecap="round" fill="none" />
+                                </g>
+                              </svg>
+                            </td>
+                            <td style={{ verticalAlign: 'middle' }}>
+                              <div
+                                style={{
+                                  fontSize: '28px',
+                                  fontWeight: 800,
+                                  color: '#ffffff',
+                                  letterSpacing: '-0.5px',
+                                  textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                }}
+                              >
+                                One Rooted
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </td>
                   </tr>
 
@@ -221,21 +252,41 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="color-scheme" content="light dark" />
-        <meta name="supported-color-schemes" content="light dark" />
+        <meta name="color-scheme" content="light only" />
+        <meta name="supported-color-schemes" content="light only" />
         <title>One Rooted</title>
+        {/* MSO/Outlook force light mode */}
+        {/* eslint-disable-next-line react/no-danger */}
         <style
           dangerouslySetInnerHTML={{
             __html: `
+              /* Force light mode in dark mode email clients */
+              :root { color-scheme: light only !important; }
+              
               @media (prefers-color-scheme: dark) {
-                .email-body { background-color: #0f1419 !important; }
-                .email-container { background-color: #1a1f2e !important; }
-                .email-content { background-color: #1a1f2e !important; }
-                .email-text { color: #f5f5f5 !important; }
-                .email-text-muted { color: #a0a8b0 !important; }
-                .email-footer { background-color: #151922 !important; }
-                .email-divider { border-color: #2a3040 !important; }
+                /* Override dark mode - force light colors */
+                .email-body { background-color: #f4f7f4 !important; }
+                .email-container { background-color: #ffffff !important; }
+                .email-content { background-color: #ffffff !important; }
+                .email-text { color: #1a2e1a !important; }
+                .email-text-muted { color: #5a6b5a !important; }
+                .email-footer { background-color: #f8faf8 !important; border-color: #e8ede8 !important; }
+                .email-divider { border-color: #e8ede8 !important; }
+                
+                /* Force text colors */
+                h1, h2, h3, p, td, th, span, div { color: inherit !important; }
+                
+                /* Gmail specific overrides */
+                u + .email-body { background-color: #f4f7f4 !important; }
+                u + .email-body .email-container { background-color: #ffffff !important; }
               }
+              
+              /* Yahoo Mail dark mode fix */
+              [data-ogsc] .email-body { background-color: #f4f7f4 !important; }
+              [data-ogsc] .email-container { background-color: #ffffff !important; }
+              [data-ogsc] .email-content { background-color: #ffffff !important; }
+              [data-ogsc] .email-text { color: #1a2e1a !important; }
+              
               @media only screen and (max-width: 600px) {
                 .email-container { width: 100% !important; border-radius: 0 !important; }
                 .email-content { padding: 24px 20px !important; }
