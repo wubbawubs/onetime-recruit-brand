@@ -70,48 +70,17 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
                         padding: '32px 40px',
                       }}
                     >
-                      <table role="presentation" cellPadding={0} cellSpacing={0}>
-                        <tbody>
-                          <tr>
-                            <td style={{ paddingRight: '12px', verticalAlign: 'middle' }}>
-                              {/* Inline SVG logo - werkt in alle email clients */}
-                              <svg
-                                width="44"
-                                height="44"
-                                viewBox="0 0 100 100"
-                                style={{ display: 'block' }}
-                              >
-                                {/* White circle background */}
-                                <circle cx="50" cy="50" r="48" fill="#ffffff" />
-                                {/* Plant with roots - One Rooted logo */}
-                                <g fill="#2d5a3d" transform="translate(25, 12) scale(0.5)">
-                                  {/* Leaves */}
-                                  <path d="M50 10 C30 25, 25 45, 50 55 C75 45, 70 25, 50 10" />
-                                  <path d="M25 30 C15 40, 20 55, 45 55 C40 45, 30 35, 25 30" />
-                                  <path d="M75 30 C85 40, 80 55, 55 55 C60 45, 70 35, 75 30" />
-                                  {/* Stem */}
-                                  <rect x="47" y="55" width="6" height="25" />
-                                  {/* Roots */}
-                                  <path d="M50 80 L50 95 M50 80 L35 100 M50 80 L65 100 M50 85 L25 105 M50 85 L75 105 M45 90 L30 110 M55 90 L70 110" stroke="#2d5a3d" strokeWidth="4" strokeLinecap="round" fill="none" />
-                                </g>
-                              </svg>
-                            </td>
-                            <td style={{ verticalAlign: 'middle' }}>
-                              <div
-                                style={{
-                                  fontSize: '28px',
-                                  fontWeight: 800,
-                                  color: '#ffffff',
-                                  letterSpacing: '-0.5px',
-                                  textShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                }}
-                              >
-                                One Rooted
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <div
+                        style={{
+                          fontSize: '28px',
+                          fontWeight: 800,
+                          color: '#ffffff',
+                          letterSpacing: '-0.5px',
+                          textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                        }}
+                      >
+                        One Rooted
+                      </div>
                     </td>
                   </tr>
 
