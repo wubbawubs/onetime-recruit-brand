@@ -224,7 +224,9 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
         <meta name="color-scheme" content="light only" />
         <meta name="supported-color-schemes" content="light only" />
         <title>One Rooted</title>
-        {/* MSO/Outlook force light mode */}
+        {/* MSO/Outlook conditional comments for light mode */}
+        {/* eslint-disable-next-line react/no-danger */}
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         {/* eslint-disable-next-line react/no-danger */}
         <style
           dangerouslySetInnerHTML={{
@@ -232,17 +234,37 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
               /* Force light mode in dark mode email clients */
               :root { color-scheme: light only !important; }
               
+              /* Outlook.com and Outlook apps dark mode override */
+              [data-ogsc] body { background-color: #f4f7f4 !important; }
+              [data-ogsc] .email-body { background-color: #f4f7f4 !important; }
+              [data-ogsc] .email-container { background-color: #ffffff !important; }
+              [data-ogsc] .email-content { background-color: #ffffff !important; color: #1a2e1a !important; }
+              [data-ogsc] .email-footer { background-color: #f8faf8 !important; }
+              [data-ogsc] .email-text { color: #1a2e1a !important; }
+              [data-ogsc] .email-text-muted { color: #5a6b5a !important; }
+              [data-ogsc] h1, [data-ogsc] h2, [data-ogsc] h3 { color: #1a2e1a !important; }
+              [data-ogsc] p { color: #1a2e1a !important; }
+              [data-ogsc] td { color: #1a2e1a !important; }
+              
+              /* Outlook mobile dark mode (data-ogsb = background swap) */
+              [data-ogsb] body { background-color: #f4f7f4 !important; }
+              [data-ogsb] .email-body { background-color: #f4f7f4 !important; }
+              [data-ogsb] .email-container { background-color: #ffffff !important; }
+              [data-ogsb] .email-content { background-color: #ffffff !important; }
+              [data-ogsb] .email-footer { background-color: #f8faf8 !important; }
+              
               @media (prefers-color-scheme: dark) {
                 /* Override dark mode - force light colors */
+                body { background-color: #f4f7f4 !important; }
                 .email-body { background-color: #f4f7f4 !important; }
                 .email-container { background-color: #ffffff !important; }
-                .email-content { background-color: #ffffff !important; }
+                .email-content { background-color: #ffffff !important; color: #1a2e1a !important; }
                 .email-text { color: #1a2e1a !important; }
                 .email-text-muted { color: #5a6b5a !important; }
                 .email-footer { background-color: #f8faf8 !important; border-color: #e8ede8 !important; }
                 .email-divider { border-color: #e8ede8 !important; }
                 
-                /* Force text colors */
+                /* Force all text colors */
                 h1, h2, h3, p, td, th, span, div { color: inherit !important; }
                 
                 /* Gmail specific overrides */
@@ -250,11 +272,10 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
                 u + .email-body .email-container { background-color: #ffffff !important; }
               }
               
-              /* Yahoo Mail dark mode fix */
-              [data-ogsc] .email-body { background-color: #f4f7f4 !important; }
-              [data-ogsc] .email-container { background-color: #ffffff !important; }
-              [data-ogsc] .email-content { background-color: #ffffff !important; }
-              [data-ogsc] .email-text { color: #1a2e1a !important; }
+              /* Windows Outlook desktop - inline styles take precedence, but extra safety */
+              .email-container, .email-content, .email-footer { 
+                background-color: #ffffff !important; 
+              }
               
               @media only screen and (max-width: 600px) {
                 .email-container { width: 100% !important; border-radius: 0 !important; }
