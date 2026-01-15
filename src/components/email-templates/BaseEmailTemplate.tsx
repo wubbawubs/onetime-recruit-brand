@@ -70,17 +70,17 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
                         padding: '32px 40px',
                       }}
                     >
-                      <img
-                        src="https://theme-composer-hub.lovable.app/assets/onerooted-logo.png"
-                        alt="One Rooted"
-                        width="140"
-                        height="auto"
+                      <div
                         style={{
-                          display: 'block',
-                          maxWidth: '140px',
-                          height: 'auto',
+                          fontSize: '28px',
+                          fontWeight: 800,
+                          color: '#ffffff',
+                          letterSpacing: '-0.5px',
+                          textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         }}
-                      />
+                      >
+                        One Rooted
+                      </div>
                     </td>
                   </tr>
 
