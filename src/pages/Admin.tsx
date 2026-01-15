@@ -29,7 +29,6 @@ import {
 import { 
   Users, 
   Building2, 
-  UserPlus, 
   Mail,
   Shield,
   ShieldCheck,
@@ -43,6 +42,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { partners, type Partner, type UserRole } from "@/data/mockPartnersData";
 import { Navigate } from "react-router-dom";
+import { InviteUserForm } from "@/components/admin/InviteUserForm";
+import { RecentInvitesTable } from "@/components/admin/RecentInvitesTable";
+import { getPendingInvitesCount } from "@/data/mockMailEvents";
 
 // Mock users for display
 const mockUsers = [
@@ -82,11 +84,7 @@ function getInitials(name: string) {
 export default function Admin() {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [partnerDialogOpen, setPartnerDialogOpen] = useState(false);
-  const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteRole, setInviteRole] = useState<UserRole>("client");
-  const [invitePartner, setInvitePartner] = useState("");
   const [newPartnerName, setNewPartnerName] = useState("");
   const [newPartnerEmail, setNewPartnerEmail] = useState("");
   const [newPartnerType, setNewPartnerType] = useState<"recruitment_agency" | "client">("client");
@@ -95,17 +93,6 @@ export default function Admin() {
   if (user?.role !== 'admin') {
     return <Navigate to="/dashboard" replace />;
   }
-
-  const handleInvite = () => {
-    toast({
-      title: "Uitnodiging verzonden",
-      description: `Uitnodiging is verstuurd naar ${inviteEmail}.`,
-    });
-    setInviteEmail("");
-    setInviteRole("client");
-    setInvitePartner("");
-    setInviteDialogOpen(false);
-  };
 
   const handleAddPartner = () => {
     toast({
@@ -165,7 +152,7 @@ export default function Admin() {
                 </div>
                 <div>
                   <p className="text-2xl font-semibold">
-                    {mockUsers.filter(u => u.status === 'pending').length}
+                    {getPendingInvitesCount()}
                   </p>
                   <p className="text-sm text-muted-foreground">Uitnodigingen</p>
                 </div>
@@ -174,74 +161,17 @@ export default function Admin() {
           </Card>
         </div>
 
+        {/* Invite User Section */}
+        <InviteUserForm />
+
+        {/* Recent Invites Section */}
+        <RecentInvitesTable />
+
         {/* Users Section */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle className="text-lg">Gebruikers</CardTitle>
-              <CardDescription>Beheer team en klanttoegang.</CardDescription>
-            </div>
-            <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="gap-2">
-                  <UserPlus className="h-4 w-4" />
-                  Uitnodigen
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Gebruiker uitnodigen</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">E-mailadres</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="naam@bedrijf.nl"
-                      value={inviteEmail}
-                      onChange={(e) => setInviteEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Rol</Label>
-                    <Select value={inviteRole} onValueChange={(v: UserRole) => setInviteRole(v)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="partner">Partner</SelectItem>
-                        <SelectItem value="client">Klant</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Partner/Organisatie</Label>
-                    <Select value={invitePartner} onValueChange={setInvitePartner}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecteer..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {partners.map((partner) => (
-                          <SelectItem key={partner.id} value={partner.id}>
-                            {partner.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="flex justify-end gap-3">
-                  <Button variant="outline" onClick={() => setInviteDialogOpen(false)}>
-                    Annuleren
-                  </Button>
-                  <Button onClick={handleInvite} disabled={!inviteEmail}>
-                    Uitnodiging versturen
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+          <CardHeader>
+            <CardTitle className="text-lg">Gebruikers</CardTitle>
+            <CardDescription>Beheer team en klanttoegang.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
