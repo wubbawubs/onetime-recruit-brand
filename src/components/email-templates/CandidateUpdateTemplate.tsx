@@ -17,6 +17,7 @@ export interface CandidateUpdateTemplateProps {
   recruiterEmail: string;
   message?: string;
   portalUrl?: string;
+  previewMode?: boolean;
 }
 
 export function CandidateUpdateTemplate({
@@ -28,6 +29,7 @@ export function CandidateUpdateTemplate({
   recruiterEmail,
   message,
   portalUrl,
+  previewMode,
 }: CandidateUpdateTemplateProps) {
   const getStageMessage = (stage: string) => {
     switch (stage.toLowerCase()) {
@@ -45,7 +47,7 @@ export function CandidateUpdateTemplate({
   };
 
   return (
-    <BaseEmailTemplate preheader={`Update over je sollicitatie voor ${vacancyTitle} bij ${companyName}`}>
+    <BaseEmailTemplate preheader={`Update over je sollicitatie voor ${vacancyTitle} bij ${companyName}`} previewMode={previewMode}>
       <EmailHeading>Update over je sollicitatie</EmailHeading>
       
       <EmailText>Hoi {firstName},</EmailText>

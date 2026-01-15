@@ -68,7 +68,7 @@ export default function EmailTemplates() {
   const renderPreview = () => {
     const Template = EMAIL_TEMPLATES[selectedTemplate];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return <Template {...(mockProps as any)} />;
+    return <Template {...(mockProps as any)} previewMode />;
   };
 
   return (

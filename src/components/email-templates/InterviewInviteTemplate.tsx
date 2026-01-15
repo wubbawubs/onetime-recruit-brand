@@ -21,6 +21,7 @@ export interface InterviewInviteTemplateProps {
   interviewerRole?: string;
   calendarUrl?: string;
   notes?: string;
+  previewMode?: boolean;
 }
 
 export function InterviewInviteTemplate({
@@ -36,9 +37,10 @@ export function InterviewInviteTemplate({
   interviewerRole,
   calendarUrl,
   notes,
+  previewMode,
 }: InterviewInviteTemplateProps) {
   return (
-    <BaseEmailTemplate preheader={`Uitnodiging voor gesprek: ${vacancyTitle} bij ${companyName} op ${date}`}>
+    <BaseEmailTemplate preheader={`Uitnodiging voor gesprek: ${vacancyTitle} bij ${companyName} op ${date}`} previewMode={previewMode}>
       <EmailHeading>Uitnodiging voor Gesprek</EmailHeading>
       
       <EmailText>Hoi {firstName},</EmailText>

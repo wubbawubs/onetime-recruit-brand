@@ -3,9 +3,218 @@ import * as React from 'react';
 interface BaseEmailTemplateProps {
   children: React.ReactNode;
   preheader?: string;
+  /** When true, renders just the visual content without html/head/body tags for preview */
+  previewMode?: boolean;
 }
 
-export function BaseEmailTemplate({ children, preheader }: BaseEmailTemplateProps) {
+export function BaseEmailTemplate({ children, preheader, previewMode = false }: BaseEmailTemplateProps) {
+  // Inner content that can be rendered standalone for preview
+  const emailContent = (
+    <>
+      {/* Preheader text - hidden but shows in inbox preview */}
+      {preheader && !previewMode && (
+        <div
+          style={{
+            display: 'none',
+            fontSize: '1px',
+            color: '#f4f7f4',
+            lineHeight: '1px',
+            maxHeight: 0,
+            maxWidth: 0,
+            opacity: 0,
+            overflow: 'hidden',
+          }}
+        >
+          {preheader}
+          {/* Padding to push other content out of preview */}
+          {'\u00A0'.repeat(150)}
+        </div>
+      )}
+
+      {/* Main container */}
+      <table
+        role="presentation"
+        cellPadding={0}
+        cellSpacing={0}
+        style={{
+          width: '100%',
+          backgroundColor: '#f4f7f4',
+          padding: '40px 0',
+        }}
+      >
+        <tbody>
+          <tr>
+            <td align="center">
+              <table
+                role="presentation"
+                className="email-container"
+                cellPadding={0}
+                cellSpacing={0}
+                style={{
+                  width: '600px',
+                  maxWidth: '600px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                }}
+              >
+                <tbody>
+                  {/* Header */}
+                  <tr>
+                    <td
+                      className="email-header"
+                      align="center"
+                      style={{
+                        backgroundColor: '#2d5a3d',
+                        padding: '32px 40px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '24px',
+                          fontWeight: 700,
+                          color: '#ffffff',
+                          letterSpacing: '-0.5px',
+                        }}
+                      >
+                        🌱 One Rooted
+                      </div>
+                    </td>
+                  </tr>
+
+                  {/* Content */}
+                  <tr>
+                    <td
+                      className="email-content"
+                      style={{
+                        padding: '40px',
+                        backgroundColor: '#ffffff',
+                      }}
+                    >
+                      {children}
+                    </td>
+                  </tr>
+
+                  {/* Footer */}
+                  <tr>
+                    <td
+                      className="email-footer"
+                      style={{
+                        backgroundColor: '#f8faf8',
+                        borderTop: '1px solid #e8ede8',
+                      }}
+                    >
+                      <table
+                        role="presentation"
+                        cellPadding={0}
+                        cellSpacing={0}
+                        style={{ width: '100%' }}
+                      >
+                        <tbody>
+                          <tr>
+                            <td
+                              className="email-footer-content"
+                              align="center"
+                              style={{ padding: '24px 40px' }}
+                            >
+                              <p
+                                className="email-text-muted"
+                                style={{
+                                  margin: '0 0 8px 0',
+                                  fontSize: '13px',
+                                  lineHeight: '20px',
+                                  color: '#5a6b5a',
+                                }}
+                              >
+                                © {new Date().getFullYear()} One Rooted. Alle rechten voorbehouden.
+                              </p>
+                              <p
+                                className="email-text-muted"
+                                style={{
+                                  margin: 0,
+                                  fontSize: '13px',
+                                  lineHeight: '20px',
+                                  color: '#5a6b5a',
+                                }}
+                              >
+                                Amsterdam, Nederland
+                              </p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              {/* Footer links outside container */}
+              <table
+                role="presentation"
+                cellPadding={0}
+                cellSpacing={0}
+                style={{ width: '600px', maxWidth: '600px' }}
+              >
+                <tbody>
+                  <tr>
+                    <td
+                      align="center"
+                      style={{ padding: '24px 0' }}
+                    >
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: '12px',
+                          lineHeight: '18px',
+                          color: '#8a9a8a',
+                        }}
+                      >
+                        <a
+                          href="{{unsubscribe_url}}"
+                          style={{
+                            color: '#5a6b5a',
+                            textDecoration: 'underline',
+                          }}
+                        >
+                          Uitschrijven
+                        </a>
+                        {' · '}
+                        <a
+                          href="https://onerooted.nl/privacy"
+                          style={{
+                            color: '#5a6b5a',
+                            textDecoration: 'underline',
+                          }}
+                        >
+                          Privacy Policy
+                        </a>
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </>
+  );
+
+  // For preview mode, just return the content without html/body wrapper
+  if (previewMode) {
+    return (
+      <div
+        style={{
+          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        }}
+      >
+        {emailContent}
+      </div>
+    );
+  }
+
+  // Full HTML for email export
   return (
     <html>
       <head>
@@ -46,187 +255,7 @@ export function BaseEmailTemplate({ children, preheader }: BaseEmailTemplateProp
           WebkitTextSizeAdjust: '100%',
         }}
       >
-        {/* Preheader text - hidden but shows in inbox preview */}
-        {preheader && (
-          <div
-            style={{
-              display: 'none',
-              fontSize: '1px',
-              color: '#f4f7f4',
-              lineHeight: '1px',
-              maxHeight: 0,
-              maxWidth: 0,
-              opacity: 0,
-              overflow: 'hidden',
-            }}
-          >
-            {preheader}
-            {/* Padding to push other content out of preview */}
-            {'\u00A0'.repeat(150)}
-          </div>
-        )}
-
-        {/* Main container */}
-        <table
-          role="presentation"
-          cellPadding={0}
-          cellSpacing={0}
-          style={{
-            width: '100%',
-            backgroundColor: '#f4f7f4',
-            padding: '40px 0',
-          }}
-        >
-          <tr>
-            <td align="center">
-              <table
-                role="presentation"
-                className="email-container"
-                cellPadding={0}
-                cellSpacing={0}
-                style={{
-                  width: '600px',
-                  maxWidth: '600px',
-                  backgroundColor: '#ffffff',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
-                }}
-              >
-                {/* Header */}
-                <tr>
-                  <td
-                    className="email-header"
-                    align="center"
-                    style={{
-                      backgroundColor: '#2d5a3d',
-                      padding: '32px 40px',
-                    }}
-                  >
-                    <img
-                      src="https://theme-composer-hub.lovable.app/lovable-uploads/onerooted-logo-white.png"
-                      alt="One Rooted"
-                      width="160"
-                      height="auto"
-                      style={{
-                        display: 'block',
-                        border: 0,
-                        maxWidth: '160px',
-                        height: 'auto',
-                      }}
-                    />
-                  </td>
-                </tr>
-
-                {/* Content */}
-                <tr>
-                  <td
-                    className="email-content"
-                    style={{
-                      padding: '40px',
-                      backgroundColor: '#ffffff',
-                    }}
-                  >
-                    {children}
-                  </td>
-                </tr>
-
-                {/* Footer */}
-                <tr>
-                  <td
-                    className="email-footer"
-                    style={{
-                      backgroundColor: '#f8faf8',
-                      borderTop: '1px solid #e8ede8',
-                    }}
-                  >
-                    <table
-                      role="presentation"
-                      cellPadding={0}
-                      cellSpacing={0}
-                      style={{ width: '100%' }}
-                    >
-                      <tr>
-                        <td
-                          className="email-footer-content"
-                          align="center"
-                          style={{ padding: '24px 40px' }}
-                        >
-                          <p
-                            className="email-text-muted"
-                            style={{
-                              margin: '0 0 8px 0',
-                              fontSize: '13px',
-                              lineHeight: '20px',
-                              color: '#5a6b5a',
-                            }}
-                          >
-                            © {new Date().getFullYear()} One Rooted. Alle rechten voorbehouden.
-                          </p>
-                          <p
-                            className="email-text-muted"
-                            style={{
-                              margin: 0,
-                              fontSize: '13px',
-                              lineHeight: '20px',
-                              color: '#5a6b5a',
-                            }}
-                          >
-                            Amsterdam, Nederland
-                          </p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-
-              {/* Footer links outside container */}
-              <table
-                role="presentation"
-                cellPadding={0}
-                cellSpacing={0}
-                style={{ width: '600px', maxWidth: '600px' }}
-              >
-                <tr>
-                  <td
-                    align="center"
-                    style={{ padding: '24px 0' }}
-                  >
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: '12px',
-                        lineHeight: '18px',
-                        color: '#8a9a8a',
-                      }}
-                    >
-                      <a
-                        href="{{unsubscribe_url}}"
-                        style={{
-                          color: '#5a6b5a',
-                          textDecoration: 'underline',
-                        }}
-                      >
-                        Uitschrijven
-                      </a>
-                      {' · '}
-                      <a
-                        href="https://onerooted.nl/privacy"
-                        style={{
-                          color: '#5a6b5a',
-                          textDecoration: 'underline',
-                        }}
-                      >
-                        Privacy Policy
-                      </a>
-                    </p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
+        {emailContent}
       </body>
     </html>
   );
@@ -247,30 +276,32 @@ export function EmailButton({
       cellSpacing={0}
       style={{ margin: '24px 0' }}
     >
-      <tr>
-        <td
-          align="center"
-          style={{
-            backgroundColor: '#2d5a3d',
-            borderRadius: '8px',
-          }}
-        >
-          <a
-            href={href}
+      <tbody>
+        <tr>
+          <td
+            align="center"
             style={{
-              display: 'inline-block',
-              padding: '14px 32px',
-              fontSize: '16px',
-              fontWeight: 600,
-              color: '#ffffff',
-              textDecoration: 'none',
+              backgroundColor: '#2d5a3d',
               borderRadius: '8px',
             }}
           >
-            {children}
-          </a>
-        </td>
-      </tr>
+            <a
+              href={href}
+              style={{
+                display: 'inline-block',
+                padding: '14px 32px',
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#ffffff',
+                textDecoration: 'none',
+                borderRadius: '8px',
+              }}
+            >
+              {children}
+            </a>
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 }
@@ -349,18 +380,20 @@ export function EmailInfoBox({
       cellSpacing={0}
       style={{ width: '100%', margin: '24px 0' }}
     >
-      <tr>
-        <td
-          style={{
-            backgroundColor: '#f4f7f4',
-            borderRadius: '8px',
-            padding: '20px',
-            border: '1px solid #e8ede8',
-          }}
-        >
-          {children}
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td
+            style={{
+              backgroundColor: '#f4f7f4',
+              borderRadius: '8px',
+              padding: '20px',
+              border: '1px solid #e8ede8',
+            }}
+          >
+            {children}
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 }
