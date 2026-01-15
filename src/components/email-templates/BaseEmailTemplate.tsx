@@ -66,20 +66,21 @@ export function BaseEmailTemplate({ children, preheader, previewMode = false }: 
                       className="email-header"
                       align="center"
                       style={{
-                        backgroundColor: '#2d5a3d',
+                        background: 'linear-gradient(135deg, #2d5a3d 0%, #4a7c59 50%, #d4a574 100%)',
                         padding: '32px 40px',
                       }}
                     >
-                      <div
+                      <img
+                        src="https://theme-composer-hub.lovable.app/assets/onerooted-logo.png"
+                        alt="One Rooted"
+                        width="140"
+                        height="auto"
                         style={{
-                          fontSize: '24px',
-                          fontWeight: 700,
-                          color: '#ffffff',
-                          letterSpacing: '-0.5px',
+                          display: 'block',
+                          maxWidth: '140px',
+                          height: 'auto',
                         }}
-                      >
-                        🌱 One Rooted
-                      </div>
+                      />
                     </td>
                   </tr>
 
