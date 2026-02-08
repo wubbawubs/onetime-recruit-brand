@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Upload, CheckCircle2, Loader2 } from 'lucide-react';
+import { Upload, CheckCircle2, Loader2, FileText, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
 const applicationSchema = z.object({
@@ -49,7 +49,6 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
   const handleSubmit = async (data: ApplicationFormData) => {
     setIsSubmitting(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       if (onSubmit) {
         await onSubmit(data);
@@ -69,27 +68,33 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
 
   if (isSubmitted) {
     return (
-      <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
-        <CardContent className="pt-8 pb-8 text-center space-y-4">
-          <div className="mx-auto w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-            <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
+      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent overflow-hidden">
+        <CardContent className="pt-10 pb-10 text-center space-y-5">
+          <div className="relative mx-auto w-20 h-20">
+            <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl" />
+            <div className="relative rounded-full bg-primary/10 w-full h-full flex items-center justify-center">
+              <CheckCircle2 className="h-10 w-10 text-primary" />
+            </div>
           </div>
-          <h3 className="text-xl font-semibold text-foreground">Sollicitatie verstuurd!</h3>
-          <p className="text-muted-foreground max-w-sm mx-auto">
-            Bedankt voor je interesse in de functie {vacancyTitle} bij {companyName}. 
-            We nemen zo snel mogelijk contact met je op.
-          </p>
+          <div className="space-y-2">
+            <h3 className="text-2xl font-semibold text-foreground">Sollicitatie verstuurd!</h3>
+            <p className="text-muted-foreground max-w-sm mx-auto leading-relaxed">
+              Bedankt voor je interesse in <span className="font-medium text-foreground">{vacancyTitle}</span> bij {companyName}. 
+              We nemen zo snel mogelijk contact met je op.
+            </p>
+          </div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-xl">Solliciteer direct</CardTitle>
+    <Card className="border-border/60 shadow-xl shadow-black/5 overflow-hidden">
+      <CardHeader className="pb-2 space-y-1">
+        <CardTitle className="text-xl font-semibold">Solliciteer direct</CardTitle>
+        <CardDescription>Vul onderstaande gegevens in om te solliciteren</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
             {/* Name Fields */}
@@ -99,9 +104,9 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Voornaam *</FormLabel>
+                    <FormLabel className="text-foreground">Voornaam *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Jan" {...field} />
+                      <Input placeholder="Jan" className="h-11 rounded-lg" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -112,9 +117,9 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Achternaam *</FormLabel>
+                    <FormLabel className="text-foreground">Achternaam *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Jansen" {...field} />
+                      <Input placeholder="Jansen" className="h-11 rounded-lg" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -128,9 +133,9 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>E-mailadres *</FormLabel>
+                  <FormLabel className="text-foreground">E-mailadres *</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="jan@voorbeeld.nl" {...field} />
+                    <Input type="email" placeholder="jan@voorbeeld.nl" className="h-11 rounded-lg" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -143,30 +148,43 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Telefoonnummer</FormLabel>
+                  <FormLabel className="text-foreground">Telefoonnummer</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="06 12345678" {...field} />
+                    <Input type="tel" placeholder="06 12345678" className="h-11 rounded-lg" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* CV Upload */}
+            {/* CV Upload - Premium styling */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">CV uploaden</label>
-              <div className="relative">
+              <label className="text-sm font-medium text-foreground">CV uploaden</label>
+              <div className="relative group">
                 <input
                   type="file"
                   accept=".pdf,.doc,.docx"
                   onChange={handleFileChange}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 />
-                <div className="flex items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg hover:border-[var(--client-primary)] transition-colors">
-                  <Upload className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
-                    {cvFileName || 'Sleep je CV hierheen of klik om te uploaden'}
-                  </span>
+                <div className={`flex items-center justify-center gap-3 p-5 border-2 border-dashed rounded-xl transition-all duration-300 ${
+                  cvFileName 
+                    ? 'border-primary/40 bg-primary/5' 
+                    : 'border-border/60 hover:border-[color:var(--client-primary)]/40 hover:bg-muted/30'
+                }`}>
+                  {cvFileName ? (
+                    <>
+                      <FileText className="h-5 w-5 text-primary" />
+                      <span className="text-sm font-medium text-foreground">{cvFileName}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                        Sleep je CV hierheen of klik om te uploaden
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">PDF, DOC of DOCX (max 5MB)</p>
@@ -178,11 +196,11 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
               name="motivation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Motivatie (optioneel)</FormLabel>
+                  <FormLabel className="text-foreground">Motivatie (optioneel)</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Vertel kort waarom je geïnteresseerd bent in deze functie..." 
-                      className="min-h-[100px] resize-none"
+                      className="min-h-[100px] resize-none rounded-lg"
                       {...field} 
                     />
                   </FormControl>
@@ -196,17 +214,18 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
               control={form.control}
               name="privacyConsent"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-lg bg-muted/30 border border-border/40">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      className="mt-0.5"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-normal text-muted-foreground cursor-pointer">
+                    <FormLabel className="text-sm font-normal text-muted-foreground cursor-pointer leading-relaxed">
                       Ik ga akkoord met de{' '}
-                      <a href="#" className="underline hover:text-foreground">
+                      <a href="#" className="underline underline-offset-2 hover:text-foreground transition-colors">
                         privacyverklaring
                       </a>{' '}
                       en geef toestemming om mijn gegevens te verwerken voor deze sollicitatie. *
@@ -217,12 +236,13 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
               )}
             />
 
-            {/* Submit Button */}
+            {/* Submit Button - Premium styling */}
             <Button 
               type="submit" 
-              className="w-full h-12 text-base font-medium"
+              className="w-full h-12 text-base font-medium rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
               style={{ 
                 backgroundColor: 'var(--client-primary)',
+                boxShadow: isSubmitting ? 'none' : '0 4px 14px -3px var(--client-primary)'
               }}
               disabled={isSubmitting}
             >
@@ -232,7 +252,10 @@ export function JobApplicationForm({ vacancyTitle, companyName, onSubmit }: JobA
                   Verzenden...
                 </>
               ) : (
-                'Verstuur sollicitatie'
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Verstuur sollicitatie
+                </>
               )}
             </Button>
           </form>

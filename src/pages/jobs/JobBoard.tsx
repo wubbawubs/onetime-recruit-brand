@@ -6,7 +6,7 @@ import { JobFilters } from '@/components/jobs/JobFilters';
 import { JobCard } from '@/components/jobs/JobCard';
 import { JobBoardFooter } from '@/components/jobs/JobBoardFooter';
 import { mockVacancyList } from '@/data/mockVacancyData';
-import { Briefcase } from 'lucide-react';
+import { Briefcase, Search } from 'lucide-react';
 
 function JobBoardContent() {
   const { subdomain } = useParams<{ subdomain: string }>();
@@ -55,9 +55,9 @@ function JobBoardContent() {
       />
       
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         {/* Filters */}
-        <div className="mb-8">
+        <div className="mb-10">
           <JobFilters
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
@@ -67,24 +67,48 @@ function JobBoardContent() {
           />
         </div>
         
+        {/* Results count */}
+        {partnerVacancies.length > 0 && (
+          <div className="mb-6">
+            <p className="text-sm text-muted-foreground">
+              {filteredVacancies.length === partnerVacancies.length 
+                ? `${partnerVacancies.length} vacature${partnerVacancies.length === 1 ? '' : 's'}`
+                : `${filteredVacancies.length} van ${partnerVacancies.length} vacatures`
+              }
+            </p>
+          </div>
+        )}
+        
         {/* Vacancy List */}
         {filteredVacancies.length > 0 ? (
-          <div className="space-y-4">
-            {filteredVacancies.map((vacancy) => (
-              <JobCard 
-                key={vacancy.id} 
-                vacancy={vacancy} 
-                subdomain={subdomain || ''} 
-              />
+          <div className="space-y-5">
+            {filteredVacancies.map((vacancy, index) => (
+              <div 
+                key={vacancy.id}
+                className="animate-in fade-in slide-in-from-bottom-4"
+                style={{ animationDelay: `${index * 75}ms`, animationFillMode: 'both' }}
+              >
+                <JobCard 
+                  vacancy={vacancy} 
+                  subdomain={subdomain || ''} 
+                />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-              <Briefcase className="h-8 w-8 text-muted-foreground" />
+          <div className="text-center py-20">
+            <div className="relative mx-auto w-20 h-20 mb-6">
+              <div className="absolute inset-0 bg-muted rounded-full blur-xl opacity-50" />
+              <div className="relative rounded-2xl bg-muted w-full h-full flex items-center justify-center">
+                {searchQuery || locationFilter ? (
+                  <Search className="h-8 w-8 text-muted-foreground" />
+                ) : (
+                  <Briefcase className="h-8 w-8 text-muted-foreground" />
+                )}
+              </div>
             </div>
-            <h3 className="text-lg font-medium text-foreground mb-2">
-              Geen vacatures gevonden
+            <h3 className="text-xl font-semibold text-foreground mb-2">
+              {searchQuery || locationFilter ? 'Geen resultaten' : 'Geen vacatures'}
             </h3>
             <p className="text-muted-foreground max-w-sm mx-auto">
               {searchQuery || locationFilter 
