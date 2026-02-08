@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Clock, Briefcase, ChevronRight } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { MapPin, Clock, Briefcase, ArrowRight } from 'lucide-react';
 import { VacancyListItem } from '@/data/mockVacancyData';
 
 interface JobCardProps {
@@ -24,52 +22,66 @@ export function JobCard({ vacancy, subdomain }: JobCardProps) {
     return `${Math.floor(diffDays / 30)} maanden geleden`;
   };
 
-  // Derive contract type from title/location (mock - would come from vacancy data)
   const contractType = 'Fulltime';
 
   return (
-    <Link to={`/jobs/${subdomain}/${vacancy.id}`}>
-      <Card className="group p-6 hover:shadow-lg transition-all duration-300 hover:border-[var(--client-primary)] cursor-pointer">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="flex-1 min-w-0 space-y-3">
-            {/* Title */}
-            <h3 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-[color:var(--client-primary)] transition-colors line-clamp-2">
+    <Link to={`/jobs/${subdomain}/${vacancy.id}`} className="block group">
+      <article className="relative p-6 sm:p-8 rounded-xl border border-border/60 bg-card hover:bg-accent/30 transition-all duration-300 hover:border-[color:var(--client-primary)]/40 hover:shadow-xl hover:shadow-[color:var(--client-primary)]/5">
+        {/* Subtle gradient on hover */}
+        <div 
+          className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: 'linear-gradient(135deg, var(--client-primary) 0%, transparent 50%)',
+            opacity: 0,
+          }}
+        />
+        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-[0.02] transition-opacity duration-500 pointer-events-none"
+          style={{ background: 'var(--client-primary)' }}
+        />
+        
+        <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+          <div className="flex-1 min-w-0 space-y-4">
+            {/* Title with refined typography */}
+            <h3 className="text-xl sm:text-2xl font-semibold text-foreground group-hover:text-[color:var(--client-primary)] transition-colors duration-300 tracking-tight">
               {vacancy.title}
             </h3>
             
-            {/* Meta info */}
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5">
-                <MapPin className="h-4 w-4" />
+            {/* Meta info - Refined badges */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted/80 text-sm text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5" />
                 {vacancy.location}
               </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Briefcase className="h-4 w-4" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted/80 text-sm text-muted-foreground">
+                <Briefcase className="h-3.5 w-3.5" />
                 {contractType}
               </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Clock className="h-4 w-4" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted/80 text-sm text-muted-foreground">
+                <Clock className="h-3.5 w-3.5" />
                 {formatRelativeDate(vacancy.publishedDate)}
               </span>
             </div>
           </div>
           
-          {/* Arrow indicator */}
-          <div className="hidden sm:flex items-center justify-center h-10 w-10 rounded-full bg-muted group-hover:bg-[var(--client-primary)] transition-colors">
-            <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-white transition-colors" />
+          {/* Arrow CTA - Premium styling */}
+          <div className="hidden sm:flex items-center justify-center h-12 w-12 rounded-xl bg-muted/50 group-hover:bg-[color:var(--client-primary)] transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
+            style={{ '--tw-shadow-color': 'var(--client-primary)' } as React.CSSProperties}
+          >
+            <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-white transition-colors duration-300" />
           </div>
         </div>
         
-        {/* Mobile: Full-width button indicator */}
-        <div className="sm:hidden mt-4 pt-4 border-t border-border">
+        {/* Mobile CTA */}
+        <div className="sm:hidden mt-5 pt-5 border-t border-border/50">
           <span 
-            className="text-sm font-medium"
+            className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
             style={{ color: 'var(--client-primary)' }}
           >
-            Bekijk vacature →
+            Bekijk vacature
+            <ArrowRight className="h-4 w-4" />
           </span>
         </div>
-      </Card>
+      </article>
     </Link>
   );
 }
