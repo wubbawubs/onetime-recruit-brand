@@ -42,12 +42,15 @@ export function JobFilters({
         </div>
         
         {/* Location Filter */}
-        <Select value={locationFilter} onValueChange={onLocationChange}>
+        <Select 
+          value={locationFilter || "all"} 
+          onValueChange={(val) => onLocationChange(val === "all" ? "" : val)}
+        >
           <SelectTrigger className="w-full sm:w-48 h-11">
             <SelectValue placeholder="Alle locaties" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Alle locaties</SelectItem>
+            <SelectItem value="all">Alle locaties</SelectItem>
             {locations.map((location) => (
               <SelectItem key={location} value={location}>
                 {location}
