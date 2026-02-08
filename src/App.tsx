@@ -18,6 +18,8 @@ import Admin from "./pages/Admin";
 import EmailTemplates from "./pages/EmailTemplates";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import JobBoard from "./pages/jobs/JobBoard";
+import JobDetail from "./pages/jobs/JobDetail";
 
 const queryClient = new QueryClient();
 
@@ -44,8 +46,15 @@ function AppRoutes() {
 
   return (
     <Routes>
+      {/* Public Job Board Routes (no auth required) */}
+      <Route path="/jobs/:subdomain" element={<JobBoard />} />
+      <Route path="/jobs/:subdomain/:vacancyId" element={<JobDetail />} />
+      
+      {/* Auth Routes */}
       <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      
+      {/* Protected Routes */}
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/brand" element={<ProtectedRoute><BrandGuide /></ProtectedRoute>} />
       <Route path="/vacatures" element={<ProtectedRoute><Vacatures /></ProtectedRoute>} />
